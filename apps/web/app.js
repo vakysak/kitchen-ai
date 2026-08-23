@@ -306,6 +306,7 @@ function ensureViewer() {
   if (viewer) return viewer;
   const host = document.getElementById("view3d");
   viewer = new KitchenViewer(host);
+  if (materialsDoc) viewer.setMaterialsCatalog(materialsDoc);
   return viewer;
 }
 
@@ -313,20 +314,65 @@ function showViewer(hasScene) {
   document.getElementById("view3d-empty").classList.toggle("hidden", !!hasScene);
 }
 
+let materialsDoc = null;
+
+function fillMaterialSelects(doc) {
+  materialsDoc = doc;
+  const map = [
+    ["mat-corpus", doc.corpus, doc.defaults?.corpusId],
+    ["mat-front", doc.front, doc.defaults?.frontId],
+    ["mat-top", doc.countertop, doc.defaults?.countertopId],
+  ];
+  for (const [id, items, def] of map) {
+    const sel = document.getElementById(id);
+    if (!sel || !items) continue;
+    sel.innerHTML = items
+      .map((m) => {
+        const kind = m.kind === "wood" ? " · vzor" : "";
+        return `<option value="${m.id}">${m.name}${kind}</option>`;
+      })
+      .join("");
+    if (def && [...sel.options].some((o) => o.value === def)) sel.value = def;
+  }
+  if (viewer) viewer.setMaterialsCatalog(doc);
+}
+
+async function loadMaterials() {
+  const doc = await api("/api/v1/catalog/materials");
+  fillMaterialSelects(doc);
+}
+
+function currentMaterials() {
+  return {
+    corpusId: document.getElementById("mat-corpus")?.value,
+    frontId: document.getElementById("mat-front")?.value,
+    countertopId: document.getElementById("mat-top")?.value,
+  };
+}
+
 function renderLayout(layout) {
   const v = layout.validation || {};
   const st = layout.stats || {};
-  const styleId =
-    document.getElementById("design-style")?.value || layout.styleId || "modern-matt-anthracite";
+  if (layout.materials) {
+    const c = document.getElementById("mat-corpus");
+    const f = document.getElementById("mat-front");
+    const t = document.getElementById("mat-top");
+    if (c && layout.materials.corpusId) c.value = layout.materials.corpusId;
+    if (f && layout.materials.frontId) f.value = layout.materials.frontId;
+    if (t && layout.materials.countertopId) t.value = layout.materials.countertopId;
+  }
 
   document.getElementById("design-summary").innerHTML =
     `<strong>${escapeXml(layout.project?.customerName || "3D návrh")}</strong> · ` +
-    `${st.base_count || 0} spodní · ${st.wall_count || 0} horní · ` +
+    `katalogové SKU · ${st.base_count || 0} spodní · ${st.wall_count || 0} horní · ` +
     `validace ${v.ok ? "<span style='color:var(--ok)'>OK</span>" : "<span style='color:#e07a6a'>blokováno</span>"} · ` +
     `<code>${layout.layoutId.slice(0, 8)}…</code>`;
 
   try {
-    ensureViewer().build(layout, styleId);
+    const vwr = ensureViewer();
+    if (materialsDoc) vwr.setMaterialsCatalog(materialsDoc);
+    layout.materials = { ...layout.materials, ...currentMaterials() };
+    vwr.build(layout);
     showViewer(true);
     requestAnimationFrame(() => viewer?.resize());
   } catch (err) {
@@ -346,7 +392,7 @@ function renderLayout(layout) {
         .map(
           (b) => `<tr>
             <td><code>${b.sku}</code></td>
-            <td>${b.band}</td>
+            <td>${escapeXml(b.name || b.family || b.band)}</td>
             <td>${b.width_mm}</td>
             <td>${b.qty}</td>
           </tr>`
@@ -372,7 +418,7 @@ function renderLayout(layout) {
     ? units
         .map(
           (u) => `<tr>
-            <td><code>${u.sku}</code> <span class="muted">${u.band}</span></td>
+            <td><code>${u.sku}</code> <span class="muted">${escapeXml(u.name || u.band)}</span></td>
             <td>${u.offset_mm}</td>
             <td>${u.width_mm}</td>
             <td>${u.doors?.label || "—"}</td>
@@ -399,21 +445,23 @@ async function generateDesign() {
   }
   msg.hidden = false;
   msg.className = "msg";
-  msg.textContent = "Generuji 3D návrh…";
-  const styleId = document.getElementById("design-style").value;
+  msg.textContent = "Skládám skříňky z katalogu…";
+  const mats = currentMaterials();
   const layout = await api("/api/v1/layouts/generate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       surveyId,
-      styleId,
       plinth_height: Number(document.getElementById("design-plinth").value || 100),
       countertop_thickness: Number(document.getElementById("design-top").value || 40),
       include_wall_above_base: document.getElementById("design-walls").checked,
+      corpusId: mats.corpusId,
+      frontId: mats.frontId,
+      countertopId: mats.countertopId,
     }),
   });
   msg.className = "msg ok";
-  msg.textContent = `3D layout ${layout.layoutId.slice(0, 8)}… · ${layout.stats.unit_count} modulů`;
+  msg.textContent = `Katalogový layout ${layout.layoutId.slice(0, 8)}… · ${layout.stats.unit_count} SKU`;
   renderLayout(layout);
   await refreshLayouts();
 }
@@ -427,10 +475,27 @@ document.getElementById("design-run").addEventListener("click", () => {
   });
 });
 
-document.getElementById("design-style").addEventListener("change", () => {
-  if (viewer?.layout) {
-    viewer.setStyle(document.getElementById("design-style").value);
+async function applyMaterialsLive() {
+  if (!viewer?.layout) return;
+  const mats = currentMaterials();
+  viewer.setMaterials(mats);
+  const id = viewer.layout.layoutId;
+  if (!id) return;
+  try {
+    await api("/api/v1/layouts/" + id + "/materials", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(mats),
+    });
+  } catch {
+    /* offline ok — local preview */
   }
+}
+
+["mat-corpus", "mat-front", "mat-top"].forEach((id) => {
+  document.getElementById(id)?.addEventListener("change", () => {
+    applyMaterialsLive().catch(console.error);
+  });
 });
 
 document.getElementById("cam-reset").addEventListener("click", () => {
@@ -447,21 +512,6 @@ document.getElementById("cam-shot").addEventListener("click", () => {
   if (!viewer?.layout) return;
   viewer.screenshot();
 });
-
-async function loadDesignStyles() {
-  try {
-    const data = await api("/api/v1/styles");
-    const sel = document.getElementById("design-style");
-    if (!data.items?.length) return;
-    const cur = sel.value;
-    sel.innerHTML = data.items
-      .map((s) => `<option value="${s.id}">${s.name}</option>`)
-      .join("");
-    if ([...sel.options].some((o) => o.value === cur)) sel.value = cur;
-  } catch {
-    /* keep hardcoded options */
-  }
-}
 
 document.getElementById("design-sample").addEventListener("click", async () => {
   const msg = document.getElementById("design-msg");
@@ -578,5 +628,5 @@ Promise.all([
   loadCatalog(),
   loadStyles(),
   loadExamples(),
-  loadDesignStyles(),
+  loadMaterials(),
 ]).catch(console.error);

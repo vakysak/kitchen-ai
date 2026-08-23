@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Materiály korpusů a frontů",
+  "description": "Barvy a vzory pro 3D návrh. Korpus a front se volí nezávisle.",
+  "corpus": [
+    {
+      "id": "corpus-white",
+      "name": "Bílá DTD",
+      "kind": "solid",
+      "hex": "#F2F0EA",
+      "roughness": 0.55,
+      "metalness": 0.02
+    },
+    {
+      "id": "corpus-anthracite",
+      "name": "Antracit",
+      "kind": "solid",
+      "hex": "#2A2D31",
+      "roughness": 0.5,
+      "metalness": 0.04
+    },
+    {
+      "id": "corpus-grey",
+      "name": "Šedá",
+      "kind": "solid",
+      "hex": "#9A9690",
+      "roughness": 0.52,
+      "metalness": 0.03
+    },
+    {
+      "id": "corpus-oak",
+      "name": "Dub světlý",
+      "kind": "wood",
+      "hex": "#C9A66B",
+      "grain": "horizontal",
+      "roughness": 0.48,
+      "metalness": 0.02
+    },
+    {
+      "id": "corpus-walnut",
+      "name": "Ořech",
+      "kind": "wood",
+      "hex": "#5C3D2E",
+      "grain": "horizontal",
+      "roughness": 0.45,
+      "metalness": 0.03
+    }
+  ],
+  "front": [
+    {
+      "id": "front-white-matt",
+      "name": "Bílá matt",
+      "kind": "solid",
+      "hex": "#F5F3EE",
+      "roughness": 0.45,
+      "metalness": 0.04,
+      "finish": "matt"
+    },
+    {
+      "id": "front-white-gloss",
+      "name": "Bílá lesk",
+      "kind": "solid",
+      "hex": "#FAFAF8",
+      "roughness": 0.12,
+      "metalness": 0.12,
+      "finish": "gloss"
+    },
+    {
+      "id": "front-anthracite-matt",
+      "name": "Antracit matt",
+      "kind": "solid",
+      "hex": "#2A2D31",
+      "roughness": 0.55,
+      "metalness": 0.05,
+      "finish": "matt"
+    },
+    {
+      "id": "front-silk-grey",
+      "name": "Hedvábná šedá",
+      "kind": "solid",
+      "hex": "#B8B6B0",
+      "roughness": 0.42,
+      "metalness": 0.04,
+      "finish": "silk"
+    },
+    {
+      "id": "front-oak",
+      "name": "Dub",
+      "kind": "wood",
+      "hex": "#C9A66B",
+      "grain": "vertical",
+      "roughness": 0.48,
+      "metalness": 0.02,
+      "finish": "veneer"
+    },
+    {
+      "id": "front-walnut",
+      "name": "Ořech",
+      "kind": "wood",
+      "hex": "#5C3D2E",
+      "grain": "vertical",
+      "roughness": 0.45,
+      "metalness": 0.03,
+      "finish": "veneer"
+    },
+    {
+      "id": "front-sage",
+      "name": "Šalvěj matt",
+      "kind": "solid",
+      "hex": "#7D8B78",
+      "roughness": 0.5,
+      "metalness": 0.03,
+      "finish": "matt"
+    },
+    {
+      "id": "front-cashmere",
+      "name": "Kašmír",
+      "kind": "solid",
+      "hex": "#D9CFC0",
+      "roughness": 0.4,
+      "metalness": 0.04,
+      "finish": "matt"
+    }
+  ],
+  "countertop": [
+    {
+      "id": "top-oak",
+      "name": "Dub PD",
+      "kind": "wood",
+      "hex": "#C4A574",
+      "grain": "horizontal",
+      "roughness": 0.35,
+      "metalness": 0.06
+    },
+    {
+      "id": "top-stone-grey",
+      "name": "Kámen šedý",
+      "kind": "solid",
+      "hex": "#8F8A82",
+      "roughness": 0.3,
+      "metalness": 0.05
+    },
+    {
+      "id": "top-white",
+      "name": "Bílá PD",
+      "kind": "solid",
+      "hex": "#E8E4DC",
+      "roughness": 0.28,
+      "metalness": 0.06
+    },
+    {
+      "id": "top-black",
+      "name": "Černá PD",
+      "kind": "solid",
+      "hex": "#2E3034",
+      "roughness": 0.25,
+      "metalness": 0.08
+    }
+  ],
+  "defaults": {
+    "corpusId": "corpus-white",
+    "frontId": "front-white-matt",
+    "countertopId": "top-oak"
+  }
+}

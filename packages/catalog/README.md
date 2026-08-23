@@ -5,7 +5,11 @@
   - šablony `KA-*` (kitchen-ai)
   - referenční produkty **Modena 2023** z PDF
   - typologie modulů **BRW** (Family/Semi/Junona)
+- `library.py` — knihovna skříněk pro 3D návrh (`mesh` podle family, SKU z katalogu)
+- `materials/finishes.json` — barvy a vzory korpusů, frontů, pracovní desky
 - `appliances/` / `fittings/` / `lighting/` — zatím plánováno
+
+API: `/api/v1/catalog/library`, `/api/v1/catalog/materials`, `/api/v1/catalog/products`
 
 ## Regenerace z PDF
 

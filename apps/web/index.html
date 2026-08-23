@@ -45,8 +45,8 @@
         <p class="eyebrow">Pro klienta · interaktivní 3D</p>
         <h2>3D návrh kuchyně</h2>
         <p>
-          Z zaměření sestavíme linku ve výrobních rozměrech a ukážeme ji v 3D —
-          otáčení, styly povrchů, snímek pro nabídku.
+          Skříňky se berou z <strong>katalogové knihovny</strong> (SKU) — ne z AI.
+          Měníš barvu a vzor <strong>korpusu</strong> a <strong>frontů</strong> zvlášť.
         </p>
       </div>
       <div class="calc design-controls">
@@ -55,18 +55,19 @@
             <option value="">— vyber nebo nahraj —</option>
           </select>
         </label>
-        <label>Styl
-          <select id="design-style">
-            <option value="modern-matt-anthracite">Antracit matt</option>
-            <option value="white-gloss-warm-oak">Bílý lesk + dub</option>
-            <option value="silk-grey-bleached-oak">Hedvábná šedá</option>
-            <option value="natural-oak-linen">Dub / len</option>
-          </select>
+        <label>Korpus
+          <select id="mat-corpus"></select>
+        </label>
+        <label>Fronty
+          <select id="mat-front"></select>
+        </label>
+        <label>Deska
+          <select id="mat-top"></select>
         </label>
         <label>Sokl
           <input type="number" id="design-plinth" value="100" min="80" max="150" />
         </label>
-        <label>Deska
+        <label>Tloušťka PD
           <select id="design-top">
             <option value="20">20</option>
             <option value="30">30</option>
@@ -103,9 +104,9 @@
           <h3 class="subh">Kusovník</h3>
           <div class="table-wrap">
             <table>
-              <thead>
-                <tr><th>SKU</th><th>Zóna</th><th>Šířka</th><th>ks</th></tr>
-              </thead>
+          <thead>
+            <tr><th>SKU</th><th>Název</th><th>Šířka</th><th>ks</th></tr>
+          </thead>
               <tbody id="bom-tbody">
                 <tr><td colspan="4" class="muted">—</td></tr>
               </tbody>

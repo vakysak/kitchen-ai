@@ -239,11 +239,14 @@ class LayoutGenerateRequest(BaseModel):
     countertop_thickness: int = 40
     wall_gap: int = 550
     include_wall_above_base: bool = True
+    corpusId: str | None = None
+    frontId: str | None = None
+    countertopId: str | None = None
 
 
 @app.post("/api/v1/layouts/generate")
 def layouts_generate(body: LayoutGenerateRequest) -> dict[str, Any]:
-    """M8: z RoomSurvey vygeneruje layout skříněk + spustí M9 validaci."""
+    """M8: skříňky z katalogu do MountZone + M9 validace."""
     from packages.layout_engine import generate_layout
     from packages.validator import validate_layout
 
@@ -256,6 +259,9 @@ def layouts_generate(body: LayoutGenerateRequest) -> dict[str, Any]:
         countertop_thickness=body.countertop_thickness,
         wall_gap=body.wall_gap,
         include_wall_above_base=body.include_wall_above_base,
+        corpus_finish_id=body.corpusId,
+        front_finish_id=body.frontId,
+        countertop_finish_id=body.countertopId,
     )
     validation = validate_layout(layout, survey)
     layout["validation"] = validation
@@ -274,6 +280,31 @@ def layouts_generate(body: LayoutGenerateRequest) -> dict[str, Any]:
     (LAYOUTS / f"{layout['layoutId']}.meta.json").write_text(
         json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"
     )
+    return layout
+
+
+class LayoutMaterialsRequest(BaseModel):
+    corpusId: str | None = None
+    frontId: str | None = None
+    countertopId: str | None = None
+
+
+@app.patch("/api/v1/layouts/{layout_id}/materials")
+def layouts_set_materials(layout_id: str, body: LayoutMaterialsRequest) -> dict[str, Any]:
+    """Změní barvu/vzor korpusu a frontů u uloženého layoutu."""
+    path = LAYOUTS / f"{layout_id}.json"
+    if not path.is_file():
+        raise HTTPException(404, f"Layout {layout_id!r} nenalezen")
+    layout = json.loads(path.read_text(encoding="utf-8"))
+    mats = layout.get("materials") or {}
+    if body.corpusId:
+        mats["corpusId"] = body.corpusId
+    if body.frontId:
+        mats["frontId"] = body.frontId
+    if body.countertopId:
+        mats["countertopId"] = body.countertopId
+    layout["materials"] = mats
+    path.write_text(json.dumps(layout, ensure_ascii=False, indent=2), encoding="utf-8")
     return layout
 
 
@@ -393,6 +424,28 @@ def catalog_products(
     return list_products(
         zone=zone, family=family, source=source, q=q, limit=limit, offset=offset
     )
+
+
+@app.get("/api/v1/catalog/library")
+def catalog_library(
+    zone: str | None = None,
+    family: str | None = None,
+    q: str | None = None,
+    limit: int = 100,
+    offset: int = 0,
+) -> dict[str, Any]:
+    """Knihovna skříněk pro 3D návrh (SKU + mesh šablona)."""
+    from packages.catalog.library import list_library
+
+    return list_library(zone=zone, family=family, q=q, limit=limit, offset=offset)
+
+
+@app.get("/api/v1/catalog/materials")
+def catalog_materials() -> dict[str, Any]:
+    """Barvy a vzory korpusů, frontů a pracovní desky."""
+    from packages.catalog.library import list_materials
+
+    return list_materials()
 
 
 @app.get("/api/v1/catalog/products/index")
