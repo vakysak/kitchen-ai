@@ -163,6 +163,72 @@ th { color: var(--muted); font-weight: 500; font-size: 0.78rem; text-transform: 
 .chip.deferred { color: var(--warn); border-color: rgba(212,162,76,0.4); }
 .chip.planned { opacity: 0.75; }
 
+.design-controls { margin-bottom: 1rem; }
+.design-controls .check {
+  display: flex; align-items: center; gap: 0.5rem;
+  color: var(--muted); font-size: 0.85rem; padding-bottom: 0.55rem;
+}
+.design-controls .check input { width: auto; }
+.design-summary {
+  margin: 0 0 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+.layout-canvas-wrap {
+  margin: 0 0 1.25rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--line);
+  background:
+    linear-gradient(180deg, rgba(36,31,26,0.95), rgba(18,16,14,0.8)),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 49px,
+      rgba(243,235,226,0.04) 49px,
+      rgba(243,235,226,0.04) 50px
+    );
+  overflow-x: auto;
+}
+#layout-svg { width: 100%; height: auto; min-height: 220px; display: block; }
+.design-split {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1.25rem;
+}
+.subh {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+  letter-spacing: 0.02em;
+}
+.issues-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.45rem;
+  max-height: 280px;
+  overflow: auto;
+}
+.issues-list li {
+  padding: 0.55rem 0.7rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+.issues-list .sev-CRITICAL { border-color: rgba(224,122,106,0.45); color: #f0b4aa; }
+.issues-list .sev-WARNING { border-color: rgba(212,162,76,0.4); color: #e8c98a; }
+.issues-list .sev-INFO { border-color: rgba(111,191,138,0.3); color: #a8d4b6; }
+.btn.tiny {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+}
+
 footer {
   max-width: 980px; margin: 0 auto; padding: 1rem 1.25rem 2rem;
   display: flex; gap: 1rem; flex-wrap: wrap;
@@ -174,4 +240,5 @@ footer a { color: var(--accent2); }
 @media (max-width: 720px) {
   .top { flex-wrap: wrap; }
   nav { order: 3; width: 100%; }
+  .design-split { grid-template-columns: 1fr; }
 }

@@ -8,4 +8,5 @@ node_modules/
 dist/
 .next/
 data/reference_images/
+data/catalog-source/*.pdf
 *.log

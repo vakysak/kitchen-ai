@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "1.0.0",
+  "generated": "2026-08-23",
+  "title": "Design & vzhled — referenční značky",
+  "purpose": "Inspirace pro styly, povrchy, palety a prezentaci řad. NEPOUŽÍVAT jako výrobní korpusová pravidla — kitchen-ai = 730 mm spodní korpus, čela 142/286.",
+  "manufacturing_lock": {
+    "corpus_base_mm": 730,
+    "drawer_fronts_mm": [
+      142,
+      286
+    ],
+    "width_step_mm": 50,
+    "ignore_from_refs": {
+      "top_shelf_nobilia_corpus_mm": 720,
+      "pegas_base_outer_hint_mm": 820,
+      "pegas_wall_g72_mm": 720
+    }
+  },
+  "brands": [
+    {
+      "id": "oresi",
+      "name": "Oresi",
+      "role": "design_look",
+      "lines": [
+        "Dolti",
+        "Dolti Collection",
+        "Livanza",
+        "Bauformat"
+      ],
+      "look": [
+        "prémiové německé linie (Livanza/Bauformat) + střední třída Dolti",
+        "kombinace dřeva s matným/lesklým lakem",
+        "silné modelové páry dekorů (dvířka × korpus/doplněk)"
+      ],
+      "livanza_models": [
+        {
+          "id": "eruka",
+          "finish": "vysoký lesk",
+          "examples": [
+            "černý lesk + koňakové dřevo",
+            "bílošedý lesk + buk"
+          ]
+        },
+        {
+          "id": "velvetia",
+          "finish": "bílý sametový mat",
+          "mood": "jemný, klidný"
+        },
+        {
+          "id": "cascina",
+          "finish": "hedvábný mat",
+          "pair_with": "savana / bělený dub"
+        },
+        {
+          "id": "savana",
+          "finish": "šedý hedvábný mat",
+          "pair_with": "cascina / stevia červeň"
+        },
+        {
+          "id": "camelia",
+          "finish": "nadčasové dekory",
+          "pair_with": "tewa"
+        },
+        {
+          "id": "tewa",
+          "finish": "dřevodekor (buk/dub)",
+          "role": "warm wood companion"
+        },
+        {
+          "id": "virginia",
+          "finish": "pískový dub + bílý lesk"
+        },
+        {
+          "id": "stevia",
+          "finish": "ohnivá červeň",
+          "pair_with": "savana"
+        }
+      ],
+      "sources": [
+        "https://oresi.cz/",
+        "data/catalog-source/oresi_livanza.pdf"
+      ]
+    },
+    {
+      "id": "hanak",
+      "name": "HANÁK",
+      "role": "design_look",
+      "look": [
+        "kompletní interiér (kuchyně + dveře + nábytek) v jednom designu",
+        "premium lak + přírodní dýha",
+        "čisté linie, otevřené police, vysoký komfort"
+      ],
+      "collections_modern": [
+        "ELITE",
+        "SOLID",
+        "WAVE",
+        "OPTIMA",
+        "MIAMI",
+        "COMFORT",
+        "LINE",
+        "UNO",
+        "SIMPLE",
+        "GALAXIE",
+        "ELEGANTE"
+      ],
+      "collections_classic": [
+        "LYON",
+        "VERONA",
+        "CUBIC",
+        "NICE",
+        "AVIGNON",
+        "YORK",
+        "ROYAL",
+        "MILÁNO",
+        "MADAME",
+        "HARMONIA"
+      ],
+      "material_examples": [
+        "polar white gloss lacquer / natural american oak veneer",
+        "titan star matt lacquer / classic brown oak veneer"
+      ],
+      "sources": [
+        "https://www.hanak-nabytek.cz/katalogy",
+        "data/catalog-source/hanak_kitchens.pdf"
+      ]
+    },
+    {
+      "id": "extom",
+      "name": "Extom",
+      "role": "design_look",
+      "look": [
+        "bezúchytkové moderní fronty (vlastní technologie)",
+        "lak mat/lesk (RAL, ICA), akryl vysoký lesk / hluboký mat",
+        "dřevěné struktury 2D/3D, folie PVC",
+        "Hettich kování, plný výsuv + soft-close"
+      ],
+      "tech_notes": [
+        "Laser Tech hrana",
+        "PUR Glue",
+        "korpus 18 mm",
+        "nožky 100–150 mm"
+      ],
+      "series_cz_market": [
+        "EMPORIUM",
+        "PLATINUM",
+        "QUANTUM",
+        "ESSEN",
+        "AVELINO",
+        "CARRINI",
+        "FIUGGI",
+        "FORST",
+        "TREVISO",
+        "SILVER",
+        "MALMO",
+        "BONN",
+        "TIVOLI"
+      ],
+      "sources": [
+        "data/catalog-source/extom_2026.pdf",
+        "data/catalog-source/extom_rpohoda.pdf"
+      ]
+    },
+    {
+      "id": "brw",
+      "name": "Black Red White",
+      "role": "design_look",
+      "look": [
+        "modulové řady Family / Semi / Junona",
+        "kontrasty mat antracit × bílý supermatt",
+        "bílá lesk + teplý dub (SOLE)",
+        "integrované úchytky v barvě dvířek (SILE)"
+      ],
+      "front_examples": [
+        {
+          "line": "SILE",
+          "fronts": [
+            "anthracite matt",
+            "white super matt"
+          ],
+          "countertop": "hickory oak"
+        },
+        {
+          "line": "SOLE",
+          "fronts": [
+            "white gloss",
+            "new arlington oak"
+          ],
+          "countertop": [
+            "crystal white",
+            "golden oak"
+          ]
+        }
+      ],
+      "sources": [
+        "data/catalog-source/brw_2022.pdf",
+        "data/catalog-source/brw_2025.pdf"
+      ]
+    },
+    {
+      "id": "top_shelf_nobilia",
+      "name": "Top Shelf / Nobilia",
+      "role": "presentation_and_look",
+      "look": [
+        "výborná grafická prezentace řad a typů skříněk",
+        "jasný height grid a typové listy — vzor pro UI katalogu",
+        "německý systémový vzhled (čisté fronty, konzistentní grid)"
+      ],
+      "geometry_note": {
+        "their_base_carcase_mm": 720,
+        "our_base_carcase_mm": 730,
+        "decision": "Zachovat 730 — Top Shelf/Nobilia jen jako vzhled + způsob prezentace, ne výška korpusu."
+      },
+      "sources": [
+        "https://top-shelf.de/en",
+        "https://top-shelf.de/en/pages/nobilia-new-height-grid",
+        "data/catalog-source/nobilia_types.pdf",
+        "data/catalog-source/nobilia_elements.pdf"
+      ]
+    },
+    {
+      "id": "pegas",
+      "name": "Pegas",
+      "role": "example_kitchens",
+      "look": [
+        "hotové sestavy s výčtem skříněk a šířkami",
+        "kombinace dřevo × lesk / šedá × bílý lesk / bílá × kašmír"
+      ],
+      "example_ids": [
+        "pegas-combo-bila-kasmir",
+        "pegas-bianca-seda-lesk",
+        "pegas-vegas-lancelot-lesk"
+      ],
+      "sources": [
+        "https://www.nabytek-pegas.cz/kuchyne-jidelna/kuchyn-modulove-systemy/"
+      ]
+    }
+  ]
+}

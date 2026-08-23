@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "1.0.0",
+  "stats": {
+    "kitchen_ai_templates": 60,
+    "modena_products": 105,
+    "brw_type_codes": 19,
+    "total_products": 165
+  },
+  "families": [
+    {
+      "id": "base_corner",
+      "count": 23,
+      "zones": [
+        "base"
+      ]
+    },
+    {
+      "id": "base_door",
+      "count": 29,
+      "zones": [
+        "base"
+      ]
+    },
+    {
+      "id": "base_drawers",
+      "count": 24,
+      "zones": [
+        "base"
+      ]
+    },
+    {
+      "id": "base_oven",
+      "count": 2,
+      "zones": [
+        "base"
+      ]
+    },
+    {
+      "id": "base_waste",
+      "count": 7,
+      "zones": [
+        "base"
+      ]
+    },
+    {
+      "id": "base_wire",
+      "count": 10,
+      "zones": [
+        "base"
+      ]
+    },
+    {
+      "id": "dishwasher_front",
+      "count": 2,
+      "zones": [
+        "front"
+      ]
+    },
+    {
+      "id": "open_shelf",
+      "count": 5,
+      "zones": [
+        "wall"
+      ]
+    },
+    {
+      "id": "tall_pantry",
+      "count": 14,
+      "zones": [
+        "tall"
+      ]
+    },
+    {
+      "id": "wall_corner",
+      "count": 4,
+      "zones": [
+        "wall"
+      ]
+    },
+    {
+      "id": "wall_door",
+      "count": 24,
+      "zones": [
+        "wall"
+      ]
+    },
+    {
+      "id": "wall_glass",
+      "count": 7,
+      "zones": [
+        "wall"
+      ]
+    },
+    {
+      "id": "wall_hood",
+      "count": 10,
+      "zones": [
+        "wall"
+      ]
+    },
+    {
+      "id": "wall_horizontal",
+      "count": 3,
+      "zones": [
+        "wall"
+      ]
+    },
+    {
+      "id": "wall_microwave",
+      "count": 1,
+      "zones": [
+        "wall"
+      ]
+    }
+  ],
+  "zones": {
+    "base": 95,
+    "wall": 54,
+    "tall": 14,
+    "front": 2
+  }
+}

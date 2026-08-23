@@ -19,6 +19,7 @@ services:
       - /data/kitchen-ai/uploads:/data/uploads
       - /data/kitchen-ai/exports:/data/exports
       - /data/kitchen-ai/surveys:/data/surveys
+      - /data/kitchen-ai/layouts:/data/layouts
       - /data/kitchen-ai/references:/data/references
     depends_on:
       db:

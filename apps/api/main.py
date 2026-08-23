@@ -23,16 +23,27 @@ DATA_ROOT = Path(os.getenv("KITCHEN_AI_DATA", "/data"))
 UPLOADS = DATA_ROOT / "uploads"
 EXPORTS = DATA_ROOT / "exports"
 SURVEYS = DATA_ROOT / "surveys"
+LAYOUTS = DATA_ROOT / "layouts"
 REFERENCES = DATA_ROOT / "references"
 WEB_ROOT = Path(os.getenv("KITCHEN_AI_WEB", "/app/web"))
+SAMPLE_SURVEY = (
+    Path(__file__).resolve().parent.parent
+    / "packages"
+    / "survey-contract"
+    / "examples"
+    / "sample-room-survey.json"
+)
+# V Docker image je main.py v /app/main.py → packages vedle
+if not SAMPLE_SURVEY.is_file():
+    SAMPLE_SURVEY = Path("/app/packages/survey-contract/examples/sample-room-survey.json")
 
-for d in (UPLOADS, EXPORTS, SURVEYS, REFERENCES):
+for d in (UPLOADS, EXPORTS, SURVEYS, LAYOUTS, REFERENCES):
     d.mkdir(parents=True, exist_ok=True)
 
 app = FastAPI(
     title="kitchen-ai",
-    version="0.2.0",
-    description="Návrhář kuchyní — web + API (SmartMeasure později)",
+    version="0.3.0",
+    description="Návrhář kuchyní — layout + validace + katalog",
 )
 
 app.add_middleware(
@@ -77,6 +88,7 @@ def health() -> HealthResponse:
             "uploads": str(UPLOADS),
             "exports": str(EXPORTS),
             "surveys": str(SURVEYS),
+            "layouts": str(LAYOUTS),
             "references": str(REFERENCES),
         },
         timestamp=datetime.now(timezone.utc).isoformat(),
@@ -99,21 +111,22 @@ def list_modules() -> dict[str, Any]:
         "active": [
             "M1-project-hub",
             "M2-catalog-cabinets",
+            "M2-catalog-products",
+            "M6-styles",
+            "M7-references",
+            "M8-layout",
+            "M9-validator",
             "M13-api",
+            "M14-web",
             "M15-sync-bridge",
         ],
         "planned": [
             "M3-appliances",
             "M4-fittings",
             "M5-lighting",
-            "M6-styles",
-            "M7-references",
-            "M8-layout",
-            "M9-validator",
             "M10-visualizer",
             "M11-pricing",
             "M12-pdf",
-            "M14-web",
         ],
     }
 
@@ -166,6 +179,144 @@ def list_surveys() -> dict[str, Any]:
         except json.JSONDecodeError:
             continue
     return {"count": len(items), "items": items}
+
+
+def _load_survey(survey_id: str) -> dict[str, Any]:
+    path = SURVEYS / f"{survey_id}.json"
+    if not path.is_file():
+        raise HTTPException(404, f"Survey {survey_id!r} nenalezen")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise HTTPException(500, f"Poškozený survey JSON: {e}") from e
+
+
+@app.get("/api/v1/surveys/{survey_id}")
+def get_survey(survey_id: str) -> dict[str, Any]:
+    meta_path = SURVEYS / f"{survey_id}.meta.json"
+    meta = {}
+    if meta_path.is_file():
+        try:
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            meta = {}
+    return {"meta": meta, "survey": _load_survey(survey_id)}
+
+
+@app.post("/api/v1/surveys/sample", response_model=SurveyImportResponse)
+def import_sample_survey() -> SurveyImportResponse:
+    """Nahraje ukázkový RoomSurvey (pro vyzkoušení layoutu)."""
+    if not SAMPLE_SURVEY.is_file():
+        raise HTTPException(503, f"Sample survey chybí: {SAMPLE_SURVEY}")
+    raw = SAMPLE_SURVEY.read_bytes()
+    payload = json.loads(raw)
+    survey_id = str(uuid.uuid4())
+    project = payload.get("project") or {}
+    out = SURVEYS / f"{survey_id}.json"
+    out.write_bytes(raw)
+    meta = {
+        "surveyId": survey_id,
+        "importedAt": datetime.now(timezone.utc).isoformat(),
+        "originalFilename": "sample-room-survey.json",
+        "project": project,
+        "sample": True,
+    }
+    (SURVEYS / f"{survey_id}.meta.json").write_text(
+        json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return SurveyImportResponse(
+        surveyId=survey_id,
+        projectHint=project.get("customerName"),
+        path=str(out),
+        warnings=[],
+    )
+
+
+class LayoutGenerateRequest(BaseModel):
+    surveyId: str
+    styleId: str | None = None
+    plinth_height: int = 100
+    countertop_thickness: int = 40
+    wall_gap: int = 550
+    include_wall_above_base: bool = True
+
+
+@app.post("/api/v1/layouts/generate")
+def layouts_generate(body: LayoutGenerateRequest) -> dict[str, Any]:
+    """M8: z RoomSurvey vygeneruje layout skříněk + spustí M9 validaci."""
+    from packages.layout_engine import generate_layout
+    from packages.validator import validate_layout
+
+    survey = _load_survey(body.surveyId)
+    layout = generate_layout(
+        survey,
+        survey_id=body.surveyId,
+        style_id=body.styleId,
+        plinth_height=body.plinth_height,
+        countertop_thickness=body.countertop_thickness,
+        wall_gap=body.wall_gap,
+        include_wall_above_base=body.include_wall_above_base,
+    )
+    validation = validate_layout(layout, survey)
+    layout["validation"] = validation
+
+    out = LAYOUTS / f"{layout['layoutId']}.json"
+    out.write_text(json.dumps(layout, ensure_ascii=False, indent=2), encoding="utf-8")
+    meta = {
+        "layoutId": layout["layoutId"],
+        "surveyId": body.surveyId,
+        "generatedAt": layout["generatedAt"],
+        "customerName": (layout.get("project") or {}).get("customerName"),
+        "unit_count": layout["stats"]["unit_count"],
+        "ok": validation["ok"],
+        "path": str(out),
+    }
+    (LAYOUTS / f"{layout['layoutId']}.meta.json").write_text(
+        json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return layout
+
+
+@app.get("/api/v1/layouts")
+def list_layouts() -> dict[str, Any]:
+    items = []
+    for meta_path in sorted(LAYOUTS.glob("*.meta.json"), reverse=True):
+        try:
+            items.append(json.loads(meta_path.read_text(encoding="utf-8")))
+        except json.JSONDecodeError:
+            continue
+    return {"count": len(items), "items": items}
+
+
+@app.get("/api/v1/layouts/{layout_id}")
+def get_layout(layout_id: str) -> dict[str, Any]:
+    path = LAYOUTS / f"{layout_id}.json"
+    if not path.is_file():
+        raise HTTPException(404, f"Layout {layout_id!r} nenalezen")
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as e:
+        raise HTTPException(500, f"Poškozený layout JSON: {e}") from e
+
+
+@app.post("/api/v1/layouts/{layout_id}/validate")
+def layouts_revalidate(layout_id: str) -> dict[str, Any]:
+    layout = get_layout(layout_id)
+    survey = None
+    sid = layout.get("surveyId")
+    if sid:
+        try:
+            survey = _load_survey(sid)
+        except HTTPException:
+            survey = None
+    from packages.validator import validate_layout
+
+    validation = validate_layout(layout, survey)
+    layout["validation"] = validation
+    (LAYOUTS / f"{layout_id}.json").write_text(
+        json.dumps(layout, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return validation
 
 
 @app.post("/api/v1/catalog/cabinets/worktop-height")
@@ -225,3 +376,89 @@ def cabinet_front_plan(body: CabinetWidthRequest) -> dict[str, Any]:
         "drawers": standard_drawer_stack(),
         "warnings": warnings,
     }
+
+
+@app.get("/api/v1/catalog/products")
+def catalog_products(
+    zone: str | None = None,
+    family: str | None = None,
+    source: str | None = None,
+    q: str | None = None,
+    limit: int = 100,
+    offset: int = 0,
+) -> dict[str, Any]:
+    """Ucelený katalog: KA šablony + Modena + typologie BRW."""
+    from packages.catalog.products.loader import list_products
+
+    return list_products(
+        zone=zone, family=family, source=source, q=q, limit=limit, offset=offset
+    )
+
+
+@app.get("/api/v1/catalog/products/index")
+def catalog_index() -> dict[str, Any]:
+    from packages.catalog.products.loader import load_catalog, load_index
+
+    idx = load_index()
+    cat = load_catalog()
+    return {
+        **idx,
+        "systems": cat.get("systems"),
+        "brw_module_types": cat.get("brw_module_types"),
+        "title": cat.get("title"),
+        "description": cat.get("description"),
+    }
+
+
+@app.get("/api/v1/catalog/products/{product_id}")
+def catalog_product(product_id: str) -> dict[str, Any]:
+    from packages.catalog.products.loader import get_product
+
+    item = get_product(product_id)
+    if not item:
+        raise HTTPException(404, f"Produkt {product_id!r} nenalezen")
+    return item
+
+
+@app.get("/api/v1/styles")
+def styles_list() -> dict[str, Any]:
+    """M6 — styly inspirace (Oresi / Hanák / Extom / BRW / Pegas). Korpus vždy 730."""
+    from packages.styles.loader import list_styles
+
+    return list_styles()
+
+
+@app.get("/api/v1/styles/references")
+def styles_references() -> dict[str, Any]:
+    """Design & vzhled referenčních značek (ne výrobní rozměry)."""
+    from packages.styles.loader import load_design_references
+
+    return load_design_references()
+
+
+@app.get("/api/v1/styles/{style_id}")
+def styles_one(style_id: str) -> dict[str, Any]:
+    from packages.styles.loader import get_style
+
+    item = get_style(style_id)
+    if not item:
+        raise HTTPException(404, f"Styl {style_id!r} nenalezen")
+    return item
+
+
+@app.get("/api/v1/references/examples")
+def reference_examples(brand: str | None = None) -> dict[str, Any]:
+    """Příkladové sestavy (Pegas) — šířky modulů; výšky mapovat na 730."""
+    from packages.styles.loader import list_examples
+
+    return list_examples(brand=brand)
+
+
+@app.get("/api/v1/references/examples/{example_id}")
+def reference_example(example_id: str) -> dict[str, Any]:
+    from packages.styles.loader import get_example
+
+    item = get_example(example_id)
+    if not item:
+        raise HTTPException(404, f"Příklad {example_id!r} nenalezen")
+    return item

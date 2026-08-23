@@ -1,0 +1,150 @@
+{
+  "schemaVersion": "1.0.0",
+  "generated": "2026-08-23",
+  "title": "kitchen-ai Style Library (M6)",
+  "corpus_base_mm": 730,
+  "styles": [
+    {
+      "id": "modern-matt-anthracite",
+      "name": "Modern Matt Anthracite",
+      "inspired_by": [
+        "brw:SILE",
+        "extom:bezúchyt"
+      ],
+      "doors": {
+        "finish": "super_matt",
+        "color": "anthracite"
+      },
+      "corpus": {
+        "color": "anthracite"
+      },
+      "countertop": {
+        "look": "hickory_oak"
+      },
+      "handles": "integrated_or_gola",
+      "mood": "moderní, tmavý, bez otisků"
+    },
+    {
+      "id": "white-gloss-warm-oak",
+      "name": "White Gloss + Warm Oak",
+      "inspired_by": [
+        "brw:SOLE",
+        "oresi:eruka+tewa",
+        "hanak:ELITE"
+      ],
+      "doors": {
+        "finish": "high_gloss",
+        "color": "white"
+      },
+      "accent": {
+        "finish": "wood",
+        "color": "arlington_oak"
+      },
+      "countertop": {
+        "look": "crystal_white_or_golden_oak"
+      },
+      "handles": "slim_metal_or_color_matched",
+      "mood": "světlý lesk + teplé dřevo"
+    },
+    {
+      "id": "silk-grey-bleached-oak",
+      "name": "Silk Grey + Bleached Oak",
+      "inspired_by": [
+        "oresi:cascina+savana",
+        "pegas:BIANCA"
+      ],
+      "doors": {
+        "finish": "silk_matt",
+        "color": "grey"
+      },
+      "accent": {
+        "finish": "wood",
+        "color": "bleached_oak"
+      },
+      "handles": "minimal",
+      "mood": "klidný hedvábný mat"
+    },
+    {
+      "id": "velvet-white",
+      "name": "Velvet White",
+      "inspired_by": [
+        "oresi:velvetia",
+        "hanak:ELITE polar white"
+      ],
+      "doors": {
+        "finish": "velvet_matt",
+        "color": "white"
+      },
+      "corpus": {
+        "color": "white"
+      },
+      "handles": "push_or_gola",
+      "mood": "měkký bílý mat, premium plain"
+    },
+    {
+      "id": "lacquer-veneer-elite",
+      "name": "Lacquer + Veneer Premium",
+      "inspired_by": [
+        "hanak:ELITE",
+        "hanak:SOLID"
+      ],
+      "doors": {
+        "finish": "lacquer_matt_or_gloss",
+        "color": "polar_white_or_titan_star"
+      },
+      "accent": {
+        "finish": "natural_veneer",
+        "color": "american_oak"
+      },
+      "handles": "discrete_metal",
+      "mood": "prémiový lak + dýha, Interior Concept"
+    },
+    {
+      "id": "handleless-acrylic",
+      "name": "Handleless Acrylic",
+      "inspired_by": [
+        "extom:bezúchyt",
+        "extom:akryl"
+      ],
+      "doors": {
+        "finish": "acrylic_high_gloss_or_deep_matt",
+        "color": "ral_or_custom"
+      },
+      "handles": "handleless",
+      "mood": "čistá bezúchytková linie"
+    },
+    {
+      "id": "lancelot-gloss",
+      "name": "Lancelot Oak + Gloss",
+      "inspired_by": [
+        "pegas:VEGAS"
+      ],
+      "doors": {
+        "finish": "mix",
+        "colors": [
+          "dub_lancelot",
+          "white_gloss"
+        ]
+      },
+      "handles": "standard_metal",
+      "mood": "sektorový kontrast dřevo/lesk (inspirace sestavou)"
+    },
+    {
+      "id": "cashmere-white",
+      "name": "Cashmere White",
+      "inspired_by": [
+        "pegas:COMBO",
+        "oresi:camelia"
+      ],
+      "doors": {
+        "finish": "matt",
+        "colors": [
+          "white",
+          "cashmere"
+        ]
+      },
+      "handles": "standard",
+      "mood": "světlá neutrální sestava"
+    }
+  ]
+}

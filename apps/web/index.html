@@ -21,7 +21,10 @@
     </div>
     <nav>
       <a href="#dashboard" class="active">Přehled</a>
+      <a href="#design">Návrh</a>
       <a href="#surveys">Zaměření</a>
+      <a href="#catalog">Katalog</a>
+      <a href="#styles">Styly</a>
       <a href="#cabinets">Skříňky</a>
       <a href="#modules">Moduly</a>
     </nav>
@@ -33,18 +36,174 @@
       <p class="eyebrow">Interní nástroj · Hetzner / Coolify</p>
       <h1>Návrh kuchyně<br /><em>z reálných rozměrů</em></h1>
       <p class="lead">
-        Serverová aplikace pro designéra. SmartMeasure (LiDAR / DISTO) přijde později —
-        zatím importuj RoomSurvey JSON nebo počítej výšku pracovní desky z modulů.
+        Importuj RoomSurvey, vygeneruj layout skříněk podle MountZone
+        (korpus 730 mm, šířky po 50 mm) a zkontroluj validaci.
       </p>
       <div class="cta-row">
-        <a class="btn primary" href="#surveys">Importovat zaměření</a>
-        <a class="btn ghost" href="#cabinets">Výška desky</a>
+        <a class="btn primary" href="#design">Otevřít návrhář</a>
+        <a class="btn ghost" href="#catalog">Procházet katalog</a>
       </div>
       <div class="stat-row" id="stats">
+        <div class="stat"><span id="stat-products">—</span><label>produktů v katalogu</label></div>
         <div class="stat"><span id="stat-surveys">—</span><label>survey souborů</label></div>
+        <div class="stat"><span id="stat-layouts">—</span><label>layoutů</label></div>
         <div class="stat"><span id="stat-active">—</span><label>aktivní moduly</label></div>
-        <div class="stat"><span>SSD</span><label>/data na serveru</label></div>
       </div>
+    </section>
+
+    <section id="design" class="panel">
+      <div class="panel-head">
+        <h2>Návrhář layoutu</h2>
+        <p>
+          M8 skládá skříňky do MountZone · M9 hlídá atyp, šířky a dvířka.
+          Horní skříňky se doplní automaticky nad spodní linku.
+        </p>
+      </div>
+      <div class="calc design-controls">
+        <label>Survey
+          <select id="design-survey">
+            <option value="">— vyber nebo nahraj —</option>
+          </select>
+        </label>
+        <label>Sokl
+          <input type="number" id="design-plinth" value="100" min="80" max="150" />
+        </label>
+        <label>Deska
+          <select id="design-top">
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40" selected>40</option>
+            <option value="60">60</option>
+          </select>
+        </label>
+        <label class="check">
+          <input type="checkbox" id="design-walls" checked />
+          Horní auto
+        </label>
+        <button type="button" class="btn ghost" id="design-sample">Ukázkový survey</button>
+        <button type="button" class="btn primary" id="design-run">Generovat layout</button>
+      </div>
+      <p id="design-msg" class="msg" hidden></p>
+      <div id="design-summary" class="design-summary muted">Zatím žádný layout.</div>
+      <div class="layout-canvas-wrap">
+        <svg id="layout-svg" viewBox="0 0 1000 320" role="img" aria-label="Půdorys linky"></svg>
+      </div>
+      <div class="design-split">
+        <div>
+          <h3 class="subh">Kusovník</h3>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>SKU</th><th>Zóna</th><th>Šířka</th><th>ks</th></tr>
+              </thead>
+              <tbody id="bom-tbody">
+                <tr><td colspan="4" class="muted">—</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <h3 class="subh">Validace</h3>
+          <ul id="issues-list" class="issues-list">
+            <li class="muted">Po generování se zobrazí kritické / varování.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:1.25rem">
+        <table>
+          <thead>
+            <tr><th>Moduly v layoutu</th><th>Offset</th><th>Šířka</th><th>Dvířka</th></tr>
+          </thead>
+          <tbody id="units-tbody">
+            <tr><td colspan="4" class="muted">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 class="subh" style="margin-top:1.5rem">Uložené layouty</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Zákazník</th><th>Layout</th><th>Modulů</th><th>OK</th><th></th></tr>
+          </thead>
+          <tbody id="layouts-tbody">
+            <tr><td colspan="5" class="muted">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="catalog" class="panel">
+      <div class="panel-head">
+        <h2>Katalog produktů</h2>
+        <p>
+          Šablony kitchen-ai + referenční Modena 2023 + typologie BRW.
+          Čela šuplíků vždy <strong>142 / 286</strong> mm.
+        </p>
+      </div>
+      <div class="calc catalog-filters">
+        <label>Zóna
+          <select id="cat-zone">
+            <option value="">vše</option>
+            <option value="base">spodní</option>
+            <option value="wall">horní</option>
+            <option value="tall">vysoké</option>
+            <option value="front">čela</option>
+          </select>
+        </label>
+        <label>Zdroj
+          <select id="cat-source">
+            <option value="">vše</option>
+            <option value="kitchen_ai">kitchen-ai</option>
+            <option value="modena_2023">Modena</option>
+          </select>
+        </label>
+        <label>Hledat
+          <input type="search" id="cat-q" placeholder="SKU / název…" />
+        </label>
+        <button type="button" class="btn primary" id="cat-btn">Filtrovat</button>
+      </div>
+      <p id="cat-meta" class="muted" style="margin:0.75rem 0"></p>
+      <div class="chips" id="cat-families" style="margin-bottom:1rem"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>SKU</th>
+              <th>Název</th>
+              <th>Rodina</th>
+              <th>Š×V×H</th>
+              <th>Zdroj</th>
+            </tr>
+          </thead>
+          <tbody id="cat-tbody">
+            <tr><td colspan="5" class="muted">Načítám…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="styles" class="panel">
+      <div class="panel-head">
+        <h2>Styly &amp; vzhled</h2>
+        <p>
+          Inspirace z Oresi, Hanák, Extom, BRW, Top Shelf (Nobilia) a sestav Pegas.
+          Korpus vždy <strong>730 mm</strong> (Top Shelf má 720 — nebereme).
+        </p>
+      </div>
+      <div class="chips" id="style-chips"></div>
+      <p id="style-detail" class="muted" style="margin:1rem 0"></p>
+      <h3 style="font-size:1rem;margin:1.5rem 0 0.5rem">Příkladové sestavy Pegas</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Sestava</th><th>Paleta</th><th>Modulů</th><th>Šířky</th></tr>
+          </thead>
+          <tbody id="examples-tbody">
+            <tr><td colspan="4" class="muted">Načítám…</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p id="example-detail" class="muted" style="margin-top:0.75rem"></p>
     </section>
 
     <section id="surveys" class="panel">
@@ -60,10 +219,10 @@
       <div class="table-wrap">
         <table>
           <thead>
-            <tr><th>Zákazník</th><th>Survey ID</th><th>Import</th></tr>
+            <tr><th>Zákazník</th><th>Survey ID</th><th>Import</th><th></th></tr>
           </thead>
           <tbody id="survey-tbody">
-            <tr><td colspan="3" class="muted">Načítám…</td></tr>
+            <tr><td colspan="4" class="muted">Načítám…</td></tr>
           </tbody>
         </table>
       </div>

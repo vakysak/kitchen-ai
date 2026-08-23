@@ -54,6 +54,12 @@ CABINET_SYSTEM: dict[str, Any] = {
             "rule": "width <= 600 → 1 dvířka; width > 600 → 2 křídla",
         },
     },
+    # Design refs (Top Shelf/Nobilia = 720) — jen vzhled; výroba vždy 730
+    "reference_notes": {
+        "nobilia_top_shelf_carcase_mm": 720,
+        "our_carcase_mm": 730,
+        "decision": "Zachovat 730 mm; Top Shelf jen prezentace řad / vzhled.",
+    },
     "tall_cabinet": {
         "corpus_depth": 560,
         "height_options": [2100, 2200, 2400],

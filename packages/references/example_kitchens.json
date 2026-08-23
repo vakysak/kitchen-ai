@@ -1,0 +1,2544 @@
+{
+  "schemaVersion": "1.0.0",
+  "generated": "2026-08-23",
+  "title": "Příkladové kuchyně (Pegas) + mapování na KA",
+  "manufacturing_override": {
+    "corpus_base_mm": 730,
+    "note": "Pegas/Top Shelf/Nobilia často 720 korpus nebo 820 vnější — my vždy 730."
+  },
+  "examples": [
+    {
+      "id": "pegas-combo-bila-kasmir",
+      "name": "COMBO — Bílá / Kašmír",
+      "brand": "Pegas",
+      "palette": [
+        "bílá",
+        "kašmír"
+      ],
+      "finish": "lamino + mat/kontrast",
+      "url": "https://www.nabytek-pegas.cz/kuchyne-jidelna/kuchyn-modulove-systemy/kuchyne-combo-bila-kasmir/",
+      "role": "example_composition",
+      "use_for": [
+        "layout inspiration",
+        "module mix",
+        "palette"
+      ],
+      "not_for": [
+        "manufacturing heights"
+      ],
+      "module_widths_mm": [
+        150,
+        300,
+        400,
+        450,
+        500,
+        600,
+        800,
+        900,
+        1050
+      ],
+      "modules": [
+        {
+          "label": "Dolní rohová skříňka COMBO - 105 ND 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 1050,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní rohová skříňka COMBO - 90x90 DN 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 900,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 15 D OTW BB, Bílá",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 30 D OTW BB, Bílá",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka ukončovací - 30 D ZAK BB, Bílá",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 15 D CARGO BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 30 D CARGO BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 40 D 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 40 D 3S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 50 D 1F 1S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 500,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 50 ZL 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 500,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 60 D 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 60 D 3S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 60 D GAZ BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 60 ZL 1S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 80 D 2F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 80 D 3S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 80 ZL 1S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skříňka COMBO - 80 ZL 2F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skříňka COMBO - 60x60 GN-108 1F (45°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skříňka COMBO - 60x60 GN-108 2F (90°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skříňka COMBO - 60x60 GN-72 1F (45°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skříňka COMBO - 60x60 GN-72 2F (90°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skříňka COMBO - 60x60 GN-90 1F (45°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skříňka COMBO - 60x60 GN-90 2F (90°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 30 G-108 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 30 G-72 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 30 G-90 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 40 G-108 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 40 G-72 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 40 G-90 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 40 NAGU-36 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 45 G-108 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skříňka COMBO - 45 G-72 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 105 ND 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 1050,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 90x90 DN 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 900,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 15 D CARGO BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 30 D CARGO BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 40 D 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 40 D 3S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 50 D 1F 1S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 500,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 50 ZL 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 500,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60 D 1F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60 D 3S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60 D GAZ BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60 ZL 1S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 80 D 2F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 80 D 3S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 80 ZL 1S BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 80 ZL 2F BB, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - ZM 713x446, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - ZM 713x596, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - ZM 570x446, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - ZM 570x596, Bílá/Kašmír",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60x60 GN-108 1F (45°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60x60 GN-108 2F (90°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60x60 GN-72 1F (45°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60x60 GN-72 2F (90°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60x60 GN-90 1F (45°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 60x60 GN-90 2F (90°), Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 30 G-108 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 30 G-72 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 30 G-90 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 40 G-108 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 40 G-72 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 40 G-90 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 40 NAGU-36 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 45 G-108 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "COMBO - 45 G-72 1F, Bílá/Kašmír",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        }
+      ],
+      "module_count": 69
+    },
+    {
+      "id": "pegas-bianca-seda-lesk",
+      "name": "BIANCA — Šedá / Bílý lesk",
+      "brand": "Pegas",
+      "palette": [
+        "platinově šedá",
+        "bílý lesk"
+      ],
+      "finish": "lamino korpus + lesklá dvířka",
+      "url": "https://www.nabytek-pegas.cz/kuchyne-jidelna/kuchyn-modulove-systemy/kuchyne-bianca-seda-bily-lesk/",
+      "role": "example_composition",
+      "use_for": [
+        "layout inspiration",
+        "module mix",
+        "palette"
+      ],
+      "not_for": [
+        "manufacturing heights"
+      ],
+      "module_widths_mm": [
+        150,
+        300,
+        400,
+        450,
+        500,
+        600,
+        800,
+        900,
+        1050
+      ],
+      "modules": [
+        {
+          "label": "Dolní rohová skřínka BIANCA - 105 ND 1F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 1050,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní rohová skřínka BIANCA - 90 x 90 ND 2F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 900,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 15 D OTW BB, Platinově šedá",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 30 D OTW BB, Platinově šedá",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 30 D ZAK BB, Platinově šedá",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 15 D CARGO BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 30 D CARGO BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 40 D 1F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 40 D 4S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 60 D 1F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 60 D 3S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 60 D GAZ BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 60 ZL 1S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 80 D 2F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 80 D 3S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 80 ZL 1S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka BIANCA - 80 ZL 2F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skřínka BIANCA - 60 x 60 GN-72 1F (45°), Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skřínka BIANCA - 60 x 60 GN-72 2F (90°), Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 30 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 40 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 45 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 50 GU-36 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 500,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 60 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 60 GU-36 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 60 GU-72 2F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 80 G-72 2F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka BIANCA - 80 GU-72 2F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 40 DK-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 60 DK-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 60 DKS-210 3S 1F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 60 DP-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 60 DPM-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 60 DPS-210 3S 1F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň BIANCA - 60 LO-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříňka na sporák BOLZANO 60 D GAZ BB, Bílý lesk/Šedá",
+          "zone": "tall",
+          "family_hint": "base_oven",
+          "width_mm": null,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 105 ND 1F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 1050,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 90 x 90 ND 2F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 900,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 15 D CARGO BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 30 D CARGO BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 40 D 1F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 40 D 4S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 D 1F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 D 3S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 D GAZ BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 ZL 1S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 80 D 2F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 80 D 3S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 80 ZL 1S BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 80 ZL 2F BB, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - ZM 713x446, Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - ZM 713x596, Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - ZM 570x446, Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - ZM 570x596, Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 x 60 GN-72 1F (45°), Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 x 60 GN-72 2F (90°), Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 30 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 40 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 45 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 50 GU-36 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 500,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 G-72 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 GU-36 1F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 GU-72 2F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 80 G-72 2F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 80 GU-72 2F, Šedá / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 40 DK-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 DK-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 DKS-210 3S 1F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 DP-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 DPM-210 2F, Šedá / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 DPS-210 3S 1F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "BIANCA - 60 LO-210 2F, Šedá / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        }
+      ],
+      "module_count": 72
+    },
+    {
+      "id": "pegas-vegas-lancelot-lesk",
+      "name": "VEGAS — Dub Lancelot / Bílý lesk",
+      "brand": "Pegas",
+      "palette": [
+        "dub Lancelot",
+        "bílý lesk"
+      ],
+      "finish": "dřevodekor + lesk",
+      "url": "https://www.nabytek-pegas.cz/kuchyne-jidelna/kuchyn-modulove-systemy/kuchyne-vegas-dub-lancelot-bily-lesk/",
+      "role": "example_composition",
+      "use_for": [
+        "layout inspiration",
+        "module mix",
+        "palette"
+      ],
+      "not_for": [
+        "manufacturing heights"
+      ],
+      "module_widths_mm": [
+        150,
+        300,
+        400,
+        450,
+        500,
+        600,
+        800,
+        900,
+        1050
+      ],
+      "modules": [
+        {
+          "label": "Dolní rohová skřínka VEGAS - 90 x 90 ND 2F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 900,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 15 D OTW BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 30 D OTW BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka - 30 D ZAK BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 105 ND 1F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 1050,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 15 D CARGO BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 30 D CARGO BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 40 D 1F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 40 D 3S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 60 D 1F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 60 D 3S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 60 D GAZ BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 60 ZL 1S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 80 D 2F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 80 D 3S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 80 ZL 1S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Dolní skřínka VEGAS - 80 ZL 2F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skřínka VEGAS - 60 x 60 GN-72 1F (45°), Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní rohová skřínka VEGAS - 60 x 60 GN-72 2F (90°), Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_corner",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 30 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 40 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 40 NAGU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 45 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 50 GU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 500,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 60 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 60 GU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 60 GU-72 2F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 60 NAGU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 80 G-72 2F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 80 GU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 80 GU-72 2F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Horní skřínka VEGAS - 80 NAGU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 40 DK-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 50 DK-145 1F (3S), Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 500,
+          "catalog_height_hint_mm": 1450,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 60 DK-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 60 DKS-210 3S 1F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 60 DP-145 1F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 1450,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 60 DP-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 60 DPM-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "Kuchyňská skříň VEGAS - 60 DPS-145 3S, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 1450,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 90 x 90 ND 2F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 900,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 105 ND 1F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_corner",
+          "width_mm": 1050,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 15 D CARGO BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 150,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 30 D CARGO BB, Dub Lancelot",
+          "zone": "base",
+          "family_hint": "base_wire",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 40 D 1F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 40 D 3S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 D 1F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 D 3S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 D GAZ BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 ZL 1S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 D 2F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 D 3S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_drawers",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 ZL 1S BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 ZL 2F BB, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_sink",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 820,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - ZM 713x446, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - ZM 713x596, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - ZM 570x446, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - ZM 570x596, Dub Lancelot / Bílý lesk",
+          "zone": "base",
+          "family_hint": "base_door",
+          "width_mm": null,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": 730,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 x 60 GN-72 1F (45°), Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 x 60 GN-72 2F (90°), Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 30 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 300,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 40 G-13 1S, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 40 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 40 NAGU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 400,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 45 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 450,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 50 GU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 500,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 G-72 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 GU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 GU-72 2F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 NAGU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 600,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 G-72 2F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_door",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 GU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 GU-72 2F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": 720,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 80 NAGU-36 1F, Dub Lancelot / Bílý lesk",
+          "zone": "wall",
+          "family_hint": "wall_horizontal",
+          "width_mm": 800,
+          "catalog_height_hint_mm": null,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 40 DK-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 400,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 50 DK-145 1F (3S), Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 500,
+          "catalog_height_hint_mm": 1450,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 DK-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_pantry",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 DKS-210 3S 1F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "base_drawers",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 DP-145 1F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 1450,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        },
+        {
+          "label": "VEGAS - 60 DP-210 2F, Dub Lancelot / Bílý lesk",
+          "zone": "tall",
+          "family_hint": "tall_oven",
+          "width_mm": 600,
+          "catalog_height_hint_mm": 2100,
+          "map_to_ka": {
+            "corpus_height_mm": null,
+            "note": "Pegas sektor ~820 vnější / horní G-72; naše výroba korpus spodní 730."
+          }
+        }
+      ],
+      "module_count": 80
+    }
+  ]
+}

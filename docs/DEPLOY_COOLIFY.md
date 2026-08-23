@@ -69,6 +69,7 @@ Soubor musí přistát na serveru v `/data/kitchen-ai/surveys/`.
 /data/kitchen-ai/
   postgres/      # DB
   surveys/       # RoomSurvey JSON (později ze SmartMeasure)
+  layouts/       # vygenerované layouty (M8)
   uploads/       # obecné uploady
   exports/       # PDF / SVG výstupy
   references/    # inspirační fotky (M7)

@@ -19,11 +19,18 @@ COPY packages /app/packages
 ENV KITCHEN_AI_WEB=/app/web
 ENV PYTHONPATH=/app
 
-RUN mkdir -p /data/uploads /data/exports /data/surveys /data/references \
-    && mkdir -p /app/packages/catalog/cabinets \
+RUN mkdir -p /data/uploads /data/exports /data/surveys /data/layouts /data/references \
+    && mkdir -p /app/packages/catalog/cabinets /app/packages/catalog/products \
+    && mkdir -p /app/packages/styles /app/packages/references \
+    && mkdir -p /app/packages/layout_engine /app/packages/validator \
     && touch /app/packages/__init__.py \
     && touch /app/packages/catalog/__init__.py \
-    && touch /app/packages/catalog/cabinets/__init__.py
+    && touch /app/packages/catalog/cabinets/__init__.py \
+    && touch /app/packages/catalog/products/__init__.py \
+    && touch /app/packages/styles/__init__.py \
+    && touch /app/packages/references/__init__.py \
+    && touch /app/packages/layout_engine/__init__.py \
+    && touch /app/packages/validator/__init__.py
 
 EXPOSE 8000
 
