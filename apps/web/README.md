@@ -1,1 +1,1 @@
-# M14 Web — Next.js editor pro designéra (sprint S4+)
+# M14 Web — statické UI servírované z API (`/`), API zůstává pod `/api` a `/health`.

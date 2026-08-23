@@ -15,6 +15,8 @@ from typing import Any
 
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 DATA_ROOT = Path(os.getenv("KITCHEN_AI_DATA", "/data"))
@@ -22,14 +24,15 @@ UPLOADS = DATA_ROOT / "uploads"
 EXPORTS = DATA_ROOT / "exports"
 SURVEYS = DATA_ROOT / "surveys"
 REFERENCES = DATA_ROOT / "references"
+WEB_ROOT = Path(os.getenv("KITCHEN_AI_WEB", "/app/web"))
 
 for d in (UPLOADS, EXPORTS, SURVEYS, REFERENCES):
     d.mkdir(parents=True, exist_ok=True)
 
 app = FastAPI(
     title="kitchen-ai",
-    version="0.1.0",
-    description="Návrhář kuchyní — serverová část (SmartMeasure = pozdější vstup)",
+    version="0.2.0",
+    description="Návrhář kuchyní — web + API (SmartMeasure později)",
 )
 
 app.add_middleware(
@@ -39,6 +42,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+if WEB_ROOT.is_dir():
+    app.mount("/static", StaticFiles(directory=WEB_ROOT), name="static")
 
 
 class HealthResponse(BaseModel):
@@ -62,7 +68,6 @@ class CabinetWorktopRequest(BaseModel):
 
 
 @app.get("/health", response_model=HealthResponse)
-@app.get("/", response_model=HealthResponse)
 def health() -> HealthResponse:
     return HealthResponse(
         status="ok",
@@ -76,6 +81,14 @@ def health() -> HealthResponse:
         },
         timestamp=datetime.now(timezone.utc).isoformat(),
     )
+
+
+@app.get("/")
+def app_home() -> FileResponse:
+    index = WEB_ROOT / "index.html"
+    if not index.is_file():
+        raise HTTPException(503, "Web UI není v kontejneru — zkontroluj image build.")
+    return FileResponse(index)
 
 
 @app.get("/api/v1/modules")

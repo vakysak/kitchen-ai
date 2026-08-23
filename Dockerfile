@@ -13,7 +13,10 @@ COPY apps/api/requirements.txt /app/requirements.txt
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
 COPY apps/api/main.py /app/main.py
+COPY apps/web /app/web
 COPY packages /app/packages
+
+ENV KITCHEN_AI_WEB=/app/web
 
 RUN mkdir -p /data/uploads /data/exports /data/surveys /data/references
 

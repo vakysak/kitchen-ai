@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>kitchen-ai — Návrhář kuchyní</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <div class="bg"></div>
+  <header class="top">
+    <div class="brand">
+      <span class="brand-mark">k</span>
+      <div>
+        <strong>kitchen-ai</strong>
+        <span class="muted">návrhář kuchyní · výroba</span>
+      </div>
+    </div>
+    <nav>
+      <a href="#dashboard" class="active">Přehled</a>
+      <a href="#surveys">Zaměření</a>
+      <a href="#cabinets">Skříňky</a>
+      <a href="#modules">Moduly</a>
+    </nav>
+    <div id="health-pill" class="pill">…</div>
+  </header>
+
+  <main>
+    <section id="dashboard" class="hero">
+      <p class="eyebrow">Interní nástroj · Hetzner / Coolify</p>
+      <h1>Návrh kuchyně<br /><em>z reálných rozměrů</em></h1>
+      <p class="lead">
+        Serverová aplikace pro designéra. SmartMeasure (LiDAR / DISTO) přijde později —
+        zatím importuj RoomSurvey JSON nebo počítej výšku pracovní desky z modulů.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href="#surveys">Importovat zaměření</a>
+        <a class="btn ghost" href="#cabinets">Výška desky</a>
+      </div>
+      <div class="stat-row" id="stats">
+        <div class="stat"><span id="stat-surveys">—</span><label>survey souborů</label></div>
+        <div class="stat"><span id="stat-active">—</span><label>aktivní moduly</label></div>
+        <div class="stat"><span>SSD</span><label>/data na serveru</label></div>
+      </div>
+    </section>
+
+    <section id="surveys" class="panel">
+      <div class="panel-head">
+        <h2>Zaměření (RoomSurvey)</h2>
+        <p>JSON ze SmartMeasure — nebo ukázkový soubor. Ukládá se na SSD.</p>
+      </div>
+      <form id="import-form" class="import-box">
+        <input type="file" id="survey-file" accept="application/json,.json" required />
+        <button type="submit" class="btn primary">Nahrát</button>
+      </form>
+      <p id="import-msg" class="msg" hidden></p>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Zákazník</th><th>Survey ID</th><th>Import</th></tr>
+          </thead>
+          <tbody id="survey-tbody">
+            <tr><td colspan="3" class="muted">Načítám…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="cabinets" class="panel">
+      <div class="panel-head">
+        <h2>Skříňky — výška pracovní desky</h2>
+        <p>Korpus <strong>730 mm</strong> je fixní. Mění se sokl a tloušťka desky.</p>
+      </div>
+      <div class="calc">
+        <label>Sokl (mm)
+          <input type="number" id="plinth" value="100" min="80" max="150" />
+        </label>
+        <label>Deska (mm)
+          <select id="top">
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40" selected>40</option>
+            <option value="60">60</option>
+          </select>
+        </label>
+        <button type="button" class="btn primary" id="calc-btn">Spočítat</button>
+        <div class="result" id="calc-result">730 + 100 + 40 = <strong>870 mm</strong></div>
+      </div>
+    </section>
+
+    <section id="modules" class="panel">
+      <div class="panel-head">
+        <h2>Stav modulů</h2>
+        <p>SmartMeasure (M0) je odložený — chybí zařízení.</p>
+      </div>
+      <div class="chips" id="module-chips"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>kitchen-ai · vakysak</span>
+    <a href="/health">/health</a>
+    <a href="/docs">API docs</a>
+  </footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>
