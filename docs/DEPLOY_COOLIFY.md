@@ -1,5 +1,17 @@
 # Deploy kitchen-ai na Hetzner přes Coolify (SSD úložiště)
 
+## LIVE (2026-08-23)
+
+| | |
+|---|---|
+| URL | https://kitchen.46.225.122.108.sslip.io |
+| Coolify project | `kitchen-ai` (`h9tsl5d7g205bczdzp5twgmd`) |
+| Application | `kitchen-ai` (`dgd16uof4dunbmsw90akenlk`) |
+| GitHub | https://github.com/vakysak/kitchen-ai |
+| Health | `GET /health` |
+| Data (SSD bind) | `/data/kitchen-ai/{uploads,exports,surveys,references}` + volume `kitchen_ai_postgres` |
+
+
 ## Kontext
 
 | | |
