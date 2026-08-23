@@ -270,8 +270,9 @@ function cabinetPreviewSvg(p, forceWidth) {
   const isCorner = (p.family || "").includes("corner");
   const isOven = (p.family || "").includes("oven");
   const isWaste = (p.family || "").includes("waste");
+  const isLift = p.family === "wall_lift" || p.opening === "lift";
+  const isGlass = !!p.glass;
   const h = isWall ? 64 : isTall ? 96 : 82;
-  // u druhu skříně ukazuj typické dvířko (1 křídlo), u širokých typů 2
   const doors = Number(p.doors || p.mesh?.doors || 1);
   let fronts = "";
   if (isDrawer) {
@@ -295,13 +296,25 @@ function cabinetPreviewSvg(p, forceWidth) {
   } else if (isCorner) {
     fronts += `<path d="M6 6 H${bw * 0.55} V${h - 4} H6 Z" fill="#e0b98a" stroke="#8a6844"/>`;
     fronts += `<path d="M${bw * 0.55} 6 H${bw - 6} V${h * 0.55} H${bw * 0.55} Z" fill="#d4a574" stroke="#8a6844"/>`;
+  } else if (isLift) {
+    const fill = isGlass ? "#9eb8c8" : "#e0b98a";
+    fronts += `<rect x="6" y="6" width="${bw - 12}" height="${h - 10}" rx="2" fill="${fill}" stroke="#8a6844" stroke-width="0.8"/>`;
+    if (isGlass) {
+      fronts += `<rect x="12" y="12" width="${bw - 24}" height="${h - 28}" rx="1" fill="#c5d8e4" opacity="0.85"/>`;
+    }
+    fronts += `<rect x="${bw / 2 - 14}" y="${h - 14}" width="28" height="3" rx="1" fill="#4a4038"/>`;
+    fronts += `<path d="M${bw / 2 - 8} 18 L${bw / 2} 12 L${bw / 2 + 8} 18" fill="none" stroke="#4a4038" stroke-width="1.2"/>`;
   } else {
     const gap = 2;
     const wingW = (bw - 12 - (doors - 1) * gap) / Math.max(doors, 1);
     for (let i = 0; i < Math.max(doors, 1); i++) {
       const x = 6 + i * (wingW + gap);
+      const fill = isGlass ? "#9eb8c8" : isWall ? "#d8b896" : "#e0b98a";
       fronts += `<rect x="${x}" y="6" width="${wingW}" height="${h - 10}" rx="2"
-        fill="${isWall ? "#d8b896" : "#e0b98a"}" stroke="#8a6844" stroke-width="0.8"/>`;
+        fill="${fill}" stroke="#8a6844" stroke-width="0.8"/>`;
+      if (isGlass) {
+        fronts += `<rect x="${x + 5}" y="11" width="${wingW - 10}" height="${h - 20}" rx="1" fill="#c5d8e4" opacity="0.85"/>`;
+      }
       const hx = i === 0 && doors > 1 ? x + wingW - 5 : x + 5;
       fronts += `<rect x="${hx}" y="${h / 2 - 8}" width="2.2" height="16" rx="1" fill="#4a4038"/>`;
     }
@@ -320,6 +333,7 @@ const FAMILY_LABELS = {
   base_waste: "Koš",
   base_corner: "Rohová",
   wall_door: "Horní dvířková",
+  wall_lift: "Horní výklop",
   wall_corner: "Horní rohová",
   tall_pantry: "Sloup / potravinová",
 };
@@ -333,15 +347,46 @@ const FAMILY_ORDER = [
   "base_waste",
   "base_corner",
   "wall_door",
+  "wall_lift",
   "wall_corner",
   "tall_pantry",
 ];
 
-/** @type {Record<string, {family:string, zone:string, label:string, widths:number[], byWidth:Record<number, object>, sample:object}>} */
+const GLASSABLE = new Set([
+  "base_door",
+  "base_corner",
+  "wall_door",
+  "wall_lift",
+  "wall_corner",
+  "tall_pantry",
+]);
+
+/** @type {Record<string, {family:string, zone:string, label:string, widths:number[], byWidth:Record<number, object>, sample:object, opening?:string, skuFamily?:string}>} */
 let libraryTypes = {};
 
 function familyLabel(family) {
   return FAMILY_LABELS[family] || String(family || "").replace(/_/g, " ");
+}
+
+function defaultGlassId() {
+  return (
+    materialsDoc?.defaults?.glassId ||
+    materialsDoc?.glass?.[0]?.id ||
+    "glass-clear"
+  );
+}
+
+function glassOptionsHtml(selected) {
+  const items = materialsDoc?.glass || [];
+  if (!items.length) {
+    return `<option value="glass-clear">Čiré</option>`;
+  }
+  return items
+    .map(
+      (g) =>
+        `<option value="${g.id}" ${g.id === selected ? "selected" : ""}>${escapeXml(g.name)}</option>`
+    )
+    .join("");
 }
 
 function resolveSkuForWidth(family, width) {
@@ -350,12 +395,17 @@ function resolveSkuForWidth(family, width) {
   return t.byWidth[width] || null;
 }
 
-function addLineItemFromType(family, width) {
+function addLineItemFromType(family, width, extras = {}) {
   const product = resolveSkuForWidth(family, Number(width));
   if (!product) {
     alert(`Šířka ${width} mm pro ${familyLabel(family)} není v katalogu.`);
     return;
   }
+  const opening =
+    extras.opening ||
+    libraryTypes[family]?.opening ||
+    (family === "wall_lift" ? "lift" : "hinge");
+  const glass = !!extras.glass;
   lineItems.push({
     sku: product.sku,
     name: product.name || familyLabel(family),
@@ -363,11 +413,14 @@ function addLineItemFromType(family, width) {
     zone: product.zone || libraryTypes[family]?.zone,
     family,
     label: familyLabel(family),
+    opening,
+    glass,
+    glassId: glass ? extras.glassId || defaultGlassId() : null,
   });
   renderLineStrip();
 }
 
-let lineItems = []; // {sku, name, width_mm, zone, family, label}
+let lineItems = []; // {sku, name, width_mm, zone, family, label, opening, glass, glassId}
 
 function renderLineStrip() {
   const host = document.getElementById("line-strip");
@@ -386,9 +439,19 @@ function renderLineStrip() {
       const opts = widths
         .map((w) => `<option value="${w}" ${w === it.width_mm ? "selected" : ""}>${w}</option>`)
         .join("");
+      const canGlass = GLASSABLE.has(it.family) && !(it.family || "").includes("drawer");
+      const glassCtrl = canGlass
+        ? `<label class="line-glass" title="Prosklená dvířka">
+            <input type="checkbox" data-gidx="${i}" ${it.glass ? "checked" : ""} /> sklo
+          </label>
+          <select data-glassidx="${i}" title="Barva skla" ${it.glass ? "" : "disabled"}>
+            ${glassOptionsHtml(it.glassId || defaultGlassId())}
+          </select>`
+        : "";
       return `<span class="line-chip">
         <span class="line-label">${escapeXml(it.label || familyLabel(it.family))}</span>
         <select data-widx="${i}" title="Šířka">${opts}</select>
+        ${glassCtrl}
         <button type="button" data-rm="${i}" title="Odebrat">×</button>
       </span>`;
     })
@@ -415,11 +478,28 @@ function renderLineStrip() {
       renderLineStrip();
     });
   });
+  host.querySelectorAll("input[data-gidx]").forEach((cb) => {
+    cb.addEventListener("change", () => {
+      const idx = Number(cb.getAttribute("data-gidx"));
+      lineItems[idx].glass = cb.checked;
+      if (cb.checked && !lineItems[idx].glassId) {
+        lineItems[idx].glassId = defaultGlassId();
+      }
+      if (!cb.checked) lineItems[idx].glassId = null;
+      renderLineStrip();
+    });
+  });
+  host.querySelectorAll("select[data-glassidx]").forEach((sel) => {
+    sel.addEventListener("change", () => {
+      const idx = Number(sel.getAttribute("data-glassidx"));
+      lineItems[idx].glassId = sel.value;
+      lineItems[idx].glass = true;
+    });
+  });
 }
 
 async function loadLibraryGrid() {
   const zoneFilter = document.getElementById("lib-zone").value;
-  // vždy načti celou KA knihovnu — šířky v lince fungují i po změně filtru zóny
   const params = new URLSearchParams({ limit: "300", source: "kitchen_ai" });
   const data = await api("/api/v1/catalog/library?" + params);
   const host = document.getElementById("lib-grid");
@@ -435,6 +515,7 @@ async function loadLibraryGrid() {
         widths: [],
         byWidth: {},
         sample: p,
+        opening: fam === "wall_lift" ? "lift" : "hinge",
       };
     }
     const w = Number(p.width_mm);
@@ -447,6 +528,22 @@ async function loadLibraryGrid() {
   for (const g of Object.values(groups)) {
     g.widths.sort((a, b) => a - b);
   }
+
+  // virtuální typ: horní výklop = stejné SKU jako wall_door
+  if (groups.wall_door) {
+    const src = groups.wall_door;
+    groups.wall_lift = {
+      family: "wall_lift",
+      zone: "wall",
+      label: familyLabel("wall_lift"),
+      widths: [...src.widths],
+      byWidth: { ...src.byWidth },
+      sample: { ...src.sample, family: "wall_lift", opening: "lift" },
+      opening: "lift",
+      skuFamily: "wall_door",
+    };
+  }
+
   libraryTypes = groups;
 
   const ordered = FAMILY_ORDER.filter((f) => groups[f])
@@ -465,11 +562,20 @@ async function loadLibraryGrid() {
       const opts = g.widths
         .map((w) => `<option value="${w}" ${w === defaultW ? "selected" : ""}>${w} mm</option>`)
         .join("");
+      const canGlass = GLASSABLE.has(fam);
       const preview = {
         ...g.sample,
+        family: fam,
+        opening: g.opening,
         doors: fam.includes("drawer") ? 0 : 1,
         width_mm: 600,
       };
+      const glassBlock = canGlass
+        ? `<label class="lib-glass">
+            <input type="checkbox" class="lib-glass-cb" /> Prosklené
+          </label>
+          <select class="lib-glass-sel" disabled title="Barva skla">${glassOptionsHtml(defaultGlassId())}</select>`
+        : "";
       return `<div class="lib-card" data-family="${fam}">
         ${cabinetPreviewSvg(preview, 600)}
         <strong class="lib-title">${escapeXml(g.label)}</strong>
@@ -479,6 +585,7 @@ async function loadLibraryGrid() {
             <select class="lib-w-select">${opts}</select>
           </label>
         </div>
+        ${glassBlock}
         <button type="button" class="btn tiny primary lib-add">Přidat do linky</button>
       </div>`;
     })
@@ -486,9 +593,35 @@ async function loadLibraryGrid() {
 
   host.querySelectorAll(".lib-card").forEach((card) => {
     const fam = card.getAttribute("data-family");
+    const glassCb = card.querySelector(".lib-glass-cb");
+    const glassSel = card.querySelector(".lib-glass-sel");
+    if (glassCb && glassSel) {
+      glassCb.addEventListener("change", () => {
+        glassSel.disabled = !glassCb.checked;
+        const prev = {
+          family: fam,
+          zone: libraryTypes[fam]?.zone,
+          opening: libraryTypes[fam]?.opening,
+          glass: glassCb.checked,
+          doors: 1,
+        };
+        const svgHost = card.querySelector("svg");
+        if (svgHost) {
+          const wrap = document.createElement("div");
+          wrap.innerHTML = cabinetPreviewSvg(prev, 600);
+          svgHost.replaceWith(wrap.firstChild);
+        }
+      });
+    }
     card.querySelector(".lib-add").addEventListener("click", () => {
       const w = Number(card.querySelector(".lib-w-select").value);
-      addLineItemFromType(fam, w);
+      const glass = !!card.querySelector(".lib-glass-cb")?.checked;
+      const glassId = card.querySelector(".lib-glass-sel")?.value || defaultGlassId();
+      addLineItemFromType(fam, w, {
+        glass,
+        glassId: glass ? glassId : null,
+        opening: libraryTypes[fam]?.opening || (fam === "wall_lift" ? "lift" : "hinge"),
+      });
     });
   });
 }
@@ -563,8 +696,14 @@ async function loadLayout(layoutId) {
       name: u.name,
       width_mm: u.width_mm,
       zone: u.band,
-      family: u.family,
-      label: familyLabel(u.family),
+      family: u.family === "wall_door" && u.options?.opening === "lift" ? "wall_lift" : u.family,
+      label:
+        u.options?.opening === "lift" && (u.band === "wall" || u.family === "wall_door")
+          ? familyLabel("wall_lift")
+          : familyLabel(u.family),
+      opening: u.options?.opening || u.mesh?.opening || "hinge",
+      glass: !!(u.options?.glass || u.mesh?.front === "glass"),
+      glassId: u.options?.glassId || u.mesh?.glassId || null,
     }));
     renderLineStrip();
   }
@@ -588,12 +727,18 @@ async function generateDesign() {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      skus: lineItems.map((x) => x.sku),
+      units: lineItems.map((x) => ({
+        sku: x.sku,
+        glass: !!x.glass,
+        glassId: x.glass ? x.glassId || defaultGlassId() : null,
+        opening: x.opening || (x.family === "wall_lift" ? "lift" : "hinge"),
+      })),
       plinth_height: Number(document.getElementById("design-plinth").value || 100),
       countertop_thickness: Number(document.getElementById("design-top").value || 40),
       corpusId: mats.corpusId,
       frontId: mats.frontId,
       countertopId: mats.countertopId,
+      glassId: defaultGlassId(),
       customerName: "Návrh z katalogu",
     }),
   });
@@ -617,10 +762,10 @@ document.getElementById("line-clear").addEventListener("click", () => {
   renderLineStrip();
 });
 
-document.getElementById("line-preset").addEventListener("click", () => {
-  // předvolba ~3,5 m: dvířka + šuplíky + dvířka (bez horních)
-  const pick = (family, width) => {
+.document.getElementById("line-preset").addEventListener("click", () => {
+  const pick = (family, width, extras = {}) => {
     const p = resolveSkuForWidth(family, width);
+    const opening = extras.opening || (family === "wall_lift" ? "lift" : "hinge");
     return {
       sku: p?.sku || `KA-?-${width}`,
       name: p?.name || familyLabel(family),
@@ -628,15 +773,21 @@ document.getElementById("line-preset").addEventListener("click", () => {
       zone: libraryTypes[family]?.zone || "base",
       family,
       label: familyLabel(family),
+      opening,
+      glass: !!extras.glass,
+      glassId: extras.glass ? extras.glassId || defaultGlassId() : null,
     };
   };
   lineItems = [
     pick("base_door", 600),
     pick("base_drawers", 600),
-    pick("base_door", 600),
+    pick("base_door", 600, { glass: true }),
     pick("base_door", 600),
     pick("base_door", 500),
     pick("base_door", 600),
+    pick("wall_lift", 600),
+    pick("wall_door", 600, { glass: true }),
+    pick("wall_door", 600),
   ];
   renderLineStrip();
 });
@@ -784,7 +935,6 @@ Promise.all([
   loadCatalog(),
   loadStyles(),
   loadExamples(),
-  loadMaterials(),
-  loadLibraryGrid(),
+  loadMaterials().then(() => loadLibraryGrid()),
 ]).catch(console.error);
 renderLineStrip();

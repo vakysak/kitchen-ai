@@ -71,6 +71,20 @@ function materialFromFinish(fin, fallbackHex = "#dddddd") {
   return mat;
 }
 
+function materialFromGlass(fin, fallbackHex = "#C8DCE8") {
+  const hex = fin?.hex || fallbackHex;
+  return new THREE.MeshPhysicalMaterial({
+    color: hexColor(hex),
+    transmission: fin?.transmission ?? 0.65,
+    roughness: fin?.roughness ?? 0.08,
+    thickness: 0.015,
+    transparent: true,
+    opacity: fin?.opacity ?? 0.45,
+    metalness: 0.05,
+    ior: 1.5,
+  });
+}
+
 export class KitchenViewer {
   constructor(container) {
     this.container = container;
@@ -80,6 +94,7 @@ export class KitchenViewer {
       corpusId: "corpus-white",
       frontId: "front-white-matt",
       countertopId: "top-oak",
+      glassId: "glass-clear",
     };
     this._raf = 0;
     this._kitchen = new THREE.Group();
@@ -231,11 +246,8 @@ export class KitchenViewer {
     const corpusMat = materialFromFinish(corpusFin, "#F2F0EA");
     const frontMat = materialFromFinish(frontFin, "#F5F3EE");
     const topMat = materialFromFinish(topFin, "#C4A574");
-    const plinthMat = new THREE.MeshStandardMaterial({
-      color: 0x1a1816,
-      roughness: 0.7,
-      metalness: 0.05,
-    });
+    // sokl = barva dvířek / frontů
+    const plinthMat = frontMat;
     const handleMat = new THREE.MeshStandardMaterial({
       color: 0xb8bcc0,
       roughness: 0.25,
@@ -361,13 +373,22 @@ export class KitchenViewer {
    */
   _placeFromCatalog(u, band, ctx) {
     const product = u.product || {};
-    const mesh = u.mesh || product.mesh || {};
+    const mesh = { ...(u.mesh || product.mesh || {}) };
+    const opts = u.options || {};
+    if (opts.glass) {
+      mesh.front = "glass";
+      mesh.glassId = opts.glassId || mesh.glassId;
+    }
+    if (opts.opening) mesh.opening = opts.opening;
     const template = mesh.template || (band === "wall" ? "wall_door" : "base_door");
     const w = (u.width_mm || product.width_mm || 600) * MM;
     const h = (u.height_mm || u.corpus_height_mm || product.height_mm || 730) * MM;
     const d = (u.depth_mm || product.depth_mm || (band === "wall" ? 320 : 560)) * MM;
     const x0 = (u.offset_mm || 0) * MM;
     const { plinth, corpusMat, frontMat, plinthMat, handleMat } = ctx;
+    const glassId =
+      mesh.glassId || opts.glassId || this.materials.glassId || "glass-clear";
+    const glassMat = materialFromGlass(this._finish("glass", glassId));
 
     if (band === "base" || band === "tall") {
       const p = new THREE.Mesh(
@@ -390,6 +411,10 @@ export class KitchenViewer {
       const frontKind = mesh.front || (template.includes("drawer") ? "drawers" : "doors");
       if (frontKind === "drawers") {
         this._drawers(u, product, mesh, x0, w, plinth, frontMat, handleMat);
+      } else if (frontKind === "glass") {
+        this._glassDoors(u, product, mesh, x0, w, plinth, h, frontMat, glassMat, handleMat, 0.01);
+      } else if (frontKind === "lift" || mesh.opening === "lift") {
+        this._liftDoor(u, product, mesh, x0, w, plinth, h, frontMat, handleMat, 0.01);
       } else {
         this._doors(u, product, mesh, x0, w, plinth, h, frontMat, handleMat, 0.01);
       }
@@ -404,28 +429,24 @@ export class KitchenViewer {
     corpus.receiveShadow = true;
     this._kitchen.add(corpus);
 
-    if (mesh.front === "glass") {
-      const glass = new THREE.Mesh(
-        new THREE.BoxGeometry(w - 0.02, h - 0.04, 0.012),
-        new THREE.MeshPhysicalMaterial({
-          color: 0xd8e8f0,
-          transmission: 0.55,
-          roughness: 0.1,
-          thickness: 0.02,
-          transparent: true,
-          opacity: 0.85,
-        })
+    const frontKind = mesh.front || "doors";
+    if (frontKind === "glass") {
+      this._glassDoors(
+        u,
+        product,
+        mesh,
+        x0,
+        w,
+        bottom,
+        h,
+        frontMat,
+        glassMat,
+        handleMat,
+        0.008,
+        mesh.opening === "lift"
       );
-      glass.position.set(x0 + w / 2, bottom + h / 2, 0.006);
-      this._kitchen.add(glass);
-      // frame
-      const frame = new THREE.Mesh(
-        new THREE.BoxGeometry(w - 0.008, h - 0.006, 0.01),
-        frontMat
-      );
-      // simple: door with glass look via darker edge only — use front as frame by slightly smaller glass already
-      frame.position.set(x0 + w / 2, bottom + h / 2, 0.002);
-      this._kitchen.add(frame);
+    } else if (frontKind === "lift" || mesh.opening === "lift") {
+      this._liftDoor(u, product, mesh, x0, w, bottom, h, frontMat, handleMat, 0.008);
     } else {
       this._doors(u, product, mesh, x0, w, bottom, h, frontMat, handleMat, 0.008);
     }
@@ -446,12 +467,10 @@ export class KitchenViewer {
       front.castShadow = true;
       this._kitchen.add(front);
 
-      // úchytka — svislá, u hrany křídla (ne uprostřed)
       const handle = new THREE.Mesh(
         new THREE.CylinderGeometry(0.005, 0.005, 0.12, 12),
         handleMat
       );
-      handle.rotation.z = 0;
       let hx;
       if (wings === 1) {
         hx = hand === "R" ? fx - wingW * 0.38 : fx + wingW * 0.38;
@@ -460,6 +479,82 @@ export class KitchenViewer {
       }
       handle.position.set(hx, y0 + h * 0.5, zFront + 0.016);
       this._kitchen.add(handle);
+    }
+  }
+
+  /** Výklop — jedno čelo, vodorovná úchytka dole. */
+  _liftDoor(u, product, mesh, x0, w, y0, h, frontMat, handleMat, zFront) {
+    const front = new THREE.Mesh(
+      new THREE.BoxGeometry(w - 0.01, h - 0.006, 0.018),
+      frontMat
+    );
+    front.position.set(x0 + w / 2, y0 + h / 2, zFront);
+    front.castShadow = true;
+    this._kitchen.add(front);
+
+    const hw = Math.min(0.22, w * 0.45);
+    const handle = new THREE.Mesh(
+      new THREE.BoxGeometry(hw, 0.01, 0.012),
+      handleMat
+    );
+    handle.position.set(x0 + w / 2, y0 + 0.045, zFront + 0.016);
+    this._kitchen.add(handle);
+  }
+
+  /**
+   * Prosklená dvířka: rámeček = front, výplň = sklo.
+   * @param {boolean} lift — výklop (vodorovná úchytka)
+   */
+  _glassDoors(u, product, mesh, x0, w, y0, h, frameMat, glassMat, handleMat, zFront, lift = false) {
+    const opening = lift || mesh.opening === "lift";
+    const wings = opening ? 1 : Number(u.doors?.wings || product.doors || mesh.doors || 1);
+    const gap = 0.003;
+    const wingW = (w - 0.01 - (wings - 1) * gap) / wings;
+    const hand = (product.hand || mesh.hand || "L").toUpperCase();
+    const frameT = 0.028; // šířka rámečku
+
+    for (let i = 0; i < wings; i++) {
+      const fx = x0 + 0.005 + wingW / 2 + i * (wingW + gap);
+      const fy = y0 + h / 2;
+
+      // zadní plocha rámu
+      const frame = new THREE.Mesh(
+        new THREE.BoxGeometry(wingW, h - 0.006, 0.014),
+        frameMat
+      );
+      frame.position.set(fx, fy, zFront);
+      frame.castShadow = true;
+      this._kitchen.add(frame);
+
+      // skleněná výplň (vložená)
+      const gw = Math.max(wingW - frameT * 2, 0.04);
+      const gh = Math.max(h - 0.006 - frameT * 2, 0.04);
+      const glass = new THREE.Mesh(new THREE.BoxGeometry(gw, gh, 0.01), glassMat);
+      glass.position.set(fx, fy, zFront + 0.008);
+      this._kitchen.add(glass);
+
+      if (opening) {
+        const hw = Math.min(0.22, wingW * 0.45);
+        const handle = new THREE.Mesh(
+          new THREE.BoxGeometry(hw, 0.01, 0.012),
+          handleMat
+        );
+        handle.position.set(fx, y0 + 0.045, zFront + 0.02);
+        this._kitchen.add(handle);
+      } else {
+        const handle = new THREE.Mesh(
+          new THREE.CylinderGeometry(0.005, 0.005, 0.12, 12),
+          handleMat
+        );
+        let hx;
+        if (wings === 1) {
+          hx = hand === "R" ? fx - wingW * 0.38 : fx + wingW * 0.38;
+        } else {
+          hx = i === 0 ? fx + wingW * 0.38 : fx - wingW * 0.38;
+        }
+        handle.position.set(hx, fy, zFront + 0.02);
+        this._kitchen.add(handle);
+      }
     }
   }
 

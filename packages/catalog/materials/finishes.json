@@ -157,9 +157,57 @@
       "metalness": 0.08
     }
   ],
+  "glass": [
+    {
+      "id": "glass-clear",
+      "name": "Čiré",
+      "kind": "glass",
+      "hex": "#C8DCE8",
+      "opacity": 0.35,
+      "transmission": 0.75,
+      "roughness": 0.05
+    },
+    {
+      "id": "glass-smoked",
+      "name": "Kouřové",
+      "kind": "glass",
+      "hex": "#4A5058",
+      "opacity": 0.55,
+      "transmission": 0.35,
+      "roughness": 0.08
+    },
+    {
+      "id": "glass-bronze",
+      "name": "Bronz",
+      "kind": "glass",
+      "hex": "#8B7355",
+      "opacity": 0.5,
+      "transmission": 0.4,
+      "roughness": 0.08
+    },
+    {
+      "id": "glass-grey",
+      "name": "Šedé",
+      "kind": "glass",
+      "hex": "#6E747A",
+      "opacity": 0.55,
+      "transmission": 0.38,
+      "roughness": 0.07
+    },
+    {
+      "id": "glass-frosted",
+      "name": "Mléčné / satén",
+      "kind": "glass",
+      "hex": "#E8EEF2",
+      "opacity": 0.72,
+      "transmission": 0.15,
+      "roughness": 0.45
+    }
+  ],
   "defaults": {
     "corpusId": "corpus-white",
     "frontId": "front-white-matt",
-    "countertopId": "top-oak"
+    "countertopId": "top-oak",
+    "glassId": "glass-clear"
   }
 }

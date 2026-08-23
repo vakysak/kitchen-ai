@@ -52,24 +52,35 @@ MESH_BY_FAMILY: dict[str, dict[str, Any]] = {
         "has_plinth": False,
         "has_worktop": False,
         "front": "doors",
+        "opening": "hinge",
+    },
+    "wall_lift": {
+        "template": "wall_lift",
+        "has_plinth": False,
+        "has_worktop": False,
+        "front": "lift",
+        "opening": "lift",
     },
     "wall_corner": {
         "template": "wall_door",
         "has_plinth": False,
         "has_worktop": False,
         "front": "doors",
+        "opening": "hinge",
     },
     "wall_glass": {
         "template": "wall_glass",
         "has_plinth": False,
         "has_worktop": False,
         "front": "glass",
+        "opening": "hinge",
     },
     "tall_pantry": {
         "template": "tall_door",
         "has_plinth": True,
         "has_worktop": False,
         "front": "doors",
+        "opening": "hinge",
     },
 }
 
@@ -114,6 +125,7 @@ def list_materials() -> dict[str, Any]:
         "corpus": doc.get("corpus", []),
         "front": doc.get("front", []),
         "countertop": doc.get("countertop", []),
+        "glass": doc.get("glass", []),
     }
 
 

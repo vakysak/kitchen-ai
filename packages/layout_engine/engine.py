@@ -557,8 +557,9 @@ def _synthetic_survey(width_mm: int, customer: str = "Návrh z katalogu") -> dic
 
 
 def generate_layout_from_catalog(
-    skus: list[str],
+    skus: list[str] | None = None,
     *,
+    unit_picks: list[dict[str, Any]] | None = None,
     survey: dict[str, Any] | None = None,
     survey_id: str | None = None,
     plinth_height: int = 100,
@@ -567,41 +568,50 @@ def generate_layout_from_catalog(
     corpus_finish_id: str | None = None,
     front_finish_id: str | None = None,
     countertop_finish_id: str | None = None,
+    glass_finish_id: str | None = None,
     customer_name: str = "Návrh z katalogu",
 ) -> dict[str, Any]:
     """
     Sestaví layout přesně z vybraných SKU (vizuální katalog).
-    Pořadí skus = pořadí na lince (spodní + horní podle zone produktu).
+    unit_picks: [{sku, glass?, glassId?, opening?}] — pořadí = linka.
     """
-    if not skus:
+    picks: list[dict[str, Any]] = []
+    if unit_picks:
+        picks = [dict(p) for p in unit_picks if p.get("sku")]
+    elif skus:
+        picks = [{"sku": s} for s in skus]
+    if not picks:
         raise ValueError("Vyber alespoň jednu skříňku z katalogu")
 
     mats = list_materials()
     defaults = mats.get("defaults") or {}
+    default_glass = glass_finish_id or defaults.get("glassId") or "glass-clear"
     materials = {
         "corpusId": corpus_finish_id or defaults.get("corpusId") or "corpus-white",
         "frontId": front_finish_id or defaults.get("frontId") or "front-white-matt",
         "countertopId": countertop_finish_id or defaults.get("countertopId") or "top-oak",
+        "glassId": default_glass,
     }
 
-    resolved: list[dict[str, Any]] = []
+    resolved: list[tuple[dict[str, Any], dict[str, Any]]] = []
     from packages.catalog.library import enrich_product
 
-    for sku in skus:
+    for pick in picks:
+        sku = pick["sku"]
         p = resolve_catalog_unit(sku=sku)
         if not p:
             raw = get_product(sku)
             if not raw:
                 raise ValueError(f"SKU {sku!r} není v katalogu")
             p = enrich_product(raw)
-        resolved.append(p)
+        resolved.append((p, pick))
 
-    base_skus = [p for p in resolved if (p.get("zone") or "base") == "base"]
-    wall_skus = [p for p in resolved if p.get("zone") == "wall"]
-    tall_skus = [p for p in resolved if p.get("zone") == "tall"]
+    base_items = [(p, o) for p, o in resolved if (p.get("zone") or "base") == "base"]
+    wall_items = [(p, o) for p, o in resolved if p.get("zone") == "wall"]
+    tall_items = [(p, o) for p, o in resolved if p.get("zone") == "tall"]
 
-    base_width = sum(int(p.get("width_mm") or 0) for p in base_skus) or sum(
-        int(p.get("width_mm") or 0) for p in resolved
+    base_width = sum(int(p.get("width_mm") or 0) for p, _ in base_items) or sum(
+        int(p.get("width_mm") or 0) for p, _ in resolved
     )
     if survey is None:
         survey = _synthetic_survey(max(base_width, 3000), customer_name)
@@ -613,7 +623,7 @@ def generate_layout_from_catalog(
     room = (survey.get("rooms") or [{}])[0]
     rid = room.get("id")
 
-    def place(product: dict[str, Any], band: str, zid: str, off: int) -> int:
+    def place(product: dict[str, Any], opts: dict[str, Any], band: str, zid: str, off: int) -> int:
         w = int(product["width_mm"])
         fam = product.get("family") or ""
         if "drawer" in fam:
@@ -630,12 +640,27 @@ def generate_layout_from_catalog(
             top_th=countertop_thickness,
             wall_gap=wall_gap,
         )
-        # force exact catalog product
+        mesh = dict(product.get("mesh") or unit.get("mesh") or {})
+        opening = opts.get("opening") or mesh.get("opening") or "hinge"
+        glass = bool(opts.get("glass"))
+        glass_id = opts.get("glassId") or default_glass
+        if glass and kind != "drawers":
+            mesh["front"] = "glass"
+            mesh["glass"] = True
+            mesh["glassId"] = glass_id
+        elif opening == "lift":
+            mesh["front"] = "lift"
+        mesh["opening"] = opening
         unit["sku"] = product["sku"]
         unit["productId"] = product["id"]
         unit["name"] = product.get("name")
         unit["family"] = product.get("family")
-        unit["mesh"] = product.get("mesh")
+        unit["mesh"] = mesh
+        unit["options"] = {
+            "glass": glass,
+            "glassId": glass_id if glass else None,
+            "opening": opening,
+        }
         unit["product"] = {
             "id": product["id"],
             "sku": product["sku"],
@@ -648,24 +673,25 @@ def generate_layout_from_catalog(
             "doors": product.get("doors"),
             "drawer_fronts_mm": product.get("drawer_fronts_mm"),
             "hand": product.get("hand"),
-            "mesh": product.get("mesh"),
+            "mesh": mesh,
         }
         unit["roomId"] = rid
         units.append(unit)
         return off + w
 
-    for p in base_skus:
-        offset = place(p, "base", zone_id, offset)
+    for p, o in base_items:
+        offset = place(p, o, "base", zone_id, offset)
     wall_zone = f"{zone_id}-wall"
     woff = 0
-    for p in wall_skus:
-        woff = place(p, "wall", wall_zone, woff)
-    toff = offset  # tall after base run
-    for p in tall_skus:
-        toff = place(p, "tall", zone_id, toff)
+    for p, o in wall_items:
+        woff = place(p, o, "wall", wall_zone, woff)
+    toff = offset
+    for p, o in tall_items:
+        toff = place(p, o, "tall", zone_id, toff)
 
     project = survey.get("project") or {}
     layout_id = str(uuid.uuid4())
+    sku_list = [p["sku"] for p in picks]
     return {
         "schemaVersion": "1.0.0",
         "layoutId": layout_id,
@@ -683,7 +709,7 @@ def generate_layout_from_catalog(
             "countertop_thickness": countertop_thickness,
             "wall_gap": wall_gap,
             "corpus_base_mm": 730,
-            "from_catalog_skus": skus,
+            "from_catalog_skus": sku_list,
         },
         "roomIds": [rid] if rid else [],
         "zones": [
@@ -691,8 +717,8 @@ def generate_layout_from_catalog(
                 "zoneId": zone_id,
                 "label": "Linka z katalogu",
                 "band": "base",
-                "unit_count": len(base_skus),
-                "widths_mm": [int(p["width_mm"]) for p in base_skus],
+                "unit_count": len(base_items),
+                "widths_mm": [int(p["width_mm"]) for p, _ in base_items],
             }
         ],
         "units": units,

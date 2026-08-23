@@ -249,8 +249,16 @@ def import_sample_survey() -> SurveyImportResponse:
     )
 
 
+class CatalogUnitPick(BaseModel):
+    sku: str
+    glass: bool = False
+    glassId: str | None = None
+    opening: str | None = None  # hinge | lift
+
+
 class LayoutFromCatalogRequest(BaseModel):
-    skus: list[str]
+    skus: list[str] | None = None
+    units: list[CatalogUnitPick] | None = None
     surveyId: str | None = None
     plinth_height: int = 100
     countertop_thickness: int = 40
@@ -258,6 +266,7 @@ class LayoutFromCatalogRequest(BaseModel):
     corpusId: str | None = None
     frontId: str | None = None
     countertopId: str | None = None
+    glassId: str | None = None
     customerName: str = "Návrh z katalogu"
 
 
@@ -270,9 +279,13 @@ def layouts_from_catalog(body: LayoutFromCatalogRequest) -> dict[str, Any]:
     survey = None
     if body.surveyId:
         survey = _load_survey(body.surveyId)
+    picks = None
+    if body.units:
+        picks = [u.model_dump() for u in body.units]
     try:
         layout = generate_layout_from_catalog(
             body.skus,
+            unit_picks=picks,
             survey=survey,
             survey_id=body.surveyId,
             plinth_height=body.plinth_height,
@@ -281,6 +294,7 @@ def layouts_from_catalog(body: LayoutFromCatalogRequest) -> dict[str, Any]:
             corpus_finish_id=body.corpusId,
             front_finish_id=body.frontId,
             countertop_finish_id=body.countertopId,
+            glass_finish_id=body.glassId,
             customer_name=body.customerName,
         )
     except ValueError as e:
