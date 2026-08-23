@@ -203,6 +203,23 @@ def get_survey(survey_id: str) -> dict[str, Any]:
     return {"meta": meta, "survey": _load_survey(survey_id)}
 
 
+def _delete_survey_files(survey_id: str) -> bool:
+    removed = False
+    for suffix in (".json", ".meta.json"):
+        path = SURVEYS / f"{survey_id}{suffix}"
+        if path.is_file():
+            path.unlink()
+            removed = True
+    return removed
+
+
+@app.delete("/api/v1/surveys/{survey_id}")
+def delete_survey(survey_id: str) -> dict[str, Any]:
+    if not _delete_survey_files(survey_id):
+        raise HTTPException(404, f"Survey {survey_id!r} nenalezen")
+    return {"deleted": True, "surveyId": survey_id}
+
+
 @app.post("/api/v1/surveys/sample", response_model=SurveyImportResponse)
 def import_sample_survey() -> SurveyImportResponse:
     """Nahraje ukázkový RoomSurvey (pro vyzkoušení layoutu)."""
@@ -328,6 +345,61 @@ def get_layout(layout_id: str) -> dict[str, Any]:
         return json.loads(path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         raise HTTPException(500, f"Poškozený layout JSON: {e}") from e
+
+
+def _delete_layout_files(layout_id: str) -> bool:
+    removed = False
+    for suffix in (".json", ".meta.json"):
+        path = LAYOUTS / f"{layout_id}{suffix}"
+        if path.is_file():
+            path.unlink()
+            removed = True
+    return removed
+
+
+@app.delete("/api/v1/layouts/{layout_id}")
+def delete_layout(layout_id: str) -> dict[str, Any]:
+    if not _delete_layout_files(layout_id):
+        raise HTTPException(404, f"Layout {layout_id!r} nenalezen")
+    return {"deleted": True, "layoutId": layout_id}
+
+
+class PurgeHistoryRequest(BaseModel):
+    keepLayoutId: str
+
+
+@app.post("/api/v1/admin/purge-history")
+def purge_history(body: PurgeHistoryRequest) -> dict[str, Any]:
+    """Smaže všechny layouty/surveys kromě keepLayoutId a jeho survey."""
+    keep_path = LAYOUTS / f"{body.keepLayoutId}.json"
+    if not keep_path.is_file():
+        raise HTTPException(404, f"Layout ke zachování {body.keepLayoutId!r} nenalezen")
+    keep = json.loads(keep_path.read_text(encoding="utf-8"))
+    keep_survey = keep.get("surveyId")
+
+    deleted_layouts: list[str] = []
+    for meta_path in list(LAYOUTS.glob("*.meta.json")):
+        lid = meta_path.name.replace(".meta.json", "")
+        if lid == body.keepLayoutId:
+            continue
+        if _delete_layout_files(lid):
+            deleted_layouts.append(lid)
+
+    deleted_surveys: list[str] = []
+    for meta_path in list(SURVEYS.glob("*.meta.json")):
+        sid = meta_path.name.replace(".meta.json", "")
+        if keep_survey and sid == keep_survey:
+            continue
+        if _delete_survey_files(sid):
+            deleted_surveys.append(sid)
+
+    return {
+        "kept": {"layoutId": body.keepLayoutId, "surveyId": keep_survey},
+        "deletedLayouts": deleted_layouts,
+        "deletedSurveys": deleted_surveys,
+        "layoutsRemaining": len(list(LAYOUTS.glob("*.meta.json"))),
+        "surveysRemaining": len(list(SURVEYS.glob("*.meta.json"))),
+    }
 
 
 @app.post("/api/v1/layouts/{layout_id}/validate")
