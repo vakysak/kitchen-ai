@@ -1,0 +1,12 @@
+.git
+.gitignore
+.env
+.env.*
+**/__pycache__
+**/*.pyc
+**/.venv
+**/node_modules
+**/.next
+docs
+*.md
+!README.md

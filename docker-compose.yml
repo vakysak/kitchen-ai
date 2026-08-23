@@ -1,0 +1,54 @@
+# kitchen-ai — Coolify Docker Compose na Hetzner
+# Persistent data na SSD hostu: /data/kitchen-ai/...
+#
+# V Coolify: New Resource → Docker Compose → tento repo / docker-compose.yml
+# Domain např. kitchen.vakysak.cz → služba `api`, port 8000
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      KITCHEN_AI_DATA: /data
+      CORS_ORIGINS: "*"
+      DATABASE_URL: postgresql+psycopg://kitchen:${POSTGRES_PASSWORD:-kitchen_change_me}@db:5432/kitchen
+    volumes:
+      # SSD na Hetzner hostu (Coolify server)
+      - /data/kitchen-ai/uploads:/data/uploads
+      - /data/kitchen-ai/exports:/data/exports
+      - /data/kitchen-ai/surveys:/data/surveys
+      - /data/kitchen-ai/references:/data/references
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 15s
+    labels:
+      - traefik.enable=true
+      - coolify.managed=true
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: kitchen
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-kitchen_change_me}
+      POSTGRES_DB: kitchen
+    volumes:
+      # Named volume na SSD hostu (Docker/Coolify); app data níže na /data/kitchen-ai
+      - kitchen_ai_postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U kitchen -d kitchen"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+volumes:
+  kitchen_ai_postgres:

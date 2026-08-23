@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://smartmeasure.cz/schemas/room-survey/v1.json",
+  "title": "RoomSurvey",
+  "description": "Export ze SmartMeasure 3D do kitchen-ai. Jednotky: mm. Verze 1.0.0.",
+  "type": "object",
+  "required": ["schemaVersion", "exportedAt", "app", "project", "rooms"],
+  "properties": {
+    "schemaVersion": { "type": "string", "const": "1.0.0" },
+    "exportedAt": { "type": "string", "format": "date-time" },
+    "app": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": { "type": "string", "const": "SmartMeasure3D" },
+        "version": { "type": "string" }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": ["id", "customerName"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "customerName": { "type": "string" },
+        "address": { "type": "string" },
+        "floor": { "type": "string" },
+        "projectType": {
+          "type": "string",
+          "enum": ["kitchen", "wardrobe", "door", "window", "fullRoom"]
+        }
+      }
+    },
+    "rooms": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/room" }
+    },
+    "extensions": { "type": "object", "additionalProperties": true }
+  },
+  "$defs": {
+    "room": {
+      "type": "object",
+      "required": ["id", "name", "walls"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "name": { "type": "string" },
+        "shape": { "type": "string" },
+        "walls": { "type": "array", "items": { "$ref": "#/$defs/wall" } },
+        "openings": { "type": "array", "items": { "$ref": "#/$defs/opening" } },
+        "mountZones": { "type": "array", "items": { "$ref": "#/$defs/mountZone" } },
+        "windowSills": { "type": "array", "items": { "$ref": "#/$defs/windowSill" } },
+        "utilities": { "type": "array", "items": { "$ref": "#/$defs/utility" } },
+        "floor": { "$ref": "#/$defs/floorPlane" },
+        "ceiling": { "$ref": "#/$defs/ceilingPlane" }
+      }
+    },
+    "wall": {
+      "type": "object",
+      "required": ["id", "label"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "label": { "type": "string" },
+        "lengthBottom": { "type": ["number", "null"] },
+        "lengthMid": { "type": ["number", "null"] },
+        "lengthTop": { "type": ["number", "null"] },
+        "heightLeft": { "type": ["number", "null"] },
+        "heightCenter": { "type": ["number", "null"] },
+        "heightRight": { "type": ["number", "null"] },
+        "plumbDeviationLeft": { "type": ["number", "null"] },
+        "plumbDeviationRight": { "type": ["number", "null"] },
+        "flatness": { "type": ["number", "null"] },
+        "angleToNextWall": { "type": ["number", "null"] },
+        "convergeDiverge": {
+          "type": "string",
+          "enum": ["parallel", "converging", "diverging", "unknown"]
+        }
+      }
+    },
+    "opening": {
+      "type": "object",
+      "required": ["id", "type", "label"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "type": { "type": "string" },
+        "label": { "type": "string" },
+        "wallId": { "type": ["string", "null"] },
+        "widthBottom": { "type": ["number", "null"] },
+        "widthMid": { "type": ["number", "null"] },
+        "widthTop": { "type": ["number", "null"] },
+        "heightLeft": { "type": ["number", "null"] },
+        "heightMid": { "type": ["number", "null"] },
+        "heightRight": { "type": ["number", "null"] },
+        "distanceFromLeftCorner": { "type": ["number", "null"] },
+        "sillHeight": { "type": ["number", "null"] },
+        "lintelHeight": { "type": ["number", "null"] }
+      }
+    },
+    "mountZone": {
+      "type": "object",
+      "required": ["id", "label", "zoneType"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "label": { "type": "string" },
+        "zoneType": { "type": "string" },
+        "startWallId": { "type": ["string", "null"] },
+        "endWallId": { "type": ["string", "null"] },
+        "backWallId": { "type": ["string", "null"] },
+        "widthBottom": { "type": ["number", "null"] },
+        "widthMid": { "type": ["number", "null"] },
+        "widthTop": { "type": ["number", "null"] },
+        "depthLeft": { "type": ["number", "null"] },
+        "depthMid": { "type": ["number", "null"] },
+        "depthRight": { "type": ["number", "null"] },
+        "leftWallPlumbDeviation": { "type": ["number", "null"] },
+        "rightWallPlumbDeviation": { "type": ["number", "null"] },
+        "floorLevelDelta": { "type": ["number", "null"] },
+        "ceilingLevelDelta": { "type": ["number", "null"] },
+        "frontBackLevelDelta": { "type": ["number", "null"] },
+        "wallsConvergeDivergeType": {
+          "type": "string",
+          "enum": ["parallel", "converging", "diverging", "unknown"]
+        },
+        "requiresScribing": { "type": "boolean" },
+        "requiresFillerPanel": { "type": "boolean" },
+        "requiresLeveling": { "type": "boolean" },
+        "requiresAtypicalSide": { "type": "boolean" },
+        "requiresCoverStrip": { "type": "boolean" },
+        "requiresTemplate": { "type": "boolean" },
+        "hasSkirting": { "type": "boolean" },
+        "hasSillCollision": { "type": "boolean" },
+        "hasPipes": { "type": "boolean" },
+        "hasDoorOrWindowSwingCollision": { "type": "boolean" },
+        "installationRiskNote": { "type": ["string", "null"] }
+      }
+    },
+    "windowSill": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "length": { "type": ["number", "null"] },
+        "depthLeft": { "type": ["number", "null"] },
+        "depthCenter": { "type": ["number", "null"] },
+        "depthRight": { "type": ["number", "null"] },
+        "heightFromFloor": { "type": ["number", "null"] },
+        "thickness": { "type": ["number", "null"] },
+        "leftRevealType": { "type": "string" },
+        "rightRevealType": { "type": "string" },
+        "requiresCustomShape": { "type": "boolean" }
+      }
+    },
+    "utility": {
+      "type": "object",
+      "required": ["id", "type"],
+      "properties": {
+        "id": { "type": "string", "format": "uuid" },
+        "type": { "type": "string" },
+        "wallId": { "type": ["string", "null"] },
+        "distanceFromLeftCorner": { "type": ["number", "null"] },
+        "heightFromFloor": { "type": ["number", "null"] },
+        "label": { "type": "string" }
+      }
+    },
+    "floorPlane": {
+      "type": "object",
+      "properties": {
+        "levelPointA": { "type": ["number", "null"] },
+        "levelPointB": { "type": ["number", "null"] },
+        "levelPointC": { "type": ["number", "null"] },
+        "levelPointD": { "type": ["number", "null"] },
+        "maxDeviation": { "type": ["number", "null"] },
+        "slopeDirection": { "type": "string" }
+      }
+    },
+    "ceilingPlane": {
+      "type": "object",
+      "properties": {
+        "heightPointA": { "type": ["number", "null"] },
+        "heightPointB": { "type": ["number", "null"] },
+        "heightPointC": { "type": ["number", "null"] },
+        "heightPointD": { "type": ["number", "null"] },
+        "maxDeviation": { "type": ["number", "null"] },
+        "hasDroppedSection": { "type": "boolean" },
+        "hasBeam": { "type": "boolean" },
+        "hasSlope": { "type": "boolean" }
+      }
+    }
+  }
+}

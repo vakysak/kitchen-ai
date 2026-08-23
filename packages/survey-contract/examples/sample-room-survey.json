@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "1.0.0",
+  "exportedAt": "2026-08-23T10:00:00Z",
+  "app": { "name": "SmartMeasure3D", "version": "0.1.0" },
+  "project": {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "customerName": "Ukázka",
+    "address": "Praha",
+    "floor": "2",
+    "projectType": "kitchen"
+  },
+  "rooms": [
+    {
+      "id": "00000000-0000-4000-8000-000000000002",
+      "name": "Kuchyň",
+      "shape": "rectangle",
+      "walls": [
+        {
+          "id": "00000000-0000-4000-8000-0000000000a1",
+          "label": "A",
+          "lengthBottom": 4000,
+          "lengthMid": 4002,
+          "lengthTop": 3998,
+          "plumbDeviationLeft": 2,
+          "plumbDeviationRight": 4,
+          "convergeDiverge": "unknown"
+        }
+      ],
+      "mountZones": [
+        {
+          "id": "00000000-0000-4000-8000-0000000000b1",
+          "label": "Linka A",
+          "zoneType": "lowerCabinets",
+          "widthBottom": 3600,
+          "widthMid": 3595,
+          "widthTop": 3580,
+          "depthLeft": 560,
+          "depthMid": 560,
+          "depthRight": 555,
+          "leftWallPlumbDeviation": 2,
+          "rightWallPlumbDeviation": 5,
+          "floorLevelDelta": 4,
+          "ceilingLevelDelta": 8,
+          "wallsConvergeDivergeType": "converging",
+          "requiresScribing": true,
+          "requiresAtypicalSide": true,
+          "requiresLeveling": true,
+          "requiresFillerPanel": false,
+          "requiresCoverStrip": true,
+          "requiresTemplate": false,
+          "hasSkirting": true,
+          "hasSillCollision": false,
+          "hasPipes": false,
+          "hasDoorOrWindowSwingCollision": false,
+          "installationRiskNote": "Prostor se svírá o 20 mm."
+        }
+      ],
+      "openings": [],
+      "windowSills": [],
+      "utilities": []
+    }
+  ]
+}

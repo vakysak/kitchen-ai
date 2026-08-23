@@ -1,0 +1,10 @@
+{
+  "id": "scandinavian_2026",
+  "name": "Scandinavian 2026",
+  "colors": ["oak_light", "white_warm", "sand"],
+  "cabinets": "handleless_flat",
+  "countertop": "limestone_matt",
+  "backsplash": "subway_tile_grey_grout",
+  "wood": "oak_rift_sawn",
+  "accents": ["terracotta", "butter_yellow"]
+}
