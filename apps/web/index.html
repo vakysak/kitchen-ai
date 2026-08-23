@@ -8,6 +8,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/static/styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
 </head>
 <body>
   <div class="bg"></div>
@@ -16,12 +24,12 @@
       <span class="brand-mark">k</span>
       <div>
         <strong>kitchen-ai</strong>
-        <span class="muted">návrhář kuchyní · výroba</span>
+        <span class="muted">3D návrhář kuchyní</span>
       </div>
     </div>
     <nav>
-      <a href="#dashboard" class="active">Přehled</a>
-      <a href="#design">Návrh</a>
+      <a href="#design" class="active">3D návrh</a>
+      <a href="#dashboard">Přehled</a>
       <a href="#surveys">Zaměření</a>
       <a href="#catalog">Katalog</a>
       <a href="#styles">Styly</a>
@@ -32,37 +40,27 @@
   </header>
 
   <main>
-    <section id="dashboard" class="hero">
-      <p class="eyebrow">Interní nástroj · Hetzner / Coolify</p>
-      <h1>Návrh kuchyně<br /><em>z reálných rozměrů</em></h1>
-      <p class="lead">
-        Importuj RoomSurvey, vygeneruj layout skříněk podle MountZone
-        (korpus 730 mm, šířky po 50 mm) a zkontroluj validaci.
-      </p>
-      <div class="cta-row">
-        <a class="btn primary" href="#design">Otevřít návrhář</a>
-        <a class="btn ghost" href="#catalog">Procházet katalog</a>
-      </div>
-      <div class="stat-row" id="stats">
-        <div class="stat"><span id="stat-products">—</span><label>produktů v katalogu</label></div>
-        <div class="stat"><span id="stat-surveys">—</span><label>survey souborů</label></div>
-        <div class="stat"><span id="stat-layouts">—</span><label>layoutů</label></div>
-        <div class="stat"><span id="stat-active">—</span><label>aktivní moduly</label></div>
-      </div>
-    </section>
-
-    <section id="design" class="panel">
+    <section id="design" class="panel design-hero">
       <div class="panel-head">
-        <h2>Návrhář layoutu</h2>
+        <p class="eyebrow">Pro klienta · interaktivní 3D</p>
+        <h2>3D návrh kuchyně</h2>
         <p>
-          M8 skládá skříňky do MountZone · M9 hlídá atyp, šířky a dvířka.
-          Horní skříňky se doplní automaticky nad spodní linku.
+          Z zaměření sestavíme linku ve výrobních rozměrech a ukážeme ji v 3D —
+          otáčení, styly povrchů, snímek pro nabídku.
         </p>
       </div>
       <div class="calc design-controls">
         <label>Survey
           <select id="design-survey">
             <option value="">— vyber nebo nahraj —</option>
+          </select>
+        </label>
+        <label>Styl
+          <select id="design-style">
+            <option value="modern-matt-anthracite">Antracit matt</option>
+            <option value="white-gloss-warm-oak">Bílý lesk + dub</option>
+            <option value="silk-grey-bleached-oak">Hedvábná šedá</option>
+            <option value="natural-oak-linen">Dub / len</option>
           </select>
         </label>
         <label>Sokl
@@ -80,14 +78,26 @@
           <input type="checkbox" id="design-walls" checked />
           Horní auto
         </label>
-        <button type="button" class="btn ghost" id="design-sample">Ukázkový survey</button>
-        <button type="button" class="btn primary" id="design-run">Generovat layout</button>
+        <button type="button" class="btn ghost" id="design-sample">Ukázka</button>
+        <button type="button" class="btn primary" id="design-run">Generovat 3D</button>
       </div>
       <p id="design-msg" class="msg" hidden></p>
-      <div id="design-summary" class="design-summary muted">Zatím žádný layout.</div>
-      <div class="layout-canvas-wrap">
-        <svg id="layout-svg" viewBox="0 0 1000 320" role="img" aria-label="Půdorys linky"></svg>
+      <div id="design-summary" class="design-summary muted">Načti survey a vygeneruj 3D návrh.</div>
+
+      <div class="viewport-shell">
+        <div id="view3d" class="view3d" aria-label="3D návrh kuchyně"></div>
+        <div class="view3d-toolbar">
+          <button type="button" class="btn tiny ghost" id="cam-reset">Kamera</button>
+          <button type="button" class="btn tiny ghost" id="cam-rotate">Auto-otáčení</button>
+          <button type="button" class="btn tiny primary" id="cam-shot">Snímek PNG</button>
+          <span class="view3d-hint">táhni myší · scroll = zoom · pravé tlačítko = posun</span>
+        </div>
+        <div id="view3d-empty" class="view3d-empty">
+          <strong>Zatím žádný 3D návrh</strong>
+          <span>Klikni „Ukázka“ nebo nahraj RoomSurvey a spusť Generovat 3D.</span>
+        </div>
       </div>
+
       <div class="design-split">
         <div>
           <h3 class="subh">Kusovník</h3>
@@ -109,16 +119,22 @@
           </ul>
         </div>
       </div>
-      <div class="table-wrap" style="margin-top:1.25rem">
-        <table>
-          <thead>
-            <tr><th>Moduly v layoutu</th><th>Offset</th><th>Šířka</th><th>Dvířka</th></tr>
-          </thead>
-          <tbody id="units-tbody">
-            <tr><td colspan="4" class="muted">—</td></tr>
-          </tbody>
-        </table>
-      </div>
+      <details class="tech-details">
+        <summary>Technický půdorys a seznam modulů</summary>
+        <div class="layout-canvas-wrap">
+          <svg id="layout-svg" viewBox="0 0 1000 320" role="img" aria-label="Půdorys linky"></svg>
+        </div>
+        <div class="table-wrap" style="margin-top:1rem">
+          <table>
+            <thead>
+              <tr><th>Moduly</th><th>Offset</th><th>Šířka</th><th>Dvířka</th></tr>
+            </thead>
+            <tbody id="units-tbody">
+              <tr><td colspan="4" class="muted">—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </details>
       <h3 class="subh" style="margin-top:1.5rem">Uložené layouty</h3>
       <div class="table-wrap">
         <table>
@@ -129,6 +145,25 @@
             <tr><td colspan="5" class="muted">—</td></tr>
           </tbody>
         </table>
+      </div>
+    </section>
+
+    <section id="dashboard" class="hero">
+      <p class="eyebrow">Interní nástroj · Hetzner / Coolify</p>
+      <h1>3D návrh<br /><em>z reálných rozměrů</em></h1>
+      <p class="lead">
+        Klient vidí kuchyni v prostoru. Ty máš výrobní korpus 730 mm,
+        šířky po 50 mm a kusovník připravený k nabídce.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href="#design">Otevřít 3D návrhář</a>
+        <a class="btn ghost" href="#catalog">Katalog</a>
+      </div>
+      <div class="stat-row" id="stats">
+        <div class="stat"><span id="stat-products">—</span><label>produktů v katalogu</label></div>
+        <div class="stat"><span id="stat-surveys">—</span><label>survey souborů</label></div>
+        <div class="stat"><span id="stat-layouts">—</span><label>layoutů</label></div>
+        <div class="stat"><span id="stat-active">—</span><label>aktivní moduly</label></div>
       </div>
     </section>
 
@@ -275,6 +310,6 @@
     <a href="/health">/health</a>
     <a href="/docs">API docs</a>
   </footer>
-  <script src="/static/app.js"></script>
+  <script type="module" src="/static/app.js"></script>
 </body>
 </html>

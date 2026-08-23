@@ -66,7 +66,7 @@ nav a:hover, nav a.active { color: var(--ink); background: rgba(255,255,255,0.06
 }
 .pill.ok { color: var(--ok); border-color: rgba(111,191,138,0.35); }
 
-main { max-width: 980px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+main { max-width: 1100px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
 .hero { padding: 2rem 0 2.5rem; }
 .eyebrow {
   text-transform: uppercase; letter-spacing: 0.12em;
@@ -178,6 +178,70 @@ th { color: var(--muted); font-weight: 500; font-size: 0.78rem; text-transform: 
   color: var(--ink);
   font-size: 0.95rem;
 }
+.design-hero { margin-top: 1.25rem; }
+.viewport-shell {
+  position: relative;
+  margin: 0 0 1.25rem;
+  border-radius: 1.1rem;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  background: #12100e;
+  min-height: min(62vh, 560px);
+}
+.view3d {
+  width: 100%;
+  height: min(62vh, 560px);
+  touch-action: none;
+}
+.view3d canvas { display: block; width: 100% !important; height: 100% !important; }
+.view3d-toolbar {
+  position: absolute;
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+  pointer-events: none;
+}
+.view3d-toolbar .btn { pointer-events: auto; backdrop-filter: blur(8px); background: rgba(26,23,20,0.72); }
+.view3d-toolbar .btn.primary { background: var(--accent); }
+.view3d-hint {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--muted);
+  pointer-events: none;
+}
+.view3d-empty {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 0.4rem;
+  text-align: center;
+  padding: 2rem;
+  background:
+    radial-gradient(600px 280px at 50% 40%, rgba(212,120,58,0.18), transparent 70%),
+    #12100e;
+  color: var(--ink);
+}
+.view3d-empty span { color: var(--muted); font-size: 0.92rem; max-width: 28rem; }
+.view3d-empty.hidden { display: none; }
+.tech-details {
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 0.9rem;
+  padding: 0.75rem 1rem;
+  color: var(--muted);
+}
+.tech-details summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+.tech-details[open] summary { margin-bottom: 0.85rem; }
 .layout-canvas-wrap {
   margin: 0 0 1.25rem;
   padding: 1rem;
@@ -241,4 +305,6 @@ footer a { color: var(--accent2); }
   .top { flex-wrap: wrap; }
   nav { order: 3; width: 100%; }
   .design-split { grid-template-columns: 1fr; }
+  .view3d-hint { display: none; }
+  .viewport-shell, .view3d { min-height: 52vh; height: 52vh; }
 }

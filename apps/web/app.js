@@ -1,3 +1,5 @@
+import { KitchenViewer } from "./scene3d.js";
+
 async function api(path, options) {
   const res = await fetch(path, options);
   if (!res.ok) {
@@ -297,14 +299,44 @@ function escapeXml(s) {
     .replace(/"/g, "&quot;");
 }
 
+let viewer = null;
+let rotating = false;
+
+function ensureViewer() {
+  if (viewer) return viewer;
+  const host = document.getElementById("view3d");
+  viewer = new KitchenViewer(host);
+  return viewer;
+}
+
+function showViewer(hasScene) {
+  document.getElementById("view3d-empty").classList.toggle("hidden", !!hasScene);
+}
+
 function renderLayout(layout) {
   const v = layout.validation || {};
   const st = layout.stats || {};
+  const styleId =
+    document.getElementById("design-style")?.value || layout.styleId || "modern-matt-anthracite";
+
   document.getElementById("design-summary").innerHTML =
-    `<strong>${escapeXml(layout.project?.customerName || "Layout")}</strong> · ` +
+    `<strong>${escapeXml(layout.project?.customerName || "3D návrh")}</strong> · ` +
     `${st.base_count || 0} spodní · ${st.wall_count || 0} horní · ` +
     `validace ${v.ok ? "<span style='color:var(--ok)'>OK</span>" : "<span style='color:#e07a6a'>blokováno</span>"} · ` +
     `<code>${layout.layoutId.slice(0, 8)}…</code>`;
+
+  try {
+    ensureViewer().build(layout, styleId);
+    showViewer(true);
+    requestAnimationFrame(() => viewer?.resize());
+  } catch (err) {
+    console.error(err);
+    showViewer(false);
+    document.getElementById("design-msg").hidden = false;
+    document.getElementById("design-msg").className = "msg err";
+    document.getElementById("design-msg").textContent =
+      "3D scéna selhala: " + (err.message || err);
+  }
 
   renderLayoutSvg(layout);
 
@@ -367,19 +399,21 @@ async function generateDesign() {
   }
   msg.hidden = false;
   msg.className = "msg";
-  msg.textContent = "Generuji…";
+  msg.textContent = "Generuji 3D návrh…";
+  const styleId = document.getElementById("design-style").value;
   const layout = await api("/api/v1/layouts/generate", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       surveyId,
+      styleId,
       plinth_height: Number(document.getElementById("design-plinth").value || 100),
       countertop_thickness: Number(document.getElementById("design-top").value || 40),
       include_wall_above_base: document.getElementById("design-walls").checked,
     }),
   });
   msg.className = "msg ok";
-  msg.textContent = `Layout ${layout.layoutId.slice(0, 8)}… · ${layout.stats.unit_count} modulů`;
+  msg.textContent = `3D layout ${layout.layoutId.slice(0, 8)}… · ${layout.stats.unit_count} modulů`;
   renderLayout(layout);
   await refreshLayouts();
 }
@@ -392,6 +426,42 @@ document.getElementById("design-run").addEventListener("click", () => {
     msg.textContent = e.message;
   });
 });
+
+document.getElementById("design-style").addEventListener("change", () => {
+  if (viewer?.layout) {
+    viewer.setStyle(document.getElementById("design-style").value);
+  }
+});
+
+document.getElementById("cam-reset").addEventListener("click", () => {
+  ensureViewer().resetCamera();
+});
+document.getElementById("cam-rotate").addEventListener("click", () => {
+  rotating = !rotating;
+  ensureViewer().setAutoRotate(rotating);
+  document.getElementById("cam-rotate").textContent = rotating
+    ? "Stop otáčení"
+    : "Auto-otáčení";
+});
+document.getElementById("cam-shot").addEventListener("click", () => {
+  if (!viewer?.layout) return;
+  viewer.screenshot();
+});
+
+async function loadDesignStyles() {
+  try {
+    const data = await api("/api/v1/styles");
+    const sel = document.getElementById("design-style");
+    if (!data.items?.length) return;
+    const cur = sel.value;
+    sel.innerHTML = data.items
+      .map((s) => `<option value="${s.id}">${s.name}</option>`)
+      .join("");
+    if ([...sel.options].some((o) => o.value === cur)) sel.value = cur;
+  } catch {
+    /* keep hardcoded options */
+  }
+}
 
 document.getElementById("design-sample").addEventListener("click", async () => {
   const msg = document.getElementById("design-msg");
@@ -508,4 +578,5 @@ Promise.all([
   loadCatalog(),
   loadStyles(),
   loadExamples(),
+  loadDesignStyles(),
 ]).catch(console.error);
