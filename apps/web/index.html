@@ -71,8 +71,11 @@
 
     <section id="cabinets" class="panel">
       <div class="panel-head">
-        <h2>Skříňky — výška pracovní desky</h2>
-        <p>Korpus <strong>730 mm</strong> je fixní. Mění se sokl a tloušťka desky.</p>
+        <h2>Skříňky — výrobní pravidla</h2>
+        <p>
+          Korpus <strong>730 mm</strong> · šířky po <strong>50 mm</strong> ·
+          dvířka do 600 mm jedno, nad 600 mm dvě · šuplíky <strong>2×142 + 2×286</strong> mm
+        </p>
       </div>
       <div class="calc">
         <label>Sokl (mm)
@@ -86,9 +89,17 @@
             <option value="60">60</option>
           </select>
         </label>
-        <button type="button" class="btn primary" id="calc-btn">Spočítat</button>
+        <button type="button" class="btn primary" id="calc-btn">Výška PD</button>
         <div class="result" id="calc-result">730 + 100 + 40 = <strong>870 mm</strong></div>
       </div>
+      <div class="calc" style="margin-top:1rem">
+        <label>Šířka skříňky (mm)
+          <input type="number" id="cab-width" value="600" min="300" max="1200" step="50" />
+        </label>
+        <button type="button" class="btn ghost" id="front-btn">Dvířka / šuplíky</button>
+        <div class="result" id="front-result">Šířka 600 → 1 dvířka · šuplíky 2×142 + 2×286 (= 856 mm)</div>
+      </div>
+      <div class="chips" id="width-chips" style="margin-top:1rem"></div>
     </section>
 
     <section id="modules" class="panel">

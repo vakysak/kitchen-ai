@@ -74,6 +74,45 @@ document.getElementById("calc-btn").addEventListener("click", () => {
   calcWorktop().catch((e) => alert(e.message));
 });
 
+async function frontPlan() {
+  const width = Number(document.getElementById("cab-width").value || 600);
+  const data = await api("/api/v1/catalog/cabinets/front-plan", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ width_mm: width }),
+  });
+  const d = data.doors;
+  const dr = data.drawers;
+  let text = `Šířka ${data.snapped_width_mm} mm → <strong>${d.label}</strong>`;
+  if (d.wings === 2 && d.wing_widths_mm) {
+    text += ` (${d.wing_widths_mm.join(" + ")} mm)`;
+  }
+  text += ` · šuplíky ${dr.composition} (= ${dr.sum_mm} mm)`;
+  if (data.warnings?.length) {
+    text += `<br><span class="muted">${data.warnings.join(" · ")}</span>`;
+  }
+  document.getElementById("front-result").innerHTML = text;
+}
+
+async function loadWidthChips() {
+  const rules = await api("/api/v1/catalog/cabinets/rules");
+  const host = document.getElementById("width-chips");
+  const mods = (rules.modules_mm || []).filter((w) => w % 100 === 0 || w === 450 || w === 350);
+  host.innerHTML = mods
+    .map((w) => `<button type="button" class="chip" data-w="${w}">${w}</button>`)
+    .join("");
+  host.querySelectorAll("[data-w]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.getElementById("cab-width").value = btn.getAttribute("data-w");
+      frontPlan().catch(console.error);
+    });
+  });
+}
+
+document.getElementById("front-btn").addEventListener("click", () => {
+  frontPlan().catch((e) => alert(e.message));
+});
+
 document.getElementById("import-form").addEventListener("submit", async (ev) => {
   ev.preventDefault();
   const msg = document.getElementById("import-msg");
@@ -93,4 +132,11 @@ document.getElementById("import-form").addEventListener("submit", async (ev) => 
   }
 });
 
-Promise.all([refreshHealth(), refreshSurveys(), refreshModules(), calcWorktop()]).catch(console.error);
+Promise.all([
+  refreshHealth(),
+  refreshSurveys(),
+  refreshModules(),
+  calcWorktop(),
+  frontPlan(),
+  loadWidthChips(),
+]).catch(console.error);

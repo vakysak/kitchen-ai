@@ -179,3 +179,49 @@ def worktop_height(body: CabinetWorktopRequest) -> dict[str, int]:
         "countertop_thickness": body.countertop_thickness,
         "worktop_height_mm": height,
     }
+
+
+@app.get("/api/v1/catalog/cabinets/rules")
+def cabinet_rules() -> dict[str, Any]:
+    """Závazná pravidla šířek, dvířek a šuplíků."""
+    from packages.catalog.cabinets.cabinet_system import (
+        CABINET_SYSTEM,
+        standard_drawer_stack,
+    )
+
+    base = CABINET_SYSTEM["base_cabinet"]
+    return {
+        "width_step_mm": base["width_step_mm"],
+        "modules_mm": base["modules_mm"],
+        "doors": base["doors"],
+        "drawers": {
+            **base["drawers"],
+            "standard_stack_detail": standard_drawer_stack(),
+        },
+        "corpus_height": base["corpus_height"],
+    }
+
+
+class CabinetWidthRequest(BaseModel):
+    width_mm: int
+
+
+@app.post("/api/v1/catalog/cabinets/front-plan")
+def cabinet_front_plan(body: CabinetWidthRequest) -> dict[str, Any]:
+    """Pro šířku vrátí dvířka (1/2) + standardní šuplíková čela."""
+    from packages.catalog.cabinets.cabinet_system import (
+        door_plan,
+        snap_width_mm,
+        standard_drawer_stack,
+        validate_width,
+    )
+
+    warnings = validate_width(body.width_mm)
+    snapped = snap_width_mm(body.width_mm)
+    return {
+        "input_width_mm": body.width_mm,
+        "snapped_width_mm": snapped,
+        "doors": door_plan(snapped),
+        "drawers": standard_drawer_stack(),
+        "warnings": warnings,
+    }

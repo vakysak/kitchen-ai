@@ -17,8 +17,13 @@ COPY apps/web /app/web
 COPY packages /app/packages
 
 ENV KITCHEN_AI_WEB=/app/web
+ENV PYTHONPATH=/app
 
-RUN mkdir -p /data/uploads /data/exports /data/surveys /data/references
+RUN mkdir -p /data/uploads /data/exports /data/surveys /data/references \
+    && mkdir -p /app/packages/catalog/cabinets \
+    && touch /app/packages/__init__.py \
+    && touch /app/packages/catalog/__init__.py \
+    && touch /app/packages/catalog/cabinets/__init__.py
 
 EXPOSE 8000
 
