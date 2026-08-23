@@ -262,15 +262,17 @@ function currentMaterials() {
   };
 }
 
-function cabinetPreviewSvg(p) {
-  const w = Math.min(Number(p.width_mm) || 600, 900);
-  const scale = 110 / w;
-  const bw = Math.max(w * scale, 72);
+function cabinetPreviewSvg(p, forceWidth) {
+  const bw = 110;
   const isDrawer = (p.family || "").includes("drawer");
   const isWall = p.zone === "wall";
   const isTall = p.zone === "tall";
+  const isCorner = (p.family || "").includes("corner");
+  const isOven = (p.family || "").includes("oven");
+  const isWaste = (p.family || "").includes("waste");
   const h = isWall ? 64 : isTall ? 96 : 82;
-  const doors = Number(p.doors || p.mesh?.doors || (w <= 600 ? 1 : 2));
+  // u druhu skříně ukazuj typické dvířko (1 křídlo), u širokých typů 2
+  const doors = Number(p.doors || p.mesh?.doors || 1);
   let fronts = "";
   if (isDrawer) {
     const stack = p.drawer_fronts_mm || p.mesh?.drawer_fronts_mm || [142, 142, 142, 286];
@@ -283,10 +285,20 @@ function cabinetPreviewSvg(p) {
       fronts += `<rect x="${bw / 2 - 10}" y="${y + 2}" width="20" height="2.2" rx="1" fill="#4a4038"/>`;
       y += hh;
     });
+  } else if (isOven) {
+    fronts += `<rect x="6" y="6" width="${bw - 12}" height="${h * 0.42}" rx="2" fill="#3a3836" stroke="#6a6460"/>`;
+    fronts += `<rect x="6" y="${6 + h * 0.42 + 3}" width="${bw - 12}" height="${h * 0.42}" rx="2" fill="#e0b98a" stroke="#8a6844"/>`;
+    fronts += `<rect x="${bw / 2 - 12}" y="${10}" width="24" height="3" rx="1" fill="#888"/>`;
+  } else if (isWaste) {
+    fronts += `<rect x="6" y="6" width="${bw - 12}" height="${h - 10}" rx="2" fill="#e0b98a" stroke="#8a6844"/>`;
+    fronts += `<circle cx="${bw / 2}" cy="${h / 2}" r="8" fill="none" stroke="#4a4038" stroke-width="1.5"/>`;
+  } else if (isCorner) {
+    fronts += `<path d="M6 6 H${bw * 0.55} V${h - 4} H6 Z" fill="#e0b98a" stroke="#8a6844"/>`;
+    fronts += `<path d="M${bw * 0.55} 6 H${bw - 6} V${h * 0.55} H${bw * 0.55} Z" fill="#d4a574" stroke="#8a6844"/>`;
   } else {
     const gap = 2;
-    const wingW = (bw - 12 - (doors - 1) * gap) / doors;
-    for (let i = 0; i < doors; i++) {
+    const wingW = (bw - 12 - (doors - 1) * gap) / Math.max(doors, 1);
+    for (let i = 0; i < Math.max(doors, 1); i++) {
       const x = 6 + i * (wingW + gap);
       fronts += `<rect x="${x}" y="6" width="${wingW}" height="${h - 10}" rx="2"
         fill="${isWall ? "#d8b896" : "#e0b98a"}" stroke="#8a6844" stroke-width="0.8"/>`;
@@ -301,25 +313,85 @@ function cabinetPreviewSvg(p) {
   </svg>`;
 }
 
-let lineItems = []; // {sku, name, width_mm, zone, family}
+const FAMILY_LABELS = {
+  base_door: "Dvířková",
+  base_drawers: "Šuplíková",
+  base_oven: "Trouba",
+  base_waste: "Koš",
+  base_corner: "Rohová",
+  wall_door: "Horní dvířková",
+  wall_corner: "Horní rohová",
+  tall_pantry: "Sloup / potravinová",
+};
+
+const ZONE_LABELS = { base: "spodní", wall: "horní", tall: "vysoká" };
+
+const FAMILY_ORDER = [
+  "base_door",
+  "base_drawers",
+  "base_oven",
+  "base_waste",
+  "base_corner",
+  "wall_door",
+  "wall_corner",
+  "tall_pantry",
+];
+
+/** @type {Record<string, {family:string, zone:string, label:string, widths:number[], byWidth:Record<number, object>, sample:object}>} */
+let libraryTypes = {};
+
+function familyLabel(family) {
+  return FAMILY_LABELS[family] || String(family || "").replace(/_/g, " ");
+}
+
+function resolveSkuForWidth(family, width) {
+  const t = libraryTypes[family];
+  if (!t) return null;
+  return t.byWidth[width] || null;
+}
+
+function addLineItemFromType(family, width) {
+  const product = resolveSkuForWidth(family, Number(width));
+  if (!product) {
+    alert(`Šířka ${width} mm pro ${familyLabel(family)} není v katalogu.`);
+    return;
+  }
+  lineItems.push({
+    sku: product.sku,
+    name: product.name || familyLabel(family),
+    width_mm: product.width_mm,
+    zone: product.zone || libraryTypes[family]?.zone,
+    family,
+    label: familyLabel(family),
+  });
+  renderLineStrip();
+}
+
+let lineItems = []; // {sku, name, width_mm, zone, family, label}
 
 function renderLineStrip() {
   const host = document.getElementById("line-strip");
   const widthEl = document.getElementById("line-width");
   if (!lineItems.length) {
-    host.innerHTML = '<span class="muted">Klikni na skříňku v katalogu…</span>';
+    host.innerHTML = '<span class="muted">Vyber druh skříně a šířku v katalogu…</span>';
     widthEl.textContent = "0 mm";
     return;
   }
   const total = lineItems.reduce((s, x) => s + (x.width_mm || 0), 0);
   widthEl.textContent = `${total} mm`;
   host.innerHTML = lineItems
-    .map(
-      (it, i) => `<span class="line-chip">
-        <code>${it.sku}</code> ${it.width_mm}
+    .map((it, i) => {
+      const t = libraryTypes[it.family];
+      const widths = t?.widths || [it.width_mm];
+      const opts = widths
+        .map((w) => `<option value="${w}" ${w === it.width_mm ? "selected" : ""}>${w}</option>`)
+        .join("");
+      return `<span class="line-chip">
+        <span class="line-label">${escapeXml(it.label || familyLabel(it.family))}</span>
+        <select data-widx="${i}" title="Šířka">${opts}</select>
         <button type="button" data-rm="${i}" title="Odebrat">×</button>
-      </span>`
-    )
+      </span>`;
+    })
     .join("");
   host.querySelectorAll("[data-rm]").forEach((btn) => {
     btn.addEventListener("click", () => {
@@ -327,45 +399,96 @@ function renderLineStrip() {
       renderLineStrip();
     });
   });
+  host.querySelectorAll("select[data-widx]").forEach((sel) => {
+    sel.addEventListener("change", () => {
+      const idx = Number(sel.getAttribute("data-widx"));
+      const w = Number(sel.value);
+      const it = lineItems[idx];
+      const product = resolveSkuForWidth(it.family, w);
+      if (!product) return;
+      lineItems[idx] = {
+        ...it,
+        sku: product.sku,
+        name: product.name || it.name,
+        width_mm: product.width_mm,
+      };
+      renderLineStrip();
+    });
+  });
 }
 
 async function loadLibraryGrid() {
-  const zone = document.getElementById("lib-zone").value;
-  const family = document.getElementById("lib-family").value;
-  const params = new URLSearchParams({ limit: "60", source: "kitchen_ai" });
-  if (zone) params.set("zone", zone);
-  if (family) params.set("family", family);
+  const zoneFilter = document.getElementById("lib-zone").value;
+  // vždy načti celou KA knihovnu — šířky v lince fungují i po změně filtru zóny
+  const params = new URLSearchParams({ limit: "300", source: "kitchen_ai" });
   const data = await api("/api/v1/catalog/library?" + params);
   const host = document.getElementById("lib-grid");
-  // prefer common widths for cleaner grid
-  const items = (data.items || []).filter((p) => {
-    const w = p.width_mm || 0;
-    return w === 400 || w === 450 || w === 500 || w === 600 || w === 800 || w === 900;
-  });
-  const show = items.length ? items : data.items || [];
-  host.innerHTML = show
-    .slice(0, 48)
-    .map(
-      (p) => `<button type="button" class="lib-card" data-sku="${p.sku}"
-        data-name="${escapeXml(p.name || p.sku)}" data-w="${p.width_mm}"
-        data-zone="${p.zone || ""}" data-family="${p.family || ""}">
-        ${cabinetPreviewSvg(p)}
-        <strong>${p.width_mm} mm</strong>
-        <code>${escapeXml(p.sku)}</code>
-        <span>${escapeXml((p.family || "").replace(/_/g, " "))}</span>
-      </button>`
-    )
+
+  const groups = {};
+  for (const p of data.items || []) {
+    const fam = p.family || "other";
+    if (!groups[fam]) {
+      groups[fam] = {
+        family: fam,
+        zone: p.zone || "",
+        label: familyLabel(fam),
+        widths: [],
+        byWidth: {},
+        sample: p,
+      };
+    }
+    const w = Number(p.width_mm);
+    if (!groups[fam].byWidth[w]) {
+      groups[fam].byWidth[w] = p;
+      groups[fam].widths.push(w);
+    }
+    if (w === 600) groups[fam].sample = p;
+  }
+  for (const g of Object.values(groups)) {
+    g.widths.sort((a, b) => a - b);
+  }
+  libraryTypes = groups;
+
+  const ordered = FAMILY_ORDER.filter((f) => groups[f])
+    .concat(Object.keys(groups).filter((f) => !FAMILY_ORDER.includes(f)))
+    .filter((f) => !zoneFilter || groups[f].zone === zoneFilter);
+
+  if (!ordered.length) {
+    host.innerHTML = '<p class="muted">V této zóně nejsou skříňky.</p>';
+    return;
+  }
+
+  host.innerHTML = ordered
+    .map((fam) => {
+      const g = groups[fam];
+      const defaultW = g.byWidth[600] ? 600 : g.widths[Math.floor(g.widths.length / 2)] || g.widths[0];
+      const opts = g.widths
+        .map((w) => `<option value="${w}" ${w === defaultW ? "selected" : ""}>${w} mm</option>`)
+        .join("");
+      const preview = {
+        ...g.sample,
+        doors: fam.includes("drawer") ? 0 : 1,
+        width_mm: 600,
+      };
+      return `<div class="lib-card" data-family="${fam}">
+        ${cabinetPreviewSvg(preview, 600)}
+        <strong class="lib-title">${escapeXml(g.label)}</strong>
+        <span class="lib-zone">${escapeXml(ZONE_LABELS[g.zone] || g.zone)}</span>
+        <div class="lib-width">
+          <label>Šířka
+            <select class="lib-w-select">${opts}</select>
+          </label>
+        </div>
+        <button type="button" class="btn tiny primary lib-add">Přidat do linky</button>
+      </div>`;
+    })
     .join("");
+
   host.querySelectorAll(".lib-card").forEach((card) => {
-    card.addEventListener("click", () => {
-      lineItems.push({
-        sku: card.getAttribute("data-sku"),
-        name: card.getAttribute("data-name"),
-        width_mm: Number(card.getAttribute("data-w")),
-        zone: card.getAttribute("data-zone"),
-        family: card.getAttribute("data-family"),
-      });
-      renderLineStrip();
+    const fam = card.getAttribute("data-family");
+    card.querySelector(".lib-add").addEventListener("click", () => {
+      const w = Number(card.querySelector(".lib-w-select").value);
+      addLineItemFromType(fam, w);
     });
   });
 }
@@ -441,6 +564,7 @@ async function loadLayout(layoutId) {
       width_mm: u.width_mm,
       zone: u.band,
       family: u.family,
+      label: familyLabel(u.family),
     }));
     renderLineStrip();
   }
@@ -495,13 +619,24 @@ document.getElementById("line-clear").addEventListener("click", () => {
 
 document.getElementById("line-preset").addEventListener("click", () => {
   // předvolba ~3,5 m: dvířka + šuplíky + dvířka (bez horních)
+  const pick = (family, width) => {
+    const p = resolveSkuForWidth(family, width);
+    return {
+      sku: p?.sku || `KA-?-${width}`,
+      name: p?.name || familyLabel(family),
+      width_mm: width,
+      zone: libraryTypes[family]?.zone || "base",
+      family,
+      label: familyLabel(family),
+    };
+  };
   lineItems = [
-    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
-    { sku: "KA-BZ-600", name: "Šuplíková 600", width_mm: 600, zone: "base", family: "base_drawers" },
-    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
-    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
-    { sku: "KA-BD-500", name: "Dvířková 500", width_mm: 500, zone: "base", family: "base_door" },
-    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
+    pick("base_door", 600),
+    pick("base_drawers", 600),
+    pick("base_door", 600),
+    pick("base_door", 600),
+    pick("base_door", 500),
+    pick("base_door", 600),
   ];
   renderLineStrip();
 });
@@ -510,9 +645,6 @@ document.getElementById("lib-refresh").addEventListener("click", () => {
   loadLibraryGrid().catch((e) => alert(e.message));
 });
 document.getElementById("lib-zone").addEventListener("change", () => {
-  loadLibraryGrid().catch(console.error);
-});
-document.getElementById("lib-family").addEventListener("change", () => {
   loadLibraryGrid().catch(console.error);
 });
 

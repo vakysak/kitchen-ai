@@ -45,13 +45,14 @@
         <p class="eyebrow">Katalog → linka → 3D</p>
         <h2>3D návrh kuchyně</h2>
         <p>
-          Vyber skříňky z <strong>vizuálního katalogu</strong> (SKU), sestav linku,
-          zvol materiály korpusu a frontů. Šuplíky mají čela jen do výšky korpusu 730&nbsp;mm
+          Vyber <strong>druh skříně</strong> z vizuálního katalogu, nastav šířku
+          a sestav linku. Šuplíky mají čela jen do výšky korpusu 730&nbsp;mm
           (3×142 + 286) — ne přes desku.
         </p>
       </div>
 
       <h3 class="subh">1 · Vizuální katalog</h3>
+      <p class="muted" style="margin:0 0 0.75rem">Jeden vizuál = druh skříně. Šířku zvolíš až při přidání do linky.</p>
       <div class="calc catalog-filters" style="margin-bottom:0.75rem">
         <label>Zóna
           <select id="lib-zone">
@@ -61,22 +62,13 @@
             <option value="">vše</option>
           </select>
         </label>
-        <label>Typ
-          <select id="lib-family">
-            <option value="">vše</option>
-            <option value="base_door">dvířková</option>
-            <option value="base_drawers">šuplíková</option>
-            <option value="wall_door">horní dvířková</option>
-            <option value="tall_pantry">sloup</option>
-          </select>
-        </label>
         <button type="button" class="btn ghost" id="lib-refresh">Obnovit</button>
       </div>
       <div id="lib-grid" class="lib-grid"></div>
 
-      <h3 class="subh" style="margin-top:1.25rem">2 · Linka (pořadí = klikání)</h3>
+      <h3 class="subh" style="margin-top:1.25rem">2 · Linka (pořadí = přidávání)</h3>
       <div id="line-strip" class="line-strip">
-        <span class="muted">Klikni na skříňku v katalogu…</span>
+        <span class="muted">Vyber druh skříně a šířku v katalogu…</span>
       </div>
       <div class="cta-row" style="margin:0.75rem 0 1rem">
         <button type="button" class="btn ghost" id="line-clear">Vymazat linku</button>
