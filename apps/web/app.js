@@ -500,9 +500,10 @@ function renderLineStrip() {
 
 async function loadLibraryGrid() {
   const zoneFilter = document.getElementById("lib-zone").value;
+  const host = document.getElementById("lib-grid");
+  try {
   const params = new URLSearchParams({ limit: "300", source: "kitchen_ai" });
   const data = await api("/api/v1/catalog/library?" + params);
-  const host = document.getElementById("lib-grid");
 
   const groups = {};
   for (const p of data.items || []) {
@@ -624,6 +625,10 @@ async function loadLibraryGrid() {
       });
     });
   });
+  } catch (err) {
+    console.error(err);
+    host.innerHTML = `<p class="msg err">Katalog se nepodařilo načíst: ${escapeXml(err.message || err)}</p>`;
+  }
 }
 
 function renderLayout(layout) {
@@ -762,7 +767,7 @@ document.getElementById("line-clear").addEventListener("click", () => {
   renderLineStrip();
 });
 
-.document.getElementById("line-preset").addEventListener("click", () => {
+document.getElementById("line-preset").addEventListener("click", () => {
   const pick = (family, width, extras = {}) => {
     const p = resolveSkuForWidth(family, width);
     const opening = extras.opening || (family === "wall_lift" ? "lift" : "hinge");
