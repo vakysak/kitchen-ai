@@ -149,13 +149,19 @@ def _pack_widths(packable: int) -> list[int]:
     return result
 
 def _module_kinds(band: Band, count: int) -> list[str]:
-    """Střídání šuplíky / dvířka u spodní linky."""
+    """
+    Realističtější linka: šuplíky jen 1–2× (příbory/hrnce), zbytek dvířka.
+    Horní zóny jsou vždy dvířkové (ne šuplíky nad deskou).
+    """
     if band != "base":
         return ["door"] * count
-    kinds: list[str] = []
-    for i in range(count):
-        # šuplíky na sudých pozicích, dvířka na lichých; první = šuplíky
-        kinds.append("drawers" if i % 2 == 0 else "door")
+    if count <= 0:
+        return []
+    kinds = ["door"] * count
+    # jedna šuplíková u začátku (ne přes celou linku)
+    kinds[0] = "drawers"
+    if count >= 5:
+        kinds[min(3, count - 1)] = "drawers"
     return kinds
 
 
