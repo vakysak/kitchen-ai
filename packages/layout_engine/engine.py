@@ -13,12 +13,14 @@ from typing import Any, Literal
 
 from packages.catalog.cabinets.cabinet_system import (
     CABINET_SYSTEM,
+    STANDARD_DRAWER_STACK,
     door_plan,
     snap_width_mm,
     standard_drawer_stack,
     worktop_height_mm,
 )
 from packages.catalog.library import list_materials, resolve_catalog_unit
+from packages.catalog.products.loader import get_product
 
 PREFERRED_WIDTHS = [600, 500, 450, 400, 350, 300]  # primární sestava
 # Širší jen když zbývá velký zbytek, který nejde složit z preferovaných
@@ -247,16 +249,19 @@ def _build_unit(
         unit["countertop_thickness_mm"] = top_th
         unit["worktop_height_mm"] = worktop_height_mm(plinth, top_th, height)
         if mesh.get("front") == "drawers" or kind == "drawers":
-            fronts = product.get("drawer_fronts_mm") or mesh.get("drawer_fronts_mm")
-            unit["drawers"] = (
-                {
-                    "front_heights_mm": list(fronts),
-                    "count": len(fronts),
-                    "sum_mm": sum(fronts),
-                }
-                if fronts
-                else standard_drawer_stack()
+            fronts = list(
+                product.get("drawer_fronts_mm")
+                or mesh.get("drawer_fronts_mm")
+                or STANDARD_DRAWER_STACK
             )
+            if sum(fronts) > height:
+                fronts = list(STANDARD_DRAWER_STACK)
+            unit["drawers"] = {
+                "front_heights_mm": fronts,
+                "count": len(fronts),
+                "sum_mm": sum(fronts),
+                "composition": "3×142 + 286",
+            }
     elif band == "wall":
         unit["corpus_height_mm"] = height
         wt = worktop_height_mm(plinth, top_th)
@@ -504,3 +509,200 @@ def _bom(units: list[dict[str, Any]]) -> list[dict[str, Any]]:
             }
         counts[key]["qty"] += 1
     return sorted(counts.values(), key=lambda x: (x["band"], x["sku"]))
+
+
+def _synthetic_survey(width_mm: int, customer: str = "Návrh z katalogu") -> dict[str, Any]:
+    wid = str(uuid.uuid4())
+    rid = str(uuid.uuid4())
+    zid = str(uuid.uuid4())
+    return {
+        "schemaVersion": "1.0.0",
+        "exportedAt": datetime.now(timezone.utc).isoformat(),
+        "app": {"name": "SmartMeasure3D", "version": "catalog"},
+        "project": {
+            "id": wid,
+            "customerName": customer,
+            "projectType": "kitchen",
+        },
+        "rooms": [
+            {
+                "id": rid,
+                "name": "Kuchyň",
+                "shape": "rectangle",
+                "walls": [
+                    {
+                        "id": str(uuid.uuid4()),
+                        "label": "A",
+                        "lengthBottom": width_mm,
+                        "lengthMid": width_mm,
+                        "lengthTop": width_mm,
+                    }
+                ],
+                "mountZones": [
+                    {
+                        "id": zid,
+                        "label": "Linka",
+                        "zoneType": "lowerCabinets",
+                        "widthBottom": width_mm,
+                        "widthMid": width_mm,
+                        "widthTop": width_mm,
+                        "wallsConvergeDivergeType": "parallel",
+                    }
+                ],
+                "openings": [],
+                "utilities": [],
+            }
+        ],
+    }
+
+
+def generate_layout_from_catalog(
+    skus: list[str],
+    *,
+    survey: dict[str, Any] | None = None,
+    survey_id: str | None = None,
+    plinth_height: int = 100,
+    countertop_thickness: int = 40,
+    wall_gap: int = 550,
+    corpus_finish_id: str | None = None,
+    front_finish_id: str | None = None,
+    countertop_finish_id: str | None = None,
+    customer_name: str = "Návrh z katalogu",
+) -> dict[str, Any]:
+    """
+    Sestaví layout přesně z vybraných SKU (vizuální katalog).
+    Pořadí skus = pořadí na lince (spodní + horní podle zone produktu).
+    """
+    if not skus:
+        raise ValueError("Vyber alespoň jednu skříňku z katalogu")
+
+    mats = list_materials()
+    defaults = mats.get("defaults") or {}
+    materials = {
+        "corpusId": corpus_finish_id or defaults.get("corpusId") or "corpus-white",
+        "frontId": front_finish_id or defaults.get("frontId") or "front-white-matt",
+        "countertopId": countertop_finish_id or defaults.get("countertopId") or "top-oak",
+    }
+
+    resolved: list[dict[str, Any]] = []
+    from packages.catalog.library import enrich_product
+
+    for sku in skus:
+        p = resolve_catalog_unit(sku=sku)
+        if not p:
+            raw = get_product(sku)
+            if not raw:
+                raise ValueError(f"SKU {sku!r} není v katalogu")
+            p = enrich_product(raw)
+        resolved.append(p)
+
+    base_skus = [p for p in resolved if (p.get("zone") or "base") == "base"]
+    wall_skus = [p for p in resolved if p.get("zone") == "wall"]
+    tall_skus = [p for p in resolved if p.get("zone") == "tall"]
+
+    base_width = sum(int(p.get("width_mm") or 0) for p in base_skus) or sum(
+        int(p.get("width_mm") or 0) for p in resolved
+    )
+    if survey is None:
+        survey = _synthetic_survey(max(base_width, 3000), customer_name)
+
+    units: list[dict[str, Any]] = []
+    warnings: list[str] = []
+    zone_id = str(uuid.uuid4())
+    offset = 0
+    room = (survey.get("rooms") or [{}])[0]
+    rid = room.get("id")
+
+    def place(product: dict[str, Any], band: str, zid: str, off: int) -> int:
+        w = int(product["width_mm"])
+        fam = product.get("family") or ""
+        if "drawer" in fam:
+            kind = "drawers"
+        else:
+            kind = "door"
+        unit = _build_unit(
+            band=band,  # type: ignore[arg-type]
+            width=w,
+            offset=off,
+            kind=kind,
+            zone_id=zid,
+            plinth=plinth_height,
+            top_th=countertop_thickness,
+            wall_gap=wall_gap,
+        )
+        # force exact catalog product
+        unit["sku"] = product["sku"]
+        unit["productId"] = product["id"]
+        unit["name"] = product.get("name")
+        unit["family"] = product.get("family")
+        unit["mesh"] = product.get("mesh")
+        unit["product"] = {
+            "id": product["id"],
+            "sku": product["sku"],
+            "name": product.get("name"),
+            "family": product.get("family"),
+            "zone": product.get("zone"),
+            "width_mm": w,
+            "height_mm": product.get("height_mm"),
+            "depth_mm": product.get("depth_mm"),
+            "doors": product.get("doors"),
+            "drawer_fronts_mm": product.get("drawer_fronts_mm"),
+            "hand": product.get("hand"),
+            "mesh": product.get("mesh"),
+        }
+        unit["roomId"] = rid
+        units.append(unit)
+        return off + w
+
+    for p in base_skus:
+        offset = place(p, "base", zone_id, offset)
+    wall_zone = f"{zone_id}-wall"
+    woff = 0
+    for p in wall_skus:
+        woff = place(p, "wall", wall_zone, woff)
+    toff = offset  # tall after base run
+    for p in tall_skus:
+        toff = place(p, "tall", zone_id, toff)
+
+    project = survey.get("project") or {}
+    layout_id = str(uuid.uuid4())
+    return {
+        "schemaVersion": "1.0.0",
+        "layoutId": layout_id,
+        "surveyId": survey_id,
+        "generatedAt": datetime.now(timezone.utc).isoformat(),
+        "source": "catalog_pick",
+        "project": {
+            "customerName": project.get("customerName") or customer_name,
+            "address": project.get("address"),
+            "projectId": project.get("id"),
+        },
+        "materials": materials,
+        "params": {
+            "plinth_height": plinth_height,
+            "countertop_thickness": countertop_thickness,
+            "wall_gap": wall_gap,
+            "corpus_base_mm": 730,
+            "from_catalog_skus": skus,
+        },
+        "roomIds": [rid] if rid else [],
+        "zones": [
+            {
+                "zoneId": zone_id,
+                "label": "Linka z katalogu",
+                "band": "base",
+                "unit_count": len(base_skus),
+                "widths_mm": [int(p["width_mm"]) for p in base_skus],
+            }
+        ],
+        "units": units,
+        "bom": _bom(units),
+        "warnings": warnings,
+        "stats": {
+            "unit_count": len(units),
+            "base_count": sum(1 for u in units if u["band"] == "base"),
+            "wall_count": sum(1 for u in units if u["band"] == "wall"),
+            "tall_count": sum(1 for u in units if u["band"] == "tall"),
+            "total_width_base_mm": sum(u["width_mm"] for u in units if u["band"] == "base"),
+        },
+    }

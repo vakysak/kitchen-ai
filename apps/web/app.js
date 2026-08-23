@@ -158,14 +158,12 @@ async function loadExamples() {
 
 async function refreshSurveys() {
   const tbody = document.getElementById("survey-tbody");
-  const select = document.getElementById("design-survey");
   const data = await api("/api/v1/surveys");
   document.getElementById("stat-surveys").textContent = String(data.count ?? 0);
-  const prev = select.value;
-  select.innerHTML = '<option value="">— vyber nebo nahraj —</option>';
+  if (!tbody) return;
   if (!data.items?.length) {
     tbody.innerHTML =
-      '<tr><td colspan="4" class="muted">Zatím žádný survey — nahraj JSON nebo použij ukázku v Návrhu.</td></tr>';
+      '<tr><td colspan="4" class="muted">Zatím žádný survey — nahraj JSON.</td></tr>';
     return;
   }
   tbody.innerHTML = data.items
@@ -174,25 +172,10 @@ async function refreshSurveys() {
         <td>${s.project?.customerName || "—"}</td>
         <td><code>${s.surveyId}</code></td>
         <td>${fmtDate(s.importedAt)}</td>
-        <td><button type="button" class="btn tiny ghost" data-use="${s.surveyId}">Navrhnout</button></td>
+        <td></td>
       </tr>`
     )
     .join("");
-  for (const s of data.items) {
-    const opt = document.createElement("option");
-    opt.value = s.surveyId;
-    opt.textContent = `${s.project?.customerName || "Survey"} · ${s.surveyId.slice(0, 8)}…`;
-    select.appendChild(opt);
-  }
-  if (prev && [...select.options].some((o) => o.value === prev)) {
-    select.value = prev;
-  }
-  tbody.querySelectorAll("[data-use]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      select.value = btn.getAttribute("data-use");
-      document.getElementById("design").scrollIntoView({ behavior: "smooth" });
-    });
-  });
 }
 
 async function refreshLayouts() {
@@ -221,76 +204,6 @@ async function refreshLayouts() {
   });
 }
 
-function renderLayoutSvg(layout) {
-  const svg = document.getElementById("layout-svg");
-  const base = (layout.units || []).filter((u) => u.band === "base");
-  const wall = (layout.units || []).filter((u) => u.band === "wall");
-  const zones = layout.zones || [];
-  const baseZones = zones.filter((z) => z.band === "base" || (!z.auto && z.band !== "wall"));
-  const z0 = baseZones[0] || zones[0] || {};
-  let total =
-    (z0.filler_left_mm || 0) +
-    (z0.packable_mm || base.reduce((s, u) => s + u.width_mm, 0)) +
-    (z0.filler_right_mm || 0);
-  if (!total) total = base.reduce((s, u) => s + u.width_mm, 0) || 3600;
-  const pad = 40;
-  const W = 1000;
-  const scale = (W - pad * 2) / Math.max(total, 1);
-  const yBase = 200;
-  const hBase = 90;
-  const yWall = 70;
-  const hWall = 70;
-
-  const parts = [];
-  parts.push(
-    `<text x="${pad}" y="28" fill="#a89a8c" font-size="13">${escapeXml(
-      layout.project?.customerName || "Layout"
-    )} · ${layout.stats?.unit_count || 0} modulů</text>`
-  );
-
-  const fl = z0.filler_left_mm || 0;
-  const fr = z0.filler_right_mm || 0;
-  if (fl > 0) {
-    parts.push(
-      `<rect x="${pad}" y="${yBase}" width="${fl * scale}" height="${hBase}" fill="rgba(212,162,76,0.25)" stroke="#d4a24c"/>
-       <text x="${pad + (fl * scale) / 2}" y="${yBase + 50}" text-anchor="middle" fill="#e8c98a" font-size="11">F</text>`
-    );
-  }
-  if (fr > 0) {
-    const x = pad + (total - fr) * scale;
-    parts.push(
-      `<rect x="${x}" y="${yBase}" width="${fr * scale}" height="${hBase}" fill="rgba(212,162,76,0.25)" stroke="#d4a24c"/>
-       <text x="${x + (fr * scale) / 2}" y="${yBase + 50}" text-anchor="middle" fill="#e8c98a" font-size="11">F</text>`
-    );
-  }
-
-  for (const u of base) {
-    const x = pad + (u.offset_mm || 0) * scale;
-    const w = u.width_mm * scale;
-    const fill = u.kind === "drawers" ? "rgba(212,120,58,0.55)" : "rgba(232,195,154,0.35)";
-    parts.push(
-      `<rect x="${x}" y="${yBase}" width="${w}" height="${hBase}" rx="4" fill="${fill}" stroke="#e8c39a"/>
-       <text x="${x + w / 2}" y="${yBase + 38}" text-anchor="middle" fill="#f3ebe2" font-size="12" font-weight="600">${u.width_mm}</text>
-       <text x="${x + w / 2}" y="${yBase + 58}" text-anchor="middle" fill="#a89a8c" font-size="10">${u.kind === "drawers" ? "šup." : "dveř."}</text>`
-    );
-  }
-  for (const u of wall) {
-    const x = pad + (u.offset_mm || 0) * scale;
-    const w = u.width_mm * scale;
-    parts.push(
-      `<rect x="${x}" y="${yWall}" width="${w}" height="${hWall}" rx="4" fill="rgba(111,191,138,0.22)" stroke="#6fbf8a"/>
-       <text x="${x + w / 2}" y="${yWall + 40}" text-anchor="middle" fill="#c5e6d0" font-size="11">${u.width_mm}</text>`
-    );
-  }
-
-  parts.push(
-    `<text x="${pad}" y="310" fill="#a89a8c" font-size="12">Celkem linka ≈ ${total} mm · korpus 730 · PD ${
-      layout.params?.plinth_height ?? 100
-    }+${layout.params?.countertop_thickness ?? 40}</text>`
-  );
-  svg.innerHTML = parts.join("");
-}
-
 function escapeXml(s) {
   return String(s)
     .replace(/&/g, "&amp;")
@@ -301,6 +214,7 @@ function escapeXml(s) {
 
 let viewer = null;
 let rotating = false;
+let materialsDoc = null;
 
 function ensureViewer() {
   if (viewer) return viewer;
@@ -313,8 +227,6 @@ function ensureViewer() {
 function showViewer(hasScene) {
   document.getElementById("view3d-empty").classList.toggle("hidden", !!hasScene);
 }
-
-let materialsDoc = null;
 
 function fillMaterialSelects(doc) {
   materialsDoc = doc;
@@ -350,6 +262,114 @@ function currentMaterials() {
   };
 }
 
+function cabinetPreviewSvg(p) {
+  const w = Math.min(Number(p.width_mm) || 600, 900);
+  const scale = 110 / w;
+  const bw = Math.max(w * scale, 72);
+  const isDrawer = (p.family || "").includes("drawer");
+  const isWall = p.zone === "wall";
+  const isTall = p.zone === "tall";
+  const h = isWall ? 64 : isTall ? 96 : 82;
+  const doors = Number(p.doors || p.mesh?.doors || (w <= 600 ? 1 : 2));
+  let fronts = "";
+  if (isDrawer) {
+    const stack = p.drawer_fronts_mm || p.mesh?.drawer_fronts_mm || [142, 142, 142, 286];
+    const total = stack.reduce((a, b) => a + b, 0) || 1;
+    let y = 6;
+    stack.forEach((fh) => {
+      const hh = (fh / total) * (h - 10);
+      fronts += `<rect x="6" y="${y}" width="${bw - 12}" height="${Math.max(hh - 1.2, 4)}" rx="1.5"
+        fill="#c9956a" stroke="#7a5a38" stroke-width="0.8"/>`;
+      fronts += `<rect x="${bw / 2 - 10}" y="${y + 2}" width="20" height="2.2" rx="1" fill="#4a4038"/>`;
+      y += hh;
+    });
+  } else {
+    const gap = 2;
+    const wingW = (bw - 12 - (doors - 1) * gap) / doors;
+    for (let i = 0; i < doors; i++) {
+      const x = 6 + i * (wingW + gap);
+      fronts += `<rect x="${x}" y="6" width="${wingW}" height="${h - 10}" rx="2"
+        fill="${isWall ? "#d8b896" : "#e0b98a"}" stroke="#8a6844" stroke-width="0.8"/>`;
+      const hx = i === 0 && doors > 1 ? x + wingW - 5 : x + 5;
+      fronts += `<rect x="${hx}" y="${h / 2 - 8}" width="2.2" height="16" rx="1" fill="#4a4038"/>`;
+    }
+  }
+  const plinth = isWall ? "" : `<rect x="4" y="${h - 2}" width="${bw - 8}" height="4" fill="#3a3530"/>`;
+  return `<svg viewBox="0 0 ${bw} ${h + (isWall ? 2 : 4)}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="1" y="1" width="${bw - 2}" height="${h - (isWall ? 0 : 2)}" rx="3" fill="#1e1b18" stroke="#5a5048"/>
+    ${fronts}${plinth}
+  </svg>`;
+}
+
+let lineItems = []; // {sku, name, width_mm, zone, family}
+
+function renderLineStrip() {
+  const host = document.getElementById("line-strip");
+  const widthEl = document.getElementById("line-width");
+  if (!lineItems.length) {
+    host.innerHTML = '<span class="muted">Klikni na skříňku v katalogu…</span>';
+    widthEl.textContent = "0 mm";
+    return;
+  }
+  const total = lineItems.reduce((s, x) => s + (x.width_mm || 0), 0);
+  widthEl.textContent = `${total} mm`;
+  host.innerHTML = lineItems
+    .map(
+      (it, i) => `<span class="line-chip">
+        <code>${it.sku}</code> ${it.width_mm}
+        <button type="button" data-rm="${i}" title="Odebrat">×</button>
+      </span>`
+    )
+    .join("");
+  host.querySelectorAll("[data-rm]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      lineItems.splice(Number(btn.getAttribute("data-rm")), 1);
+      renderLineStrip();
+    });
+  });
+}
+
+async function loadLibraryGrid() {
+  const zone = document.getElementById("lib-zone").value;
+  const family = document.getElementById("lib-family").value;
+  const params = new URLSearchParams({ limit: "60", source: "kitchen_ai" });
+  if (zone) params.set("zone", zone);
+  if (family) params.set("family", family);
+  const data = await api("/api/v1/catalog/library?" + params);
+  const host = document.getElementById("lib-grid");
+  // prefer common widths for cleaner grid
+  const items = (data.items || []).filter((p) => {
+    const w = p.width_mm || 0;
+    return w === 400 || w === 450 || w === 500 || w === 600 || w === 800 || w === 900;
+  });
+  const show = items.length ? items : data.items || [];
+  host.innerHTML = show
+    .slice(0, 48)
+    .map(
+      (p) => `<button type="button" class="lib-card" data-sku="${p.sku}"
+        data-name="${escapeXml(p.name || p.sku)}" data-w="${p.width_mm}"
+        data-zone="${p.zone || ""}" data-family="${p.family || ""}">
+        ${cabinetPreviewSvg(p)}
+        <strong>${p.width_mm} mm</strong>
+        <code>${escapeXml(p.sku)}</code>
+        <span>${escapeXml((p.family || "").replace(/_/g, " "))}</span>
+      </button>`
+    )
+    .join("");
+  host.querySelectorAll(".lib-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      lineItems.push({
+        sku: card.getAttribute("data-sku"),
+        name: card.getAttribute("data-name"),
+        width_mm: Number(card.getAttribute("data-w")),
+        zone: card.getAttribute("data-zone"),
+        family: card.getAttribute("data-family"),
+      });
+      renderLineStrip();
+    });
+  });
+}
+
 function renderLayout(layout) {
   const v = layout.validation || {};
   const st = layout.stats || {};
@@ -364,7 +384,7 @@ function renderLayout(layout) {
 
   document.getElementById("design-summary").innerHTML =
     `<strong>${escapeXml(layout.project?.customerName || "3D návrh")}</strong> · ` +
-    `katalogové SKU · ${st.base_count || 0} spodní · ${st.wall_count || 0} horní · ` +
+    `z katalogu · ${st.base_count || 0} spodní · ${st.wall_count || 0} horní · ` +
     `validace ${v.ok ? "<span style='color:var(--ok)'>OK</span>" : "<span style='color:#e07a6a'>blokováno</span>"} · ` +
     `<code>${layout.layoutId.slice(0, 8)}…</code>`;
 
@@ -383,8 +403,6 @@ function renderLayout(layout) {
     document.getElementById("design-msg").textContent =
       "3D scéna selhala: " + (err.message || err);
   }
-
-  renderLayoutSvg(layout);
 
   const bom = layout.bom || [];
   document.getElementById("bom-tbody").innerHTML = bom.length
@@ -412,56 +430,51 @@ function renderLayout(layout) {
       )
       .join("");
   }
-
-  const units = layout.units || [];
-  document.getElementById("units-tbody").innerHTML = units.length
-    ? units
-        .map(
-          (u) => `<tr>
-            <td><code>${u.sku}</code> <span class="muted">${escapeXml(u.name || u.band)}</span></td>
-            <td>${u.offset_mm}</td>
-            <td>${u.width_mm}</td>
-            <td>${u.doors?.label || "—"}</td>
-          </tr>`
-        )
-        .join("")
-    : '<tr><td colspan="4" class="muted">—</td></tr>';
 }
 
 async function loadLayout(layoutId) {
   const layout = await api("/api/v1/layouts/" + layoutId);
+  if (layout.units?.length) {
+    lineItems = layout.units.map((u) => ({
+      sku: u.sku,
+      name: u.name,
+      width_mm: u.width_mm,
+      zone: u.band,
+      family: u.family,
+    }));
+    renderLineStrip();
+  }
   renderLayout(layout);
   document.getElementById("design").scrollIntoView({ behavior: "smooth" });
 }
 
 async function generateDesign() {
   const msg = document.getElementById("design-msg");
-  const surveyId = document.getElementById("design-survey").value;
-  if (!surveyId) {
+  if (!lineItems.length) {
     msg.hidden = false;
     msg.className = "msg err";
-    msg.textContent = "Nejdřív vyber nebo nahraj survey.";
+    msg.textContent = "Nejdřív přidej skříňky z vizuálního katalogu.";
     return;
   }
   msg.hidden = false;
   msg.className = "msg";
-  msg.textContent = "Skládám skříňky z katalogu…";
+  msg.textContent = "Sestavuji 3D z katalogu…";
   const mats = currentMaterials();
-  const layout = await api("/api/v1/layouts/generate", {
+  const layout = await api("/api/v1/layouts/from-catalog", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      surveyId,
+      skus: lineItems.map((x) => x.sku),
       plinth_height: Number(document.getElementById("design-plinth").value || 100),
       countertop_thickness: Number(document.getElementById("design-top").value || 40),
-      include_wall_above_base: document.getElementById("design-walls").checked,
       corpusId: mats.corpusId,
       frontId: mats.frontId,
       countertopId: mats.countertopId,
+      customerName: "Návrh z katalogu",
     }),
   });
   msg.className = "msg ok";
-  msg.textContent = `Katalogový layout ${layout.layoutId.slice(0, 8)}… · ${layout.stats.unit_count} SKU`;
+  msg.textContent = `Layout ${layout.layoutId.slice(0, 8)}… · ${layout.stats.unit_count} SKU · ${layout.stats.total_width_base_mm} mm`;
   renderLayout(layout);
   await refreshLayouts();
 }
@@ -473,6 +486,34 @@ document.getElementById("design-run").addEventListener("click", () => {
     msg.className = "msg err";
     msg.textContent = e.message;
   });
+});
+
+document.getElementById("line-clear").addEventListener("click", () => {
+  lineItems = [];
+  renderLineStrip();
+});
+
+document.getElementById("line-preset").addEventListener("click", () => {
+  // předvolba ~3,5 m: dvířka + šuplíky + dvířka (bez horních)
+  lineItems = [
+    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
+    { sku: "KA-BZ-600", name: "Šuplíková 600", width_mm: 600, zone: "base", family: "base_drawers" },
+    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
+    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
+    { sku: "KA-BD-500", name: "Dvířková 500", width_mm: 500, zone: "base", family: "base_door" },
+    { sku: "KA-BD-600", name: "Dvířková 600", width_mm: 600, zone: "base", family: "base_door" },
+  ];
+  renderLineStrip();
+});
+
+document.getElementById("lib-refresh").addEventListener("click", () => {
+  loadLibraryGrid().catch((e) => alert(e.message));
+});
+document.getElementById("lib-zone").addEventListener("change", () => {
+  loadLibraryGrid().catch(console.error);
+});
+document.getElementById("lib-family").addEventListener("change", () => {
+  loadLibraryGrid().catch(console.error);
 });
 
 async function applyMaterialsLive() {
@@ -488,7 +529,7 @@ async function applyMaterialsLive() {
       body: JSON.stringify(mats),
     });
   } catch {
-    /* offline ok — local preview */
+    /* ok */
   }
 }
 
@@ -511,22 +552,6 @@ document.getElementById("cam-rotate").addEventListener("click", () => {
 document.getElementById("cam-shot").addEventListener("click", () => {
   if (!viewer?.layout) return;
   viewer.screenshot();
-});
-
-document.getElementById("design-sample").addEventListener("click", async () => {
-  const msg = document.getElementById("design-msg");
-  msg.hidden = false;
-  try {
-    const data = await api("/api/v1/surveys/sample", { method: "POST" });
-    await refreshSurveys();
-    document.getElementById("design-survey").value = data.surveyId;
-    msg.className = "msg ok";
-    msg.textContent = `Ukázkový survey: ${data.surveyId.slice(0, 8)}…`;
-    await generateDesign();
-  } catch (e) {
-    msg.className = "msg err";
-    msg.textContent = e.message;
-  }
 });
 
 
@@ -609,7 +634,6 @@ document.getElementById("import-form").addEventListener("submit", async (ev) => 
     msg.className = "msg ok";
     msg.textContent = `Uloženo: ${data.surveyId}` + (data.projectHint ? ` (${data.projectHint})` : "");
     await refreshSurveys();
-    document.getElementById("design-survey").value = data.surveyId;
   } catch (e) {
     msg.className = "msg err";
     msg.textContent = e.message;
@@ -629,4 +653,6 @@ Promise.all([
   loadStyles(),
   loadExamples(),
   loadMaterials(),
+  loadLibraryGrid(),
 ]).catch(console.error);
+renderLineStrip();

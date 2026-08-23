@@ -5,7 +5,7 @@ M2 — Modulový systém skříněk (závazná výrobní pravidla).
 - Šířky standardně po 50 mm (5 cm)
 - Dvířka: šířka ≤ 600 mm → 1 křídlo; > 600 mm → 2 křídla
 - Šuplíky: výška čela standardně 142 mm a 286 mm;
-  typická sestava ve spodní skříňce: 2×142 + 2×286
+  do korpusu 730 mm: 3×142 + 286 (= 712 mm), ne 2×142+2×286 (= 856 — nevejde se).
 """
 
 from __future__ import annotations
@@ -14,6 +14,12 @@ from typing import Any, Literal
 
 
 DoorWings = Literal["single", "double"]
+
+# Čela jen 142 / 286; součet musí být ≤ 730 (korpus)
+DRAWER_FRONT_SMALL = 142
+DRAWER_FRONT_LARGE = 286
+# 3×142 + 286 = 712 → zbývá ~18 mm na spáry
+STANDARD_DRAWER_STACK = [142, 142, 142, 286]
 
 CABINET_SYSTEM: dict[str, Any] = {
     "base_cabinet": {
@@ -35,10 +41,11 @@ CABINET_SYSTEM: dict[str, Any] = {
             "rule": "width <= 600 → 1 dvířka; width > 600 → 2 křídla",
         },
         "drawers": {
-            "front_heights_mm": [142, 286],
-            "standard_stack": [142, 142, 286, 286],
-            "standard_stack_sum_mm": 142 * 2 + 286 * 2,  # 856
-            "note": "Standardní výšky čel šuplíků; typicky 2×142 + 2×286 mm",
+            "front_heights_mm": [DRAWER_FRONT_SMALL, DRAWER_FRONT_LARGE],
+            "standard_stack": list(STANDARD_DRAWER_STACK),
+            "standard_stack_sum_mm": sum(STANDARD_DRAWER_STACK),
+            "note": "Čela 142/286 mm; sestava 3×142+286 (=712) do korpusu 730. "
+            "Starší 2×142+2×286 (=856) se do 730 nevejde.",
         },
     },
     "wall_cabinet": {
@@ -131,7 +138,8 @@ def standard_drawer_stack() -> dict[str, Any]:
         "front_heights_mm": stack,
         "count": len(stack),
         "sum_mm": sum(stack),
-        "composition": "2×142 + 2×286",
+        "composition": "3×142 + 286",
+        "fits_corpus_mm": 730,
     }
 
 

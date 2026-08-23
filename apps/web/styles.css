@@ -178,7 +178,53 @@ th { color: var(--muted); font-weight: 500; font-size: 0.78rem; text-transform: 
   color: var(--ink);
   font-size: 0.95rem;
 }
-.design-hero { margin-top: 1.25rem; }
+.lib-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(148px, 1fr));
+  gap: 0.65rem;
+  max-height: min(42vh, 420px);
+  overflow: auto;
+  padding: 0.25rem;
+}
+.lib-card {
+  border: 1px solid var(--line);
+  border-radius: 0.85rem;
+  background: rgba(255,255,255,0.03);
+  padding: 0.55rem;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s, background 0.15s;
+}
+.lib-card:hover { border-color: rgba(212,120,58,0.55); background: rgba(212,120,58,0.08); }
+.lib-card svg { width: 100%; height: 96px; display: block; margin-bottom: 0.35rem; }
+.lib-card strong { display: block; font-size: 0.82rem; font-weight: 600; }
+.lib-card code { display: block; font-size: 0.68rem; color: var(--accent); margin: 0.15rem 0; }
+.lib-card span { font-size: 0.72rem; color: var(--muted); }
+.line-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  min-height: 3rem;
+  padding: 0.65rem;
+  border-radius: 0.9rem;
+  border: 1px dashed var(--line);
+  background: rgba(0,0,0,0.2);
+  align-items: center;
+}
+.line-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.55rem;
+  border-radius: 0.55rem;
+  background: rgba(212,120,58,0.18);
+  border: 1px solid rgba(212,120,58,0.35);
+  font-size: 0.8rem;
+}
+.line-chip button {
+  border: 0; background: transparent; color: var(--muted);
+  cursor: pointer; font-size: 1rem; line-height: 1; padding: 0 0.15rem;
+}
 .viewport-shell {
   position: relative;
   margin: 0 0 1.25rem;

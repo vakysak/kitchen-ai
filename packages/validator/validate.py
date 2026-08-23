@@ -87,12 +87,22 @@ def validate_layout(
             )
         if u.get("band") == "base" and u.get("kind") == "drawers":
             stack = (u.get("drawers") or {}).get("front_heights_mm") or []
-            if stack and stack != [142, 142, 286, 286]:
+            if stack and list(stack) not in ([142, 142, 142, 286], [142, 286, 286]):
                 issues.append(
                     _issue(
                         "WARNING",
                         "DRAWER_STACK",
-                        f"Nestandardní šuplíková sestava {stack} (očekáváno 142/142/286/286).",
+                        f"Nestandardní šuplíková sestava {stack} (očekáváno 3×142+286 do korpusu 730).",
+                        zone_id=zid,
+                        unit_id=uid,
+                    )
+                )
+            if stack and sum(stack) > 730:
+                issues.append(
+                    _issue(
+                        "CRITICAL",
+                        "DRAWER_OVER_CORPUS",
+                        f"Šuplíková čela součet {sum(stack)} mm > korpus 730 mm — přesahují přes desku.",
                         zone_id=zid,
                         unit_id=uid,
                     )

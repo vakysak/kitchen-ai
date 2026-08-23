@@ -199,8 +199,8 @@ def make_templates() -> list[dict]:
                 "width_mm": w,
                 "height_mm": 730,
                 "depth_mm": 560,
-                "drawer_fronts_mm": [142, 142, 286, 286],
-                "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme).",
+                "drawer_fronts_mm": [142, 142, 142, 286],
+                "notes": "Naše čela 3×142 + 286 (Modena ~140/284 — nepoužíváme).",
             }
         )
     for w in wall["modules_mm"]:
@@ -361,7 +361,7 @@ def main() -> None:
                 "corpus_base_mm": 730,
                 "width_step_mm": 50,
                 "drawer_fronts_mm": [142, 286],
-                "drawer_stack": [142, 142, 286, 286],
+                "drawer_stack": [142, 142, 142, 286],
                 "doors": "≤600 → 1 křídlo; >600 → 2 křídla",
             },
         },

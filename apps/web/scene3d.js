@@ -468,13 +468,18 @@ export class KitchenViewer {
       u.drawers?.front_heights_mm ||
       product.drawer_fronts_mm ||
       mesh.drawer_fronts_mm ||
-      [142, 142, 286, 286];
+      [142, 142, 142, 286];
+    const corpusH = (u.height_mm || u.corpus_height_mm || product.height_mm || 730) * MM;
+    // vždy vejít do korpusu — nikdy přes desku
+    const rawSum = fronts.reduce((a, b) => a + b, 0) || 1;
+    const scale = rawSum * MM > corpusH ? corpusH / (rawSum * MM) : 1;
     let y = plinth;
-    const gap = 0.003;
+    const gap = 0.0025;
     fronts.forEach((fh) => {
-      const hh = fh * MM - gap;
+      const hh = Math.max(fh * MM * scale - gap, 0.04);
+      if (y + hh > plinth + corpusH + 0.001) return;
       const front = new THREE.Mesh(
-        new THREE.BoxGeometry(w - 0.008, Math.max(hh, 0.05), 0.018),
+        new THREE.BoxGeometry(w - 0.008, hh, 0.018),
         frontMat
       );
       front.position.set(x0 + w / 2, y + hh / 2 + gap / 2, 0.01);
@@ -484,9 +489,9 @@ export class KitchenViewer {
         new THREE.BoxGeometry(Math.min(0.14, w * 0.4), 0.008, 0.01),
         handleMat
       );
-      handle.position.set(x0 + w / 2, y + hh - 0.025, 0.024);
+      handle.position.set(x0 + w / 2, y + hh - 0.022, 0.024);
       this._kitchen.add(handle);
-      y += fh * MM;
+      y += fh * MM * scale;
     });
   }
 

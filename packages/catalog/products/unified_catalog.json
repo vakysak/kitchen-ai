@@ -39,7 +39,7 @@
       "drawer_stack": [
         142,
         142,
-        286,
+        142,
         286
       ],
       "doors": "≤600 → 1 křídlo; >600 → 2 křídla"
@@ -212,10 +212,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-350",
@@ -244,10 +244,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-400",
@@ -276,10 +276,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-450",
@@ -308,10 +308,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-500",
@@ -340,10 +340,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-550",
@@ -372,10 +372,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-600",
@@ -404,10 +404,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-650",
@@ -436,10 +436,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-700",
@@ -468,10 +468,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-750",
@@ -500,10 +500,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-800",
@@ -532,10 +532,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-850",
@@ -564,10 +564,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-900",
@@ -596,10 +596,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-950",
@@ -628,10 +628,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-1000",
@@ -660,10 +660,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-1050",
@@ -692,10 +692,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-1100",
@@ -724,10 +724,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-1150",
@@ -756,10 +756,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-base-door-1200",
@@ -788,10 +788,10 @@
       "drawer_fronts_mm": [
         142,
         142,
-        286,
+        142,
         286
       ],
-      "notes": "Naše čela 2×142 + 2×286 (Modena ~140/284 — nepoužíváme)."
+      "notes": "Čela 3×142 + 286 (=712) do korpusu 730 (Modena ~140/284 — nepoužíváme)."
     },
     {
       "id": "ka-wall-door-300-720",
@@ -1878,7 +1878,13 @@
       "height_mm": 820,
       "depth_mm": 500,
       "hand": null,
-      "notes": null
+      "notes": null,
+      "drawer_fronts_mm": [
+        142,
+        142,
+        142,
+        286
+      ]
     },
     {
       "id": "modena-059",
@@ -1892,7 +1898,13 @@
       "height_mm": 820,
       "depth_mm": 500,
       "hand": null,
-      "notes": null
+      "notes": null,
+      "drawer_fronts_mm": [
+        142,
+        142,
+        142,
+        286
+      ]
     },
     {
       "id": "modena-060",
@@ -1906,7 +1918,13 @@
       "height_mm": 820,
       "depth_mm": 500,
       "hand": null,
-      "notes": null
+      "notes": null,
+      "drawer_fronts_mm": [
+        142,
+        142,
+        142,
+        286
+      ]
     },
     {
       "id": "modena-061",
@@ -1920,7 +1938,13 @@
       "height_mm": 820,
       "depth_mm": 500,
       "hand": "L",
-      "notes": null
+      "notes": null,
+      "drawer_fronts_mm": [
+        142,
+        142,
+        142,
+        286
+      ]
     },
     {
       "id": "modena-062",
@@ -1934,7 +1958,13 @@
       "height_mm": 820,
       "depth_mm": 500,
       "hand": "P",
-      "notes": null
+      "notes": null,
+      "drawer_fronts_mm": [
+        142,
+        142,
+        142,
+        286
+      ]
     },
     {
       "id": "modena-063",

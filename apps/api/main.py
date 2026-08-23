@@ -249,13 +249,70 @@ def import_sample_survey() -> SurveyImportResponse:
     )
 
 
+class LayoutFromCatalogRequest(BaseModel):
+    skus: list[str]
+    surveyId: str | None = None
+    plinth_height: int = 100
+    countertop_thickness: int = 40
+    wall_gap: int = 550
+    corpusId: str | None = None
+    frontId: str | None = None
+    countertopId: str | None = None
+    customerName: str = "Návrh z katalogu"
+
+
+@app.post("/api/v1/layouts/from-catalog")
+def layouts_from_catalog(body: LayoutFromCatalogRequest) -> dict[str, Any]:
+    """Sestaví 3D layout z vybraných SKU (vizuální katalog)."""
+    from packages.layout_engine import generate_layout_from_catalog
+    from packages.validator import validate_layout
+
+    survey = None
+    if body.surveyId:
+        survey = _load_survey(body.surveyId)
+    try:
+        layout = generate_layout_from_catalog(
+            body.skus,
+            survey=survey,
+            survey_id=body.surveyId,
+            plinth_height=body.plinth_height,
+            countertop_thickness=body.countertop_thickness,
+            wall_gap=body.wall_gap,
+            corpus_finish_id=body.corpusId,
+            front_finish_id=body.frontId,
+            countertop_finish_id=body.countertopId,
+            customer_name=body.customerName,
+        )
+    except ValueError as e:
+        raise HTTPException(400, str(e)) from e
+
+    validation = validate_layout(layout, survey)
+    layout["validation"] = validation
+    out = LAYOUTS / f"{layout['layoutId']}.json"
+    out.write_text(json.dumps(layout, ensure_ascii=False, indent=2), encoding="utf-8")
+    meta = {
+        "layoutId": layout["layoutId"],
+        "surveyId": body.surveyId,
+        "generatedAt": layout["generatedAt"],
+        "customerName": (layout.get("project") or {}).get("customerName"),
+        "unit_count": layout["stats"]["unit_count"],
+        "ok": validation["ok"],
+        "source": "catalog_pick",
+        "path": str(out),
+    }
+    (LAYOUTS / f"{layout['layoutId']}.meta.json").write_text(
+        json.dumps(meta, ensure_ascii=False, indent=2), encoding="utf-8"
+    )
+    return layout
+
+
 class LayoutGenerateRequest(BaseModel):
     surveyId: str
     styleId: str | None = None
     plinth_height: int = 100
     countertop_thickness: int = 40
     wall_gap: int = 550
-    include_wall_above_base: bool = True
+    include_wall_above_base: bool = False
     corpusId: str | None = None
     frontId: str | None = None
     countertopId: str | None = None
@@ -365,22 +422,30 @@ def delete_layout(layout_id: str) -> dict[str, Any]:
 
 
 class PurgeHistoryRequest(BaseModel):
-    keepLayoutId: str
+    keepLayoutId: str | None = None
+    purgeAll: bool = False
 
 
 @app.post("/api/v1/admin/purge-history")
 def purge_history(body: PurgeHistoryRequest) -> dict[str, Any]:
-    """Smaže všechny layouty/surveys kromě keepLayoutId a jeho survey."""
-    keep_path = LAYOUTS / f"{body.keepLayoutId}.json"
-    if not keep_path.is_file():
-        raise HTTPException(404, f"Layout ke zachování {body.keepLayoutId!r} nenalezen")
-    keep = json.loads(keep_path.read_text(encoding="utf-8"))
-    keep_survey = keep.get("surveyId")
+    """Smaže layouty/surveys. purgeAll=true smaže vše; jinak zachová keepLayoutId."""
+    keep_survey = None
+    keep_id = body.keepLayoutId
+    if body.purgeAll:
+        keep_id = None
+    elif keep_id:
+        keep_path = LAYOUTS / f"{keep_id}.json"
+        if not keep_path.is_file():
+            raise HTTPException(404, f"Layout ke zachování {keep_id!r} nenalezen")
+        keep = json.loads(keep_path.read_text(encoding="utf-8"))
+        keep_survey = keep.get("surveyId")
+    else:
+        raise HTTPException(400, "Zadej keepLayoutId nebo purgeAll=true")
 
     deleted_layouts: list[str] = []
     for meta_path in list(LAYOUTS.glob("*.meta.json")):
         lid = meta_path.name.replace(".meta.json", "")
-        if lid == body.keepLayoutId:
+        if keep_id and lid == keep_id:
             continue
         if _delete_layout_files(lid):
             deleted_layouts.append(lid)
@@ -394,7 +459,7 @@ def purge_history(body: PurgeHistoryRequest) -> dict[str, Any]:
             deleted_surveys.append(sid)
 
     return {
-        "kept": {"layoutId": body.keepLayoutId, "surveyId": keep_survey},
+        "kept": {"layoutId": keep_id, "surveyId": keep_survey},
         "deletedLayouts": deleted_layouts,
         "deletedSurveys": deleted_surveys,
         "layoutsRemaining": len(list(LAYOUTS.glob("*.meta.json"))),
@@ -502,6 +567,7 @@ def catalog_products(
 def catalog_library(
     zone: str | None = None,
     family: str | None = None,
+    source: str = "kitchen_ai",
     q: str | None = None,
     limit: int = 100,
     offset: int = 0,
@@ -509,7 +575,9 @@ def catalog_library(
     """Knihovna skříněk pro 3D návrh (SKU + mesh šablona)."""
     from packages.catalog.library import list_library
 
-    return list_library(zone=zone, family=family, q=q, limit=limit, offset=offset)
+    return list_library(
+        zone=zone, family=family, source=source, q=q, limit=limit, offset=offset
+    )
 
 
 @app.get("/api/v1/catalog/materials")

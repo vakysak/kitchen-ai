@@ -42,20 +42,49 @@
   <main>
     <section id="design" class="panel design-hero">
       <div class="panel-head">
-        <p class="eyebrow">Pro klienta · interaktivní 3D</p>
+        <p class="eyebrow">Katalog → linka → 3D</p>
         <h2>3D návrh kuchyně</h2>
         <p>
-          Skříňky se berou z <strong>katalogové knihovny</strong> (SKU) — ne z AI.
-          Měníš barvu a vzor <strong>korpusu</strong> a <strong>frontů</strong> zvlášť.
-          Ukázka = jedna testovací místnost; bez zaškrtnutí „Horní skříňky“ jsou jen spodní.
+          Vyber skříňky z <strong>vizuálního katalogu</strong> (SKU), sestav linku,
+          zvol materiály korpusu a frontů. Šuplíky mají čela jen do výšky korpusu 730&nbsp;mm
+          (3×142 + 286) — ne přes desku.
         </p>
       </div>
-      <div class="calc design-controls">
-        <label>Survey
-          <select id="design-survey">
-            <option value="">— vyber nebo nahraj —</option>
+
+      <h3 class="subh">1 · Vizuální katalog</h3>
+      <div class="calc catalog-filters" style="margin-bottom:0.75rem">
+        <label>Zóna
+          <select id="lib-zone">
+            <option value="base">spodní</option>
+            <option value="wall">horní</option>
+            <option value="tall">vysoké</option>
+            <option value="">vše</option>
           </select>
         </label>
+        <label>Typ
+          <select id="lib-family">
+            <option value="">vše</option>
+            <option value="base_door">dvířková</option>
+            <option value="base_drawers">šuplíková</option>
+            <option value="wall_door">horní dvířková</option>
+            <option value="tall_pantry">sloup</option>
+          </select>
+        </label>
+        <button type="button" class="btn ghost" id="lib-refresh">Obnovit</button>
+      </div>
+      <div id="lib-grid" class="lib-grid"></div>
+
+      <h3 class="subh" style="margin-top:1.25rem">2 · Linka (pořadí = klikání)</h3>
+      <div id="line-strip" class="line-strip">
+        <span class="muted">Klikni na skříňku v katalogu…</span>
+      </div>
+      <div class="cta-row" style="margin:0.75rem 0 1rem">
+        <button type="button" class="btn ghost" id="line-clear">Vymazat linku</button>
+        <button type="button" class="btn ghost" id="line-preset">Předvolba 3,5 m</button>
+        <span id="line-width" class="muted">0 mm</span>
+      </div>
+
+      <div class="calc design-controls">
         <label>Korpus
           <select id="mat-corpus"></select>
         </label>
@@ -76,15 +105,10 @@
             <option value="60">60</option>
           </select>
         </label>
-        <label class="check">
-          <input type="checkbox" id="design-walls" />
-          Horní skříňky (dvířka)
-        </label>
-        <button type="button" class="btn ghost" id="design-sample">Ukázka</button>
-        <button type="button" class="btn primary" id="design-run">Generovat 3D</button>
+        <button type="button" class="btn primary" id="design-run">Sestavit 3D</button>
       </div>
       <p id="design-msg" class="msg" hidden></p>
-      <div id="design-summary" class="design-summary muted">Načti survey a vygeneruj 3D návrh.</div>
+      <div id="design-summary" class="design-summary muted">Sestav linku z katalogu a klikni Sestavit 3D.</div>
 
       <div class="viewport-shell">
         <div id="view3d" class="view3d" aria-label="3D návrh kuchyně"></div>
@@ -92,11 +116,11 @@
           <button type="button" class="btn tiny ghost" id="cam-reset">Kamera</button>
           <button type="button" class="btn tiny ghost" id="cam-rotate">Auto-otáčení</button>
           <button type="button" class="btn tiny primary" id="cam-shot">Snímek PNG</button>
-          <span class="view3d-hint">táhni myší · scroll = zoom · pravé tlačítko = posun</span>
+          <span class="view3d-hint">táhni myší · scroll = zoom</span>
         </div>
         <div id="view3d-empty" class="view3d-empty">
-          <strong>Zatím žádný 3D návrh</strong>
-          <span>Klikni „Ukázka“ nebo nahraj RoomSurvey a spusť Generovat 3D.</span>
+          <strong>Žádný 3D návrh</strong>
+          <span>Vyber skříňky v katalogu → Sestavit 3D.</span>
         </div>
       </div>
 
@@ -105,9 +129,9 @@
           <h3 class="subh">Kusovník</h3>
           <div class="table-wrap">
             <table>
-          <thead>
-            <tr><th>SKU</th><th>Název</th><th>Šířka</th><th>ks</th></tr>
-          </thead>
+              <thead>
+                <tr><th>SKU</th><th>Název</th><th>Šířka</th><th>ks</th></tr>
+              </thead>
               <tbody id="bom-tbody">
                 <tr><td colspan="4" class="muted">—</td></tr>
               </tbody>
@@ -117,26 +141,10 @@
         <div>
           <h3 class="subh">Validace</h3>
           <ul id="issues-list" class="issues-list">
-            <li class="muted">Po generování se zobrazí kritické / varování.</li>
+            <li class="muted">Po sestavení se zobrazí kontroly.</li>
           </ul>
         </div>
       </div>
-      <details class="tech-details">
-        <summary>Technický půdorys a seznam modulů</summary>
-        <div class="layout-canvas-wrap">
-          <svg id="layout-svg" viewBox="0 0 1000 320" role="img" aria-label="Půdorys linky"></svg>
-        </div>
-        <div class="table-wrap" style="margin-top:1rem">
-          <table>
-            <thead>
-              <tr><th>Moduly</th><th>Offset</th><th>Šířka</th><th>Dvířka</th></tr>
-            </thead>
-            <tbody id="units-tbody">
-              <tr><td colspan="4" class="muted">—</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </details>
       <h3 class="subh" style="margin-top:1.5rem">Uložené layouty</h3>
       <div class="table-wrap">
         <table>
@@ -270,7 +278,7 @@
         <h2>Skříňky — výrobní pravidla</h2>
         <p>
           Korpus <strong>730 mm</strong> · šířky po <strong>50 mm</strong> ·
-          dvířka do 600 mm jedno, nad 600 mm dvě · šuplíky <strong>2×142 + 2×286</strong> mm
+          dvířka do 600 mm jedno, nad 600 mm dvě · šuplíky <strong>3×142 + 286</strong> mm (≤ 730)
         </p>
       </div>
       <div class="calc">
@@ -293,7 +301,7 @@
           <input type="number" id="cab-width" value="600" min="300" max="1200" step="50" />
         </label>
         <button type="button" class="btn ghost" id="front-btn">Dvířka / šuplíky</button>
-        <div class="result" id="front-result">Šířka 600 → 1 dvířka · šuplíky 2×142 + 2×286 (= 856 mm)</div>
+        <div class="result" id="front-result">Šířka 600 → 1 dvířka · šuplíky 3×142 + 286 (= 712 mm)</div>
       </div>
       <div class="chips" id="width-chips" style="margin-top:1rem"></div>
     </section>

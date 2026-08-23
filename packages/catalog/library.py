@@ -7,7 +7,10 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
-from packages.catalog.cabinets.cabinet_system import door_plan, standard_drawer_stack
+from packages.catalog.cabinets.cabinet_system import (
+    STANDARD_DRAWER_STACK,
+    door_plan,
+)
 from packages.catalog.products.loader import get_product, list_products, load_catalog
 
 MATERIALS_PATH = Path(__file__).resolve().parent / "materials" / "finishes.json"
@@ -80,9 +83,12 @@ def _mesh_for(product: dict[str, Any]) -> dict[str, Any]:
         doors = door_plan(width)["wings"]
     base["doors"] = int(doors)
     if product.get("drawer_fronts_mm"):
-        base["drawer_fronts_mm"] = list(product["drawer_fronts_mm"])
+        fronts = list(product["drawer_fronts_mm"])
+        if sum(fronts) > 730:
+            fronts = list(STANDARD_DRAWER_STACK)
+        base["drawer_fronts_mm"] = fronts
     elif base.get("front") == "drawers":
-        base["drawer_fronts_mm"] = standard_drawer_stack()["front_heights_mm"]
+        base["drawer_fronts_mm"] = list(STANDARD_DRAWER_STACK)
     base["hand"] = product.get("hand") or "L"
     return base
 
